@@ -59,7 +59,7 @@ in the whole process. As shown in the figure above, the details can be found in 
 
 ## Developer Guide
 
-- [DEVELOPER Guide)](docs/en/details/developer_guide.md) ：Introduce how to use AppActive, including basic samples,
+- [DEVELOPER Guide](docs/en/details/developer_guide.md) ：Introduce how to use AppActive, including basic samples,
   support plug-ins, version management, use effects.
 
 ## Change Log
