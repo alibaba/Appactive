@@ -21,8 +21,6 @@
 *.zip
 *.classpath
 *.project
-diamond_config_data.log
-diamond_config_data.log.*
 
 
 #ignore these files
@@ -43,6 +41,7 @@ build-target
 *.log
 *.sql
 *.sqlite
+./appactive-demo/data/*/*.json
 
 # OS generated files #
 ######################
@@ -53,7 +52,3 @@ build-target
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# project
-/plugins
-/cp.sh

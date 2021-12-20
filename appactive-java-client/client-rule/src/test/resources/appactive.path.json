@@ -1,0 +1,7 @@
+{
+  "appactive.machineRulePath": "/Users/xxx/client-rule/src/test/resources/machine/machine.json",
+  "appactive.dataScopeRuleDirectoryPath": "/Users/xxx/client-rule/src/test/resources/property",
+  "appactive.forbiddenRulePath": "/Users/xxx/Documents/code/client-rule/src/test/resources/traffic/forbiddenRule.json",
+  "appactive.trafficRulePath": "/Users/xxx/Documents/code/client-rule/src/test/resources/traffic/unitMappingRule.json",
+  "appactive.transformerRulePath": "/Users/xxx/Documents/code/client-rule/src/test/traffic/machine/transformerModRule.json"
+}

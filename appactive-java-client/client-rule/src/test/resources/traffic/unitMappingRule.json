@@ -1,0 +1,26 @@
+{
+  "itemType": "UnitRuleItem",
+  "items": [
+    {
+      "name": "bj",
+      "conditions": [
+        {
+          "@test": [
+            "100~499",
+            "500~799"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nh",
+      "conditions": [
+        {
+          "@test": [
+            "800~999"
+          ]
+        }
+      ]
+    }
+  ]
+}

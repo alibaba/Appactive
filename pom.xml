@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.alicloud.msha</groupId>
+    <artifactId>msha-appactive</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}-${project.version}</name>
+    <description>The parent project of Appactive</description>
+    <url>https://github.com/alibaba/Appactive</url>
+    <inceptionYear>2013</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Alibaba Group</name>
+        <url>https://github.com/alibaba</url>
+    </organization>
+
+
+    <issueManagement>
+        <system>Github Issues</system>
+        <url>https://github.com/alibaba/Appactive/issues</url>
+    </issueManagement>
+
+    <modules>
+        <module>appactive-portal</module>
+        <module>appactive-gateway</module>
+        <module>appactive-java-api</module>
+        <module>appactive-java-client</module>
+        <module>appactive-demo</module>
+    </modules>
+
+    <properties>
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+<!--    dependencyManagement-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alicloud.msha</groupId>
+                <artifactId>appactive-java-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <!--JUNIT-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

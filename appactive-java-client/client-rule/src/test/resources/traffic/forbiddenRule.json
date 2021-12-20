@@ -1,0 +1,16 @@
+{
+  "itemType": "ForbiddenRuleItem",
+  "items": [
+    {
+      "name": "xx",
+      "conditions": [
+        {
+          "@test": [
+            "100~499",
+            "500~799"
+          ]
+        }
+      ]
+    }
+  ]
+}
