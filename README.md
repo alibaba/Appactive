@@ -71,7 +71,7 @@ in the whole process. As shown in the figure above, the details can be found in 
 We always welcome new contributions, whether for trivial cleanups, big new features or other material rewards, more
 details see [here](docs/en/contributing/contributing.md)
 
-## 联系
+## Connect
 
 - DingTalk Group：34222602
 
