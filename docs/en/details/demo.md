@@ -14,13 +14,13 @@ There are 2 units:
 
 There are 4 applications in total, according to the distance (call link) of the end user from near and far:
 
--gateway: Multi-active gateway, which distributes user traffic
--frontend: frontend application, accept user requests, and return after requesting actual data
--product: product application, providing three services:
--Product List: General Service
--Product Details: Unit Service
--Product order: central service, relying on inventory application
--storage: Inventory application, for ordering service to deduct inventory
+- gateway: Multi-active gateway, which distributes user traffic
+- frontend: frontend application, accept user requests, and return after requesting actual data
+- product: product application, providing three services:
+    - product List: General Service
+    - product Details: Unit Service
+    - product order: central service, relying on inventory application
+- storage: Inventory application, for ordering service to deduct inventory
 
 For the sake of simplicity, the gateway is only deployed in the center, and the rest of the applications are deployed in each of the center and unit.
 
@@ -46,23 +46,23 @@ This demo requires the following software to be installed
 
 After running all applications, we ran baseline.sh and actually did the following things:
 
--Push rules to gateway through http channel
--Push rules to other applications through file channels
+- Push rules to gateway through http channel
+- Push rules to other applications through file channels
 
 The rules include
 
--idSource.json: Describes how to extract routing labels from http traffic
--idTransformer.json: Describe how to parse the routing mark
--idUnitMapping.json: Describe the mapping relationship between the routing mark and the unit
--machine.json: describes the attribution unit of the current machine
--mysql-product: describe the attributes of the database
+- idSource.json: Describes how to extract routing labels from http traffic
+- idTransformer.json: Describe how to parse the routing mark
+- idUnitMapping.json: Describe the mapping relationship between the routing mark and the unit
+- machine.json: describes the attribution unit of the current machine
+- mysql-product: describe the attributes of the database
 
 ### Cut flow
 Mainly do the following things when cutting flow:
 
--Build new mapping rules and banning rules (manually)
--Push new mapping rules to gateway
--Push banning rules to other apps
--Wait for the data to tie and push the new mapping relationship rules to other applications
+- Build new mapping rules and banning rules (manually)
+- Push new mapping rules to gateway
+- Push banning rules to other apps
+- Wait for the data to tie and push the new mapping relationship rules to other applications
 
 Note that the new mapping relationship is the target state you want to achieve, and the prohibition rule is the difference calculated based on the target state and the status quo. Currently, both of these need to be manually set and updated to the corresponding json file under `appactive-portal/rule`, and then run `./cut.sh `
