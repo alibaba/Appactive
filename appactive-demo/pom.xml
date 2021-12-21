@@ -9,6 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <modules>
+        <module>frontend</module>
+        <module>product</module>
+        <module>storage</module>
+        <module>common</module>
+    </modules>
 
     <packaging>pom</packaging>
     <artifactId>appactive-demo</artifactId>

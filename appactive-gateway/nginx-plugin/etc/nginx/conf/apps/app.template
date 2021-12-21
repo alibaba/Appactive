@@ -1,0 +1,26 @@
+server {
+    listen 80 ;
+
+    server_name %VAR_DOMAIN% %VAR_CENTER_DOMAIN% %VAR_UNIT_DOMAIN%;
+
+    include srv.cfg;
+
+    location %VAR_URI% {
+        set $app %VAR_APP_ID%;
+        set $unit_type test1122;
+        set $rule_id 459236fc-ed71-4bc4-b46c-69fc60d31f18;
+        set $router_rule ${rule_id}_${unit_type};
+        set $unit_key '';
+        set $cell_key '';
+        set $unit_enable %VAR_UNIT_ENABLE%;
+        include loc.cfg;
+    }
+}
+
+upstream %VAR_APP_ID%_%UNIT_FLAG_1%_default {
+    %VAR_BACKEND_IP_LIST%"
+}
+
+upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
+    %VAR_BACKEND_IP_LIST%"
+}

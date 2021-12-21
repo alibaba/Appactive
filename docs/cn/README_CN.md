@@ -17,13 +17,13 @@ AppActive 建立在 阿里巴巴 使用 AHAS-MSHA 系统大规模运行生产应
 
 ### 步骤
 
-1. 进入 `appactive-gateway` 模块:`cd appactive-gateway/ngnix-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
+1. 进入 `appactive-gateway` 模块:`cd appactive-gateway/nginx-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
 2. 进入 `appactive` 模块: maven build 获得所有 jar 包`cd ../../` -> `mvn clean package -Dmaven.test.skip -U`
 3. 在 `appactive-demo` 模块:`cd appactive-demo` -> 运行 `sh run.sh` ，启动所有应用
 4. 运行 `appactive-portal` 模块:`cd ../appactive-portal` -> `sh baseline.sh`，推送基线
 5. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/listProduct?r_id=1999` 查看效果
 6. 运行 `appactive-portal` 模块中的 `cut.sh` 进行切流。本 demo 支持两种切流方式：精准和范围，
-   - 命令：`sh cut.sh Between`。
+   - 命令：`sh cut.sh`。
    - 注意: demo 的规则是写死的，你若要更换切流范围则需自行计算规则，然后执行切流。
    
 > 如果你打算停止体验，可进行：`cd appactive-demo` -> `docker-compose down`

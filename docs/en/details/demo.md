@@ -40,8 +40,7 @@ This demo requires the following software to be installed
 3. Run `./run.sh` in the `appactive-demo` module to start all applications
 4. Run `baseline.sh` in the `appactive-portal` module to push the baseline
 5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/listProduct?r_id=1999` to see the effect
-6. Run `cut.sh` in the `appactive-portal` module to cut the flow. This demo supports two cutting methods: precision and range,
-   The cut flow commands are: `./cut.sh In` and `./cut.sh Between`. It should be noted that the write prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write prohibition rule and the next routing rule by himself, and then execute the cut flow.
+6. Run `cut.sh` in the `appactive-portal` module to cut the flow. The cut flow commands is:  `./cut.sh`. It should be noted that the write prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write prohibition rule and the next routing rule by himself, and then execute the cut flow.
 
 ## Rule description
 
@@ -66,4 +65,4 @@ Mainly do the following things when cutting flow:
 -Push banning rules to other apps
 -Wait for the data to tie and push the new mapping relationship rules to other applications
 
-Note that the new mapping relationship is the target state you want to achieve, and the prohibition rule is the difference calculated based on the target state and the status quo. Currently, both of these need to be manually set and updated to the corresponding json file under `appactive-portal/rule`, and then run `./cut.sh In` or `./cut.sh Between`
+Note that the new mapping relationship is the target state you want to achieve, and the prohibition rule is the difference calculated based on the target state and the status quo. Currently, both of these need to be manually set and updated to the corresponding json file under `appactive-portal/rule`, and then run `./cut.sh `

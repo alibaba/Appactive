@@ -29,14 +29,14 @@ note：this demo contains many applications，please adjust your memory settings
 
 ### Experience
 #### Docker Run
-1. `appactive-gateway`: `cd appactive-gateway/ngnix-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
+1. `appactive-gateway`: `cd appactive-gateway/nginx-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
 2. `appactive`: maven build to get the all the jar packages: `cd ../../` -> `mvn clean package -Dmaven.test.skip -U`
 3. `appactive-demo`: `cd appactive-demo` -> Run `sh run.sh` to start all applications
 4. `appactive-portal`: `cd ../appactive-portal` -> Run `sh baseline.sh` to push the baseline
 5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/listProduct?r_id=1999` to
    see the effect
 6. `appactive-portal`: Run `cut.sh` to cut the stream. This demo supports two cutting methods: ratio and range
-    - Commands: `sh cut.sh Between`.
+    - Commands: `sh cut.sh`.
     - Note： the rules of the demo are hard-coded. If you want to change the cut flow range, you need to calculate the
       rules by yourself, and then execute the cut flow.
 

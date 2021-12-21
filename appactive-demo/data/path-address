@@ -1,0 +1,7 @@
+{
+    "appactive.machineRulePath":"/app/data/machine.json",
+    "appactive.dataScopeRuleDirectoryPath":"/app/data",
+    "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
+    "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
+    "appactive.transformerRulePath":"/app/data/idTransformer.json",
+}

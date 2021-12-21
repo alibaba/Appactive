@@ -40,8 +40,7 @@
 3. 在 `appactive-demo` 模块中运行 `./run.sh` ，启动所有应用
 4. 运行 `appactive-portal` 模块中的 `baseline.sh`，推送基线
 5. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/listProduct?r_id=1999` 查看效果
-6. 运行 `appactive-portal` 模块中的 `cut.sh` 进行切流。本 demo 支持两种切流方式：精准和范围，
-切流命令分别为：`./cut.sh In` 和 `./cut.sh Between`。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
+6. 运行 `appactive-portal` 模块中的 `cut.sh` 进行切流。切流命令为：`./cut.sh` 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
 ## 规则说明
 
@@ -66,6 +65,6 @@
 - 将禁写规则推送给其他应用
 - 等待数据追平后将新的映射关系规则推送给其他应用
 
-注意，新的映射关系是你想达到的目标状态，而禁写规则是根据目标状态和现状计算出来的差值。当前，这两者都需要你手动设置并更新到 `appactive-portal/rule` 下对应的json文件中去，然后运行 `./cut.sh In` 或 `./cut.sh Between`
+注意，新的映射关系是你想达到的目标状态，而禁写规则是根据目标状态和现状计算出来的差值。当前，这两者都需要你手动设置并更新到 `appactive-portal/rule` 下对应的json文件中去，然后运行 `./cut.sh`
 
 
