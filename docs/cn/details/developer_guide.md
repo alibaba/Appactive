@@ -216,14 +216,6 @@ path-address的内容为：
 ```
 说明，提取到路由标后按照10000取模，作为最终路由标。
 
-```
-{
-  "id": "userIdIn",
-  "mod": ""
-}
-```
-说明，提取到路由标后直接作为最终路由标。
-
 
 - appactive.trafficRulePath，举例：
 
@@ -235,13 +227,6 @@ path-address的内容为：
       "name": "unit",
       "conditions": [
         {
-          "$userIdIn": [
-            "A",
-            "B",
-            "C"
-          ]
-        },
-        {
           "@userIdBetween": [
             "0~1999"
           ]
@@ -251,14 +236,6 @@ path-address的内容为：
     {
       "name": "center",
       "conditions": [
-        {
-          "$userIdIn": [
-            "D",
-            "E",
-            "F",
-            "500"
-          ]
-        },
         {
           "@userIdBetween": [
             "2000~9999"
@@ -270,11 +247,9 @@ path-address的内容为：
 }
 
 ```
-说明 精准的 A、B、C 路由标和按 10000 取模后在 0～1999 范围内的路由标应该被路由到 unit；
+说明 按 10000 取模后在 0～1999 范围内的路由标应该被路由到 unit；
 
-精准的 D、E、F、500 路由标和按 10000 取模后在 2000～9999 范围内的路由标应该被路由到 center；
-
-注意 这里 500 按规则同时属于 center 和 unit, 我们采取精准优先原则，将其路由到 center。
+按 10000 取模后在 2000～9999 范围内的路由标应该被路由到 center；
 
 - appactive.machineRulePath，举例：
 
@@ -286,7 +261,7 @@ path-address的内容为：
 
 - appactive.forbiddenRulePath，举例：
 
-假设我们希望将 D、E 从 center 划分到 unit（精准切流），则新的appactive.trafficRulePath如下
+假设我们希望将 2000~2999 从 unit 划分到 center，则新的appactive.trafficRulePath如下
 
 ```
 {
@@ -296,17 +271,8 @@ path-address的内容为：
       "name": "unit",
       "conditions": [
         {
-          "$userIdIn": [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E"
-          ]
-        },
-        {
           "@userIdBetween": [
-            "0~1999"
+            "0~2999"
           ]
         }
       ]
@@ -315,14 +281,8 @@ path-address的内容为：
       "name": "center",
       "conditions": [
         {
-          "$userIdIn": [
-            "F",
-            "500"
-          ]
-        },
-        {
           "@userIdBetween": [
-            "2000~9999"
+            "3000~9999"
           ]
         }
       ]
@@ -339,12 +299,11 @@ path-address的内容为：
   "itemType": "ForbiddenRuleItem",
   "items": [
     {
-      "name": "in",
+      "name": "between",
       "conditions": [
         {
-          "$userIdIn": [
-            "D",
-            "E"
+          "@userIdBetween": [
+            "2000~2999"
           ]
         }
       ]
@@ -352,5 +311,5 @@ path-address的内容为：
   ]
 }
 
+
 ```
-范围切流同理，不再赘述。

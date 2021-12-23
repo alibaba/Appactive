@@ -41,7 +41,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 
 ## 开发指南
-- [开发指南(Develop Guide)](details/develop_guide.md) ：介绍 AppActive 的使用方法，包括基本样例、支持插件、版本管理、使用效果等。
+- [开发指南(Develop Guide)](details/developer_guide.md) ：介绍 AppActive 的使用方法，包括基本样例、支持插件、版本管理、使用效果等。
 
 
 ## 更新日志
