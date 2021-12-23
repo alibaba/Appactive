@@ -8,6 +8,8 @@ AppActive，是一个面向业务应用构建云原生高可用多活容灾架�
 AppActive 建立在 阿里巴巴 使用 AHAS-MSHA 系统大规模运行生产应用系统的8年经验之上，且结合了来自阿里云商业化服务的外部多家客户和社区的最佳实践，具备高可靠、可拓展等特性。
 
 ## 快速体验
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)
+
 ### 前提
 本 demo 要求安装如下软件
 - docker && docker-compose
@@ -31,7 +33,7 @@ AppActive 建立在 阿里巴巴 使用 AHAS-MSHA 系统大规模运行生产应
 更多信息，请见 [demo](details/demo.md)
 
 ## 概念&设计
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive_landscape.png)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive_landscape.jpg)
 
 AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量和数据，如上图，详细内容可见下述的链接：
 
