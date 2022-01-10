@@ -1,8 +1,14 @@
-# AppActive:A middleware to build an application with multiple active architectures（阿里巴巴开源的一款标准通用且功能强大的构建应用多活架构的开源中间件）
+
+<div style="text-align: center">
+   <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
+</div>
+
+# A middleware to build an application with multiple active architectures（阿里巴巴开源的一款标准通用且功能强大的构建应用多活架构的开源中间件）
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 English | [中文](docs/cn/README_CN.md)
+
 
 ---
 
@@ -16,6 +22,18 @@ multi AZ, multi region, multi-cloud, self-built IDC...).
 AppActive is an internal open source project of AHAS-MSHA.It is based on Alibaba's nearly 9-year production disaster
 recovery practice, and combines the best practices of many external customers and communities from Alibaba Cloud's
 commercial services, and has the characteristics of high reliability and scalability.
+
+## Architecture
+
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/aa_landscape.jpg)
+
+The overall structure of AppActive covers the data plane and the control plane。It manages application traffic and data
+in the whole process. As shown in the figure above, the details can be found in the following links:
+
+- [Architecture](docs/en/details/architecture.md): Introduce AppActive deployment architecture and technical
+  architecture.
+- [Concept](docs/en/details/concept.md): Introduce the basic conceptual model of AppActive.
+- [Features](docs/en/details/features.md): Introduce the features implemented by AppActive.
 
 ## Quick Start
 
@@ -46,18 +64,6 @@ note：this demo contains many applications，please adjust your memory settings
 
 #### More
 For more information, please see [demo](docs/en/details/demo.md)
-
-## Architecture
-
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive_landscape.jpg)
-
-The overall structure of AppActive covers the data plane and the control plane。It manages application traffic and data
-in the whole process. As shown in the figure above, the details can be found in the following links:
-
-- [Architecture](docs/en/details/architecture.md): Introduce AppActive deployment architecture and technical
-  architecture.
-- [Concept](docs/en/details/concept.md): Introduce the basic conceptual model of AppActive.
-- [Features](docs/en/details/features.md): Introduce the features implemented by AppActive.
 
 ## Developer Guide
 
