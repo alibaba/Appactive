@@ -25,7 +25,7 @@ commercial services, and has the characteristics of high reliability and scalabi
 
 ## Architecture
 
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/aa_landscape.jpg)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/appa_landscape.jpg?x-oss-process=style/h600)
 
 The overall structure of AppActive covers the data plane and the control plane。It manages application traffic and data
 in the whole process. As shown in the figure above, the details can be found in the following links:
@@ -46,7 +46,7 @@ The following software are assumed installed:
 note：this demo contains many applications，please adjust your memory settings to avoid failures。
 
 ### Experience
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
 
 #### Docker Run
 1. `appactive-gateway`: `cd appactive-gateway/nginx-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
