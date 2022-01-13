@@ -1,6 +1,7 @@
 # AppActive Demo
 
 ## 整体架构
+
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)
 
 本 demo 整体架构如图。 
@@ -29,20 +30,40 @@
 ## 快速启动
 
 ### 前提
-本 demo 要求安装如下软件
+
+要求安装如下软件
+
+- docker && docker-compose
+- curl
+
+注：本 demo 包含较多应用，请调大 docker 内存，避免闪退。
+
+### 步骤
+
+1. 在 `appactive-demo` 模块中运行 `sh run-quick.sh` ，启动所有应用
+2. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
+3. 在`appactive-portal` 模块中运行 `sh cut.sh` 进行切流 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
+
+## 源码构建
+
+### 前提
+
+要求安装如下软件
 
 - docker && docker-compose
 
 ### 步骤
 
-1. 进入 `appactive-gateway` 模块的 nginx-plugin 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
+1. 进入 `appactive-gateway` 模块的 `nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
 2. 进入 `appactive-demo` 模块，maven build 获得 jar 包
-3. 在 `appactive-demo` 模块中运行 `./run.sh` ，启动所有应用
-4. 运行 `appactive-portal` 模块中的 `baseline.sh`，推送基线
-5. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/listProduct?r_id=1999` 查看效果
-6. 运行 `appactive-portal` 模块中的 `cut.sh` 进行切流。切流命令为：`./cut.sh` 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
+3. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用
+4. 在 `appactive-portal` 模块中运行 `sh baseline.sh`，推送基线
+5. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
+6. 在 `appactive-portal` 模块中运行 `sh cut.sh` 进行切流。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
 ## 规则说明
+
+### 基线
 
 在运行所有应用后，我们运行了 baseline.sh，实际上做了如下几件事：
 
@@ -58,6 +79,7 @@
 - mysql-product: 描述数据库的属性
 
 ### 切流
+
 切流时主要做了如下几件事：
 
 - 构建新的映射关系规则和禁写规则（手动）

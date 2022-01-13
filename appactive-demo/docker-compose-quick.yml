@@ -1,0 +1,158 @@
+version: "3"
+services:
+  # 单机跑demo , 要调大docker内存，否则nacos会闪退
+  nacos:
+    container_name: nacos
+    hostname: nacos
+    image: nacos/nacos-server:latest
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: demo_appactiive_pw
+      MYSQL_DATABASE: product
+    ports:
+      - "3306:3306"
+    command: [
+      --character-set-server=utf8mb4,
+      --collation-server=utf8mb4_unicode_ci
+    ]
+
+  gateway:
+    container_name: gateway
+    hostname: gateway
+    image: appactiveio/gateway:1.0-SNAPSHOT
+    ports:
+      - "80:80"
+      - "8090:8090"
+
+  storage:
+    restart: on-failure:3
+    image: appactiveio/storage:1.0-SNAPSHOT
+    container_name: storage
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+#      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
+      - io.appactive.demo.unit=center
+      - io.appactive.demo.app=storage
+      - server.port=8881
+      - dubbo.protocol.port=-1
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/storage-center:/app/data
+    ports:
+      - "8881:8881"
+    depends_on:
+      - "nacos"
+      - "mysql"
+
+  storage-unit:
+    restart: on-failure:3
+    image: appactiveio/storage:1.0-SNAPSHOT
+    container_name: storage-unit
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+#      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
+      - io.appactive.demo.unit=unit
+      - io.appactive.demo.app=storage
+      - server.port=8882
+      - dubbo.protocol.port=-1
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/storage-unit:/app/data
+    ports:
+      - "8882:8882"
+    depends_on:
+      - "nacos"
+      - "mysql"
+
+  product:
+    restart: on-failure:3
+    image: appactiveio/product:1.0-SNAPSHOT
+    container_name: product
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+      - io.appactive.demo.unit=center
+      - io.appactive.demo.app=product
+      - server.port=8883
+      - dubbo.protocol.port=-1
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/product-center:/app/data
+    ports:
+      - "8883:8883"
+    depends_on:
+      - "nacos"
+      - "mysql"
+      - "storage"
+
+  product-unit:
+    restart: on-failure:3
+    image: appactiveio/product:1.0-SNAPSHOT
+    container_name: product-unit
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+      - io.appactive.demo.unit=unit
+      - io.appactive.demo.app=product
+      - server.port=8884
+      - dubbo.protocol.port=-1
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/product-unit:/app/data
+    ports:
+      - "8884:8884"
+    depends_on:
+      - "nacos"
+      - "mysql"
+      - "storage-unit"
+
+  frontend:
+    restart: on-failure:3
+    image: appactiveio/frontend:1.0-SNAPSHOT
+    container_name: frontend
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+      - io.appactive.demo.unit=center
+      - io.appactive.demo.app=frontend
+      - io.appactive.demo.unitlist=center,unit
+      - io.appactive.demo.applist=frontend,product,storage
+      - server.port=8885
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/frontend-center:/app/data
+    ports:
+      - "8885:8885"
+    depends_on:
+      - "nacos"
+      - "product"
+
+  frontend-unit:
+    restart: on-failure:3
+    image: appactiveio/frontend:1.0-SNAPSHOT
+    container_name: frontend-unit
+    environment:
+      - dubbo.registry.address=nacos://nacos:8848
+      - io.appactive.demo.unit=unit
+      - io.appactive.demo.app=frontend
+      - io.appactive.demo.unitlist=center,unit
+      - io.appactive.demo.applist=frontend,product,storage
+      - server.port=8886
+    volumes:
+      - ./data/path-address:/home/admin/appactive/path-address
+      - ./data/frontend-unit:/app/data
+    ports:
+      - "8886:8886"
+    depends_on:
+      - "nacos"
+      - "product-unit"

@@ -31,6 +31,20 @@ The green grid in the figure represents the call link of this request.
 ### Premise
 This demo requires the following software to be installed
 
+- docker && docker-compose
+- curl
+
+### Step
+
+1. Run `sh run.sh` in the `appactive-demo` module to start all applications
+2. Bind hosts: `127.0.0.1 demo.appactive.io`, and then visit `http://demo.appactive.io/buyProduct?r_id=2000` to see how it works
+3. Run `sh cut.sh` in the `appactive-portal` module to switch flow. It should be noted that the writing-forbidden rules of this demo are hard-coded. If you want to change the range, you need to calculate the writing-forbidden rules and the next-routing rules, and then execute the flow switch.
+
+## Build From Source
+
+### Premise
+This demo requires the following software to be installed
+
 -docker && docker-compose
 
 ### Step
@@ -39,7 +53,7 @@ This demo requires the following software to be installed
 2. Enter the `appactive-demo` module, maven build to get the jar package
 3. Run `./run.sh` in the `appactive-demo` module to start all applications
 4. Run `baseline.sh` in the `appactive-portal` module to push the baseline
-5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/listProduct?r_id=1999` to see the effect
+5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/buyProduct?r_id=2000` to see the effect
 6. Run `cut.sh` in the `appactive-portal` module to cut the flow. The cut flow commands is:  `./cut.sh`. It should be noted that the write prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write prohibition rule and the next routing rule by himself, and then execute the cut flow.
 
 ## Rule description
