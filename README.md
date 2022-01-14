@@ -25,7 +25,7 @@ commercial services, and has the characteristics of high reliability and scalabi
 
 ## Architecture
 
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/appa_landscape.jpg?x-oss-process=style/h600)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/aactive_landscape.jpg?x-oss-process=style/h600)
 
 The overall structure of AppActive covers the data plane and the control plane。It manages application traffic and data
 in the whole process. As shown in the figure above, the details can be found in the following links:
