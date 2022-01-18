@@ -51,10 +51,11 @@ This demo requires the following software to be installed
 
 1. Enter the nginx-plugin directory of the `appactive-gateway` module and mark it as a mirror: `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
 2. Enter the `appactive-demo` module, maven build to get the jar package
-3. Run `./run.sh` in the `appactive-demo` module to start all applications
-4. Run `baseline.sh` in the `appactive-portal` module to push the baseline
-5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/buyProduct?r_id=2000` to see the effect
-6. Run `cut.sh` in the `appactive-portal` module to cut the flow. The cut flow commands is:  `./cut.sh`. It should be noted that the write prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write prohibition rule and the next routing rule by himself, and then execute the cut flow.
+3. Run `sh baseline.sh 2` in the `appactive-portal` module to push the application baseline
+4. Run `sh run.sh` in the `appactive-demo` module to start all applications and gateway
+5. Run `sh baseline.sh 3` in the `appactive-portal` module to push the gateway baseline
+6. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/buyProduct?r_id=2000` to see the effect
+7. Run `sh cut.sh` in the `appactive-portal` module to cut the flow. The cut flow commands is:  `./cut.sh`. It should be noted that the write prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write prohibition rule and the next routing rule by himself, and then execute the cut flow.
 
 ## Rule description
 

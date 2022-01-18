@@ -56,10 +56,11 @@
 
 1. 进入 `appactive-gateway` 模块的 `nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
 2. 进入 `appactive-demo` 模块，maven build 获得 jar 包
-3. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用
-4. 在 `appactive-portal` 模块中运行 `sh baseline.sh`，推送基线
-5. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
-6. 在 `appactive-portal` 模块中运行 `sh cut.sh` 进行切流。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
+3. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
+4. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用和网关
+5. 在 `appactive-portal` 模块中运行 `sh baseline.sh 3`，推送网关基线
+6. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
+7. 在 `appactive-portal` 模块中运行 `sh cut.sh` 进行切流。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
 ## 规则说明
 

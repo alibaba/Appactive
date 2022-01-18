@@ -15,6 +15,10 @@
 #
 
 
+cd ../appactive-portal
+sh baseline.sh 2
+
+cd ../appactive-demo
 docker-compose -f docker-compose-quick.yml up -d nacos mysql
 sleep 20s
 docker-compose -f docker-compose-quick.yml up -d storage storage-unit
@@ -27,6 +31,6 @@ docker-compose -f docker-compose-quick.yml up -d gateway
 
 sleep 3s
 cd ../appactive-portal
-sh baseline.sh
+sh baseline.sh 3
 
 

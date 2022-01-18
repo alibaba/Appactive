@@ -49,16 +49,10 @@ note：this demo contains many applications，please adjust your memory settings
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
 
 #### Docker Run
-1. `appactive-gateway`: `cd appactive-gateway/nginx-plugin` -> `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
-2. `appactive`: maven build to get the all the jar packages: `cd ../../` -> `mvn clean package -Dmaven.test.skip -U`
-3. `appactive-demo`: `cd appactive-demo` -> Run `sh run.sh` to start all applications
-4. `appactive-portal`: `cd ../appactive-portal` -> Run `sh baseline.sh` to push the baseline
-5. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/listProduct?r_id=1999` to
-   see the effect
-6. `appactive-portal`: Run `cut.sh` to cut the stream. This demo supports two cutting methods: ratio and range
-    - Commands: `sh cut.sh`.
-    - Note： the rules of the demo are hard-coded. If you want to change the cut flow range, you need to calculate the
-      rules by yourself, and then execute the cut flow.
+
+1. Run `sh run.sh` in the `appactive-demo` module to start all applications
+2. Bind hosts: `127.0.0.1 demo.appactive.io`, and then visit `http://demo.appactive.io/buyProduct?r_id=2000` to see how it works
+3. Run `sh cut.sh` in the `appactive-portal` module to switch flow. It should be noted that the writing-forbidden rules of this demo are hard-coded. If you want to change the range, you need to calculate the writing-forbidden rules and the next-routing rules, and then execute the flow switch.
 
 > If you plan to stop the experience, you can proceed: `cd appactive-demo` -> `docker-compose down`
 
