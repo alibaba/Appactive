@@ -16,6 +16,7 @@
 
 package io.appactive.demo.storage;
 
+import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.demo.common.service.OrderService;
 import io.appactive.java.api.base.AppContextClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,12 @@ public class StorageApplication {
     public String buy(
             @RequestParam(required = false, defaultValue = "jack") String rId,
             @RequestParam(required = false, defaultValue = "12") String id,
-            @RequestParam(required = false, defaultValue = "5") Integer number
+            @RequestParam(required = false, defaultValue = "1") Integer number
     ) {
         String routerId = AppContextClient.getRouteId();
         System.out.println("buy:"+routerId);
-        return String.format("%s bought %d %s, result: %s %s", rId, number, id ,orderService.buy(rId, id, number), routerId);
+        ResultHolder<String> resultHolder = orderService.buy(rId, id, number);
+        return String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult());
     }
 
     @RequestMapping("/check")

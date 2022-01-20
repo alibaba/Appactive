@@ -71,11 +71,26 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-servlet</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
-2. 当请求到来时，可以在应用中调用 `AppContextClient.getRouteId();` 来获取路由ID
+2. 引入 filter，以 Spring 为例
+
+```java
+@Configuration
+public class WebConfig {
+    @Bean
+    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+        FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        RequestFilter reqResFilter = new RequestFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+}
+```
+3. 当请求到来时，可以在应用中调用 `AppContextClient.getRouteId();` 来获取路由ID
 
 #### 所有应用
 **改造步骤**
@@ -86,22 +101,22 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-rule</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -164,12 +179,12 @@ rsActive 的 候选 value 有:
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
  <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-db-mysql</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 2. 数据库连接加上参数，如

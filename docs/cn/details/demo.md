@@ -36,7 +36,7 @@
 - docker && docker-compose
 - curl
 
-注：本 demo 包含较多应用，请调大 docker 内存，避免闪退。
+注：本 demo 包含较多应用，请调大 docker 内存，避免闪退；仅支持x86
 
 ### 步骤
 
@@ -44,17 +44,17 @@
 2. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
 3. 在`appactive-portal` 模块中运行 `sh cut.sh` 进行切流 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
+> 如果你打算停止体验，可进行：`cd appactive-demo` -> `docker-compose down`
+
 ## 源码构建
 
 ### 前提
 
-要求安装如下软件
-
-- docker && docker-compose
+- 如上
 
 ### 步骤
 
-1. 进入 `appactive-gateway` 模块的 `nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.0-SNAPSHOT .`
+1. 进入 `appactive-gateway` 模块的 `nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.2-SNAPSHOT .`
 2. 进入 `appactive-demo` 模块，maven build 获得 jar 包
 3. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 4. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用和网关
@@ -62,14 +62,97 @@
 6. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
 7. 在 `appactive-portal` 模块中运行 `sh cut.sh` 进行切流。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
+## 分模块体验
+
+### Filter
+
+#### 步骤
+
+1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
+2. 构建相关 jar 包
+3. 运行
+
+```shell script
+java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+-Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
+-Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
+-Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
+-Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
+-Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
+-Dio.appactive.demo.unit=unit \
+-Dio.appactive.demo.app=frontend \
+-Dio.appactive.demo.unitlist=center,unit \
+-Dio.appactive.demo.applist=frontend,product,storage \
+-Dserver.port=8886 \
+-jar frontend-1.2-SNAPSHOT.jar
+```
+4. 测试
+```shell script
+curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
+routerId: 1
+curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
+routerId: 2
+curl 127.0.0.1:8886/show  -b "r_id=3"
+routerId: 3
+curl 127.0.0.1:8886/show  
+routerId: null
+```
+
+### MySQL
+
+#### 步骤
+
+1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
+2. 将 OrderServiceImpl 的 DubboService 注释，然后构建所有 jar 包
+3. 在 `appactive-demo`中 运行mysql
+```shell script
+cd dependency/mysql && sh run.sh
+```
+然后 运行
+```shell script
+# 进入容器
+docker exec -ti appactive-mysql bash
+# 导入数据
+mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
+# 退出
+exit 
+```
+4. 运行
+
+```shell script
+java -Dappactive.machineRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/frontend-unit/machine.json \
+     -Dappactive.dataScopeRuleDirectoryPath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit \
+     -Dappactive.forbiddenRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
+     -Dappactive.trafficRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
+     -Dappactive.transformerRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idTransformer.json \
+     -Dappactive.idSourceRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idSource.json \
+     -Dio.appactive.demo.unit=unit \
+     -Dio.appactive.demo.app=storage \
+     -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
+     -Dserver.port=8882 \
+-jar storage-1.2-SNAPSHOT.jar
+```
+5. 测试
+```shell script
+curl 127.0.0.1:8882/buy?r_id=1 
+routerId 1 bought 1 of item 12, result: success
+curl 127.0.0.1:8882/buy?r_id=4567 
+routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
+
+```
+
+### Gateway
+
+请见 [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
+
 ## 规则说明
 
 ### 基线
 
 在运行所有应用后，我们运行了 baseline.sh，实际上做了如下几件事：
 
-- 通过 http 通道给 gateway 推送规则
 - 通过 文件 通道给 其他应用 推送规则
+- 通过 http 通道给 gateway 推送规则
 
 规则包括
 

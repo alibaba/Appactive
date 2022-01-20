@@ -47,12 +47,12 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 
 in:
 
--VAR_DOMAIN: The domain name used directly by the end user, mandatory. The other two unit subdomains are optional
--VAR_URI: specific URI
--VAR_APP_ID: The only front end composed of domain name + URI. Need to replace `.` with `_` and `/` with `@`
--VAR_UNIT_ENABLE: Whether the current URI is addressed in multi-active mode, if it is 1, it is yes, if it is 0, it is no (go directly to this unit)
--UNIT_FLAG_N: unit flag of each unit
--VAR_BACKEND_IP_LIST: the back-end application IP of the corresponding unit
+- VAR_DOMAIN: The domain name used directly by the end user, mandatory. The other two unit subdomains are optional
+- VAR_URI: specific URI
+- VAR_APP_ID: The only front end composed of domain name + URI. Need to replace `.` with `_` and `/` with `@`
+- VAR_UNIT_ENABLE: Whether the current URI is addressed in multi-active mode, if it is 1, it is yes, if it is 0, it is no (go directly to this unit)
+- UNIT_FLAG_N: unit flag of each unit
+- VAR_BACKEND_IP_LIST: the back-end application IP of the corresponding unit
 
 ### 1.2 Microservices (RPC): Dubbo
 **precondition**
@@ -71,11 +71,27 @@ The entry application is responsible for extracting the routing beacon from the 
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-servlet</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
-2. When the request comes, you can call `AppContextClient.getRouteId();` in the application to get the route ID
+2. import filter，for example
+
+```java
+@Configuration
+public class WebConfig {
+    @Bean
+    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+        FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        RequestFilter reqResFilter = new RequestFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+}
+```
+
+3. When the request comes, you can call `AppContextClient.getRouteId();` in the application to get the route ID
 
 #### All applications
 **Transformation steps**
@@ -86,22 +102,22 @@ The entry application is responsible for extracting the routing beacon from the 
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-rule</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -142,9 +158,9 @@ The core is to add annotations
 If rsActive is unit, it indicates that this is a unit service, and a routeIndex of 0 indicates that the route ID is the 0th parameter.
 The candidate values ​​of rsActive are:
 
--normal: normal service
--unit: unit service
--center: center service
+- normal: normal service
+- unit: unit service
+- center: center service
 
 For unit services, explicit invocation and implicit invocation are supported. The explicit call needs to modify the method signature as above, and use routeIndex to indicate the location of the route ID parameter.
 
@@ -163,19 +179,19 @@ The implicit call does not need to modify the method signature, just manually se
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
  <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-db-mysql</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 2. Add parameters to the database connection, such as
    `jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product`. in:
-   -activeInstanceId: database instance ID
-   -activeDbName: database name
-   -activePort: database instance port, 3306 can be left blank
+   - activeInstanceId: database instance ID
+   - activeDbName: database name
+   - activePort: database instance port, 3306 can be left blank
 
 3. Replace the driver, such as: `spring.datasource.driver-class-name=io.appactive.db.mysql.driver.Driver`
 
@@ -195,19 +211,21 @@ The content of path-address is:
 ```
 in
 
--appactive.forbiddenRulePath: Describe which route flags are forbidden to write
--appactive.transformerRulePath: Describe how to parse the routing mark
--appactive.trafficRulePath: Describes the mapping relationship between route markers and units
--appactive.machineRulePath: Describe the attribution unit of the current machine
--appactive.dataScopeRuleDirectoryPath: Store the property file of the database, one file per database, the file name is: activeInstanceId-activeDbName or activeInstanceId-activeDbName-activePort
+- appactive.forbiddenRulePath: Describe which route flags are forbidden to write
+- appactive.transformerRulePath: Describe how to parse the routing mark
+- appactive.trafficRulePath: Describes the mapping relationship between route markers and units
+- appactive.machineRulePath: Describe the attribution unit of the current machine
+- appactive.dataScopeRuleDirectoryPath: Store the property file of the database, one file per database, the file name is: activeInstanceId-activeDbName or activeInstanceId-activeDbName-activePort
 
 ## 2. Control Plane
 
 After the application is deployed, the baseline is pushed, and the flow is cut when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
 
--appactive.transformerRulePath, for example:
+- appactive.transformerRulePath, for example:
 
 ```
 {
   "id": "userIdBetween",
   "mod": "10000"
+}
+```

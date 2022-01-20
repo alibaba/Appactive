@@ -43,7 +43,7 @@ The following software are assumed installed:
 - docker && docker-compose
 - curl
 
-note：this demo contains many applications，please adjust your memory settings to avoid failures。
+note：this demo contains many applications，please adjust your memory settings to avoid failures.
 
 ### Experience
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
@@ -57,7 +57,7 @@ note：this demo contains many applications，please adjust your memory settings
 > If you plan to stop the experience, you can proceed: `cd appactive-demo` -> `docker-compose down`
 
 #### More
-For more information, please see [demo](docs/en/details/demo.md)
+For more, please visit [demo](docs/en/details/demo.md)
 
 ## Developer Guide
 

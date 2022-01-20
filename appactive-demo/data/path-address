@@ -4,4 +4,5 @@
     "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
     "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
     "appactive.transformerRulePath":"/app/data/idTransformer.json",
+    "appactive.idSourceRulePath":"/app/data/idSource.json",
 }

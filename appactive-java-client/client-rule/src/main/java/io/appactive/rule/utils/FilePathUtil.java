@@ -38,6 +38,7 @@ public class FilePathUtil {
     private static String forbiddenRulePath;
     private static String trafficRouteRulePath;
     private static String transformerRulePath;
+    private static String idSourceRulePath;
 
     public static String getMachineRulePath() {
         return machineRulePath;
@@ -57,6 +58,10 @@ public class FilePathUtil {
 
     public static String getTransformerRulePath() {
         return transformerRulePath;
+    }
+
+    public static String getIdSourceRulePath() {
+        return idSourceRulePath;
     }
 
     static {
@@ -82,6 +87,7 @@ public class FilePathUtil {
         forbiddenRulePath = JvmPropertyUtil.getJvmAndEnvValue(RulePropertyConstant.PROPERTY_HEADER+".forbiddenRulePath");
         trafficRouteRulePath = JvmPropertyUtil.getJvmAndEnvValue(RulePropertyConstant.PROPERTY_HEADER+".trafficRulePath");
         transformerRulePath = JvmPropertyUtil.getJvmAndEnvValue(RulePropertyConstant.PROPERTY_HEADER+".transformerRulePath");
+        idSourceRulePath = JvmPropertyUtil.getJvmAndEnvValue(RulePropertyConstant.PROPERTY_HEADER+".idSourceRulePath");
     }
 
     private static void initFromFile() throws Exception {
@@ -109,6 +115,9 @@ public class FilePathUtil {
         }
         if (transformerRulePath == null) {
             transformerRulePath = pathMap.get(RulePropertyConstant.PROPERTY_HEADER + ".transformerRulePath");
+        }
+        if (idSourceRulePath == null) {
+            idSourceRulePath = pathMap.get(RulePropertyConstant.PROPERTY_HEADER + ".idSourceRulePath");
         }
     }
 
