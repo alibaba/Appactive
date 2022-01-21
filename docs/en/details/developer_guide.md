@@ -158,9 +158,9 @@ The core is to add annotations
 If rsActive is unit, it indicates that this is a unit service, and a routeIndex of 0 indicates that the route ID is the 0th parameter.
 The candidate values ​​of rsActive are:
 
-- normal: normal service
-- unit: unit service
-- center: center service
+- normal: normal service, which requires no multi-active modification, and will route as it was
+- unit: unit service, which will only route within right unit according to multi-active rules
+- center: center service, which will only route within center idc
 
 For unit services, explicit invocation and implicit invocation are supported. The explicit call needs to modify the method signature as above, and use routeIndex to indicate the location of the route ID parameter.
 

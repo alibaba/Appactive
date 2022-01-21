@@ -54,7 +54,7 @@
 
 ### 步骤
 
-1. 进入 `appactive-gateway` 模块的 `nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.2-SNAPSHOT .`
+1. 进入 `appactive-gateway/nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:1.2-SNAPSHOT .`
 2. 进入 `appactive-demo` 模块，maven build 获得 jar 包
 3. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 4. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用和网关

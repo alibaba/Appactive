@@ -52,8 +52,8 @@ note: this demo contains many applications，please adjust your memory settings 
 
 ### Step
 
-1. Enter the nginx-plugin directory of the `appactive-gateway` module and mark it as a mirror: `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.2-SNAPSHOT .`
-2. Enter the `appactive-demo` module, maven build to get the jar package
+1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:1.2-SNAPSHOT .`
+2. Enter `appactive-demo` module, and then run maven-build command to get all the jars
 3. Run `sh baseline.sh 2` in the `appactive-portal` module to push the application baseline
 4. Run `sh run.sh` in the `appactive-demo` module to start all applications and gateway
 5. Run `sh baseline.sh 3` in the `appactive-portal` module to push the gateway baseline
