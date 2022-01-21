@@ -20,7 +20,7 @@ There are 4 applications in total, according to the distance (call link) of the 
     - product List: General Service
     - product Details: Unit Service
     - product order: central service, relying on inventory application
-- storage: Inventory application, for ordering service to deduct inventory
+- storage: storage application, for ordering service to deduct inventory
 
 For the sake of simplicity, the gateway is only deployed in the center, and the rest of the applications are deployed in each of the center and unit.
 
@@ -121,7 +121,7 @@ exit
 4. build all the jars and run
 
 ```shell script
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
      -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
      -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
      -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \

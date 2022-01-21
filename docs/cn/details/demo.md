@@ -123,7 +123,7 @@ exit
 4. 构建所有 jar 包并运行
 
 ```shell script
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
      -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
      -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
      -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
