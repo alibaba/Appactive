@@ -81,5 +81,5 @@ details see [here](docs/en/contributing/contributing.md)
 
 ## License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) Copyright (C) Apache Software Foundation
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) Copyright 1999-2022 Alibaba Group Holding Ltd.
 
