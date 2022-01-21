@@ -101,8 +101,11 @@ routerId: null
 #### 步骤
 
 1. in `appactive-portal` module, run `sh baseline.sh 2`
-2. delete `DubboService` in `OrderServiceImpl.java`，and then build all jars
-3. in `appactive-demo` module, run
+2. in `appactive-demo`module, run nacos
+```shell script
+cd dependency/nacos && sh run.sh
+```
+3. in `appactive-demo` module, run mysql
 ```shell script
 cd dependency/mysql && sh run.sh
 ```
@@ -115,7 +118,7 @@ mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
 # exit
 exit 
 ```
-4. run java
+4. build all the jars and run
 
 ```shell script
 java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \

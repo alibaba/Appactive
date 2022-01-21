@@ -103,8 +103,11 @@ routerId: null
 #### 步骤
 
 1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
-2. 将 OrderServiceImpl 的 DubboService 注释，然后构建所有 jar 包
-3. 在 `appactive-demo`中 运行mysql
+2. 在 `appactive-demo`中 运行 nacos
+```shell script
+cd dependency/nacos && sh run.sh
+```
+3. 在 `appactive-demo`中 运行 mysql
 ```shell script
 cd dependency/mysql && sh run.sh
 ```
@@ -117,7 +120,7 @@ mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
 # 退出
 exit 
 ```
-4. 运行
+4. 构建所有 jar 包并运行
 
 ```shell script
 java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
