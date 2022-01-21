@@ -59,5 +59,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 - 钉钉群（推荐）：34222602
 
 ## License
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) Copyright (C) Apache Software Foundation
+[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) Copyright 1999-2022 Alibaba Group Holding Ltd.
+
+
 
