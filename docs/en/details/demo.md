@@ -118,12 +118,12 @@ exit
 4. run java
 
 ```shell script
-java -Dappactive.machineRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/frontend-unit/machine.json \
-     -Dappactive.dataScopeRuleDirectoryPath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit \
-     -Dappactive.forbiddenRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
-     -Dappactive.trafficRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
-     -Dappactive.transformerRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idTransformer.json \
-     -Dappactive.idSourceRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idSource.json \
+java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+     -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
+     -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
+     -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
+     -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
+     -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
      -Dio.appactive.demo.unit=unit \
      -Dio.appactive.demo.app=storage \
      -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \

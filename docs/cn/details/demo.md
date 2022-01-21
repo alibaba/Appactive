@@ -120,12 +120,12 @@ exit
 4. 运行
 
 ```shell script
-java -Dappactive.machineRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/frontend-unit/machine.json \
-     -Dappactive.dataScopeRuleDirectoryPath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit \
-     -Dappactive.forbiddenRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
-     -Dappactive.trafficRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
-     -Dappactive.transformerRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idTransformer.json \
-     -Dappactive.idSourceRulePath=/Users/mageekchiu/Documents/workspace/Appactive/appactive-demo/data/storage-unit/idSource.json \
+java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+     -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
+     -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
+     -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
+     -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
+     -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
      -Dio.appactive.demo.unit=unit \
      -Dio.appactive.demo.app=storage \
      -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
@@ -144,6 +144,13 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 ### Gateway
 
 请见 [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
+
+### Dubbo
+
+构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
+```shell script
+
+```
 
 ## 规则说明
 
