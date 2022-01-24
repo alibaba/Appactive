@@ -146,6 +146,51 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 
 Visit [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
 
+### Dubbo
+
+the building process of demo of Dubbo is far too complicated，we suggest using demo in  "quick start": 
+1. first of  all, modify rules in frontend-center, so that frontend-center would route request to the wrong unit
+```shell script
+cd data/frontend-center
+vim idUnitMapping.json
+```
+the rules are as follows
+```shell script
+{
+  "itemType": "UnitRuleItem",
+  "items": [
+    {
+      "name": "unit",
+      "conditions": [
+        {
+          "@userIdBetween": [
+            "0~2999"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "center",
+      "conditions": [
+        {
+          "@userIdBetween": [
+            "3000~9999"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+2. run test
+```shell script
+curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
+# you can see error logs as follows  
+[appactive/io.appactive.demo.common.service.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
+```
+because we modified rules, so that frontend-center would route request of routerId 2499 to unit. 
+however，request like this should be routed to center, so provider in unit would deny such request.
+
 ## Rule description
 
 After running all applications, we ran baseline.sh and actually did the following things:

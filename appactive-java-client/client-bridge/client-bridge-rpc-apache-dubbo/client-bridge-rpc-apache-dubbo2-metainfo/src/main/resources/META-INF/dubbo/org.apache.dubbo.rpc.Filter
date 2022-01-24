@@ -1,0 +1,1 @@
+unitProtectionFilter=io.appactive.rpc.apache.dubbo2.provider.ProviderProtectFilter

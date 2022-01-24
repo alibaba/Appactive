@@ -22,6 +22,7 @@ import io.appactive.demo.common.service.ProductServiceCenter;
 import io.appactive.demo.common.service.ProductServiceNormal;
 import io.appactive.demo.common.service.ProductServiceUnit;
 import io.appactive.demo.common.service.ProductServiceUnitHidden;
+import io.appactive.java.api.base.AppContextClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -77,7 +78,7 @@ public class ProductApplication {
             @RequestParam(required = false, defaultValue = "12") String pId,
             @RequestParam(required = false, defaultValue = "5") Integer number
     ) {
-        return String.format("%s bought %d %s, result: %s", rId, number, pId ,productServiceCenter.buy(rId, pId, number));
+        return String.format("routerId %s bought %d of item %s, result: %s", AppContextClient.getRouteId(), number, pId ,productServiceCenter.buy(rId, pId, number));
     }
 
     @RequestMapping("/check")

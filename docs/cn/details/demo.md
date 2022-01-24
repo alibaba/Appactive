@@ -151,9 +151,47 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 ### Dubbo
 
 构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
+1. 首先修改 frontend 的规则，以便于 frontend 访问到错误的单元
+```shell script
+cd data/frontend-center
+vim idUnitMapping.json
+```
+如下
+```shell script
+{
+  "itemType": "UnitRuleItem",
+  "items": [
+    {
+      "name": "unit",
+      "conditions": [
+        {
+          "@userIdBetween": [
+            "0~2999"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "center",
+      "conditions": [
+        {
+          "@userIdBetween": [
+            "3000~9999"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+2. 发起测试
 ```shell script
 
+curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
+# 注意到报错会有这样一段
+[appactive/io.appactive.demo.common.service.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
 ```
+因为我们修改了规则，让 frontend-center 将 路由id为 2499 的 请求路由到了单元，但实际上，这个请求应该路由到中心，所以被单元的provider拒绝请求了。
 
 ## 规则说明
 
