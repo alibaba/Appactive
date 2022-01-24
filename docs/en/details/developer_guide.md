@@ -165,6 +165,10 @@ The candidate values ​​of rsActive are:
 For unit services, explicit invocation and implicit invocation are supported. The explicit call needs to modify the method signature as above, and use routeIndex to indicate the location of the route ID parameter.
 
 The implicit call does not need to modify the method signature, just manually set the route ID before actually calling the method `AppContextClient.setUnitContext("12");`
+
+Last but no least, we import unit protection filter. Take springboot as an example, adding one line in application.properties will do the trick:
+`dubbo.provider.filter=unitProtectionFilter`
+
 ### 1.3 Database (DB): Mysql
 
 **precondition**
@@ -206,6 +210,7 @@ The content of path-address is:
     "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
     "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
     "appactive.transformerRulePath":"/app/data/idTransformer.json",
+    "appactive.idSourceRulePath":"/app/data/idSource.json",
 }
 
 ```
@@ -216,6 +221,7 @@ in
 - appactive.trafficRulePath: Describes the mapping relationship between route markers and units
 - appactive.machineRulePath: Describe the attribution unit of the current machine
 - appactive.dataScopeRuleDirectoryPath: Store the property file of the database, one file per database, the file name is: activeInstanceId-activeDbName or activeInstanceId-activeDbName-activePort
+- appactive.idSourceRulePath: describe how we extract routerId from http traffic 
 
 ## 2. Control Plane
 

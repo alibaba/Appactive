@@ -165,6 +165,9 @@ rsActive 的 候选 value 有:
 
 而隐式调用则不需要改造方法签名，仅需要在实际调用方法前手工设置路由ID `AppContextClient.setUnitContext("12");`
 
+最后，引入单元保护过滤器, 以springboot为例，在 application.properties 中加入一行:
+`dubbo.provider.filter=unitProtectionFilter`
+
 ### 1.3 数据库（DB）：Mysql
 
 **前置条件**
@@ -202,10 +205,12 @@ path-address的内容为：
 ```
 {
     "appactive.machineRulePath":"/app/data/machine.json",
+    "appactive.machineRulePath":"/app/data/machine.json",
     "appactive.dataScopeRuleDirectoryPath":"/app/data",
     "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
     "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
     "appactive.transformerRulePath":"/app/data/idTransformer.json",
+    "appactive.idSourceRulePath":"/app/data/idSource.json",
 }
 
 ```
@@ -216,6 +221,7 @@ path-address的内容为：
 - appactive.trafficRulePath: 描述路由标和单元的映射关系
 - appactive.machineRulePath: 描述当前机器的归属单元
 - appactive.dataScopeRuleDirectoryPath: 存放数据库的属性文件，一个数据库一个文件，文件命名为：activeInstanceId-activeDbName 或者 activeInstanceId-activeDbName-activePort
+- appactive.idSourceRulePath: 描述如何从http流量中获取路由ID  
 
 ## 二、管控面
 
