@@ -18,13 +18,19 @@ package io.appactive.rule;
 
 import io.appactive.BaseTest;
 import io.appactive.java.api.rule.traffic.ForbiddenRuleService;
+import io.appactive.java.api.rule.traffic.IdSourceRuleService;
 import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
+import io.appactive.java.api.rule.traffic.bo.IdSourceEnum;
+import io.appactive.java.api.rule.traffic.bo.IdSourceRule;
 import io.appactive.rule.traffic.impl.file.FileForbiddenRuleServiceImpl;
+import io.appactive.rule.traffic.impl.file.FileIdSourceRuleImpl;
 import io.appactive.rule.traffic.impl.file.FileTrafficRouteRuleServiceImpl;
 import io.appactive.rule.traffic.impl.file.FileTransformerRuleServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.LinkedList;
 
 public class TrafficRuleTest extends BaseTest {
     String transformer_path = TEST_RESOURCE_PATH+"traffic/transformerRule.json";
@@ -46,7 +52,6 @@ public class TrafficRuleTest extends BaseTest {
         Assert.assertEquals("1123123500",wholeService.getRouteIdAfterTransformer("1123123500"));
     }
 
-
     @Test
     public void testForbiddenRule(){
         String path = TEST_RESOURCE_PATH+"traffic/forbiddenRule.json";
@@ -60,6 +65,7 @@ public class TrafficRuleTest extends BaseTest {
         Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("D"));
         Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("1499"));
     }
+
     @Test
     public void testTrafficRule(){
         String path = TEST_RESOURCE_PATH+"traffic/unitMappingRule.json";
@@ -80,5 +86,21 @@ public class TrafficRuleTest extends BaseTest {
         Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("800"));
         Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("900"));
         Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("H"));
+    }
+
+    @Test
+    public void idSourceRule(){
+        IdSourceRuleService idSourceRuleService = new FileIdSourceRuleImpl(TEST_RESOURCE_PATH+"traffic/idSource.json");
+        IdSourceRule idSourceRule = idSourceRuleService.getIdSourceRule();
+
+        Assert.assertNotNull(idSourceRule);
+        Assert.assertEquals("r_id",idSourceRule.getTokenKey());
+        Assert.assertEquals(
+                new LinkedList<IdSourceEnum>(){{
+                    add(IdSourceEnum.arg);
+                    add(IdSourceEnum.header);
+                    add(IdSourceEnum.cookie);
+                }}.toString(),
+                idSourceRule.getSourceList().toString());
     }
 }

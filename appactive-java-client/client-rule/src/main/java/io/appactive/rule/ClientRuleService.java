@@ -19,6 +19,7 @@ package io.appactive.rule;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
 import io.appactive.java.api.rule.property.db.DataScopeRuleService;
 import io.appactive.java.api.rule.traffic.ForbiddenRuleService;
+import io.appactive.java.api.rule.traffic.IdSourceRuleService;
 import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
 import io.appactive.support.spi.SpiUtil;
@@ -30,6 +31,7 @@ public class ClientRuleService {
     private static final TransformerRuleService transformerRuleService = SpiUtil.loadFirstInstance(TransformerRuleService.class);
     private static final TrafficRouteRuleService trafficRouteRuleService = SpiUtil.loadFirstInstance(TrafficRouteRuleService.class);
     private static final ForbiddenRuleService forbiddenRuleService = SpiUtil.loadFirstInstance(ForbiddenRuleService.class);
+    private static final IdSourceRuleService idSourceRuleService = SpiUtil.loadFirstInstance(IdSourceRuleService.class);
 
     static {
         trafficRouteRuleService.setTransformerRuleService(transformerRuleService);
@@ -49,5 +51,9 @@ public class ClientRuleService {
 
     public static ForbiddenRuleService getForbiddenRuleService() {
         return forbiddenRuleService;
+    }
+
+    public static IdSourceRuleService getIdSourceRuleService() {
+        return idSourceRuleService;
     }
 }

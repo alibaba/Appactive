@@ -52,14 +52,18 @@ public class OrderServiceImpl implements OrderService {
                     p.setNumber(left);
                     p = repository.save(p);
                     if (p.getNumber() + number != oldNum){
-                        result = "扣减库存失败";
+                        result = "storage not consist";
+                    }else {
+                        result = "success";
                     }
+                }else {
+                    result = "out of product";
                 }
             }else {
-                result = "商品不存在";
+                result = "no such product";
             }
-        }catch (Exception e){
-            result = e.getMessage();
+        }catch (Throwable e){
+            result = e.getCause().getCause().getMessage();
         }
         return new ResultHolder<>(result);
     }

@@ -21,7 +21,7 @@
     <parent>
         <artifactId>msha-appactive</artifactId>
         <groupId>com.alicloud.msha</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>appactive-java-api</artifactId>
@@ -40,6 +40,12 @@
             <artifactId>dubbo</artifactId>
             <version>2.7.8</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
 
     </dependencies>

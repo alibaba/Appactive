@@ -16,7 +16,12 @@
 
 package io.appactive.java.api.bridge.servlet;
 
+import io.appactive.java.api.rule.traffic.bo.IdSourceEnum;
+import io.appactive.java.api.rule.traffic.bo.IdSourceRule;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -25,15 +30,43 @@ public interface ServletService {
     /**
      * get routeId from header
      */
-    String getRouteIdFromHeader(HttpServletRequest request);
+    static String getRouteIdFromHeader(@NotNull HttpServletRequest request,
+                                       String tokenKey) {
+        return request.getHeader(tokenKey);
+    }
 
     /**
      * get routeId from cookie
      */
-    String getRouteIdFromCookie(HttpServletRequest request);
+    static String getRouteIdFromCookie(@NotNull HttpServletRequest request,
+                                       String tokenKey) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return null;
+        }
+        for (Cookie cookie : cookies) {
+            String name = cookie.getName();
+            if (name.equalsIgnoreCase(tokenKey)) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
 
     /**
      * get routeId from params
      */
-    String getRouteIdFromParams(HttpServletRequest request);
+    static String getRouteIdFromParams(@NotNull HttpServletRequest request,
+                                       String tokenKey) {
+        return request.getParameter(tokenKey);
+    }
+
+    /**
+     * set routerId according to IdSourceRule（ordered source） and request
+     *
+     * @return the source from which we get routerId
+     *  or null when there is no required routerId in the request
+     */
+    IdSourceEnum getRawRouterIdSuccess(IdSourceRule IdSourceRule,
+                                       @NotNull HttpServletRequest request);
 }

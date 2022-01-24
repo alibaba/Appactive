@@ -23,12 +23,12 @@
 
     <artifactId>common</artifactId>
     <groupId>io.appactive.demo</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <parent>
         <artifactId>appactive-demo</artifactId>
         <groupId>com.alicloud.msha</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>

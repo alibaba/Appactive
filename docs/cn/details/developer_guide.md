@@ -71,11 +71,26 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-servlet</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
-2. 当请求到来时，可以在应用中调用 `AppContextClient.getRouteId();` 来获取路由ID
+2. 引入 filter，以 Spring 为例
+
+```java
+@Configuration
+public class WebConfig {
+    @Bean
+    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+        FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        RequestFilter reqResFilter = new RequestFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+}
+```
+3. 当请求到来时，可以在应用中调用 `AppContextClient.getRouteId();` 来获取路由ID
 
 #### 所有应用
 **改造步骤**
@@ -86,22 +101,22 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-rule</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -142,9 +157,9 @@ public class ProductServiceUnitImpl implements ProductServiceUnit {
 rsActive 为 unit 表明这是一个单元服务，routeIndex 为 0 表明路由ID是第 0 个参数。
 rsActive 的 候选 value 有:
 
-- normal: 普通服务
-- unit: 单元服务
-- center: 中心服务
+- normal: 普通服务，不做多活改造，按原有逻辑进行发现和调用的服务
+- unit: 单元服务，基于规则，仅在本单元路由的服务
+- center: 中心服务，强一致的业务（例如库存、金额等）的服务，强制路由到中心机房
 
 对于单元服务，支持显式调用和隐式调用。其中显式调用需要如上改造方法签名，并用 routeIndex 注明路由ID参数位置。
 
@@ -164,12 +179,12 @@ rsActive 的 候选 value 有:
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
  <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-db-mysql</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 2. 数据库连接加上参数，如

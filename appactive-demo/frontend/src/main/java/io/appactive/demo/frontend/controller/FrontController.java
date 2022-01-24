@@ -103,6 +103,12 @@ public class FrontController {
         return "OK From "+appName;
     }
 
+    @RequestMapping("/show")
+    @ResponseBody
+    public String show() {
+        return "routerId: "+AppContextClient.getRouteId();
+    }
+
 
     @ModelAttribute("metaData")
     public Map<String,String[]> getMetaData() {
