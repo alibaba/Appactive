@@ -14,12 +14,12 @@ English | [中文](docs/cn/README_CN.md)
 
 ## Introduction
 
-AppActive，is an open source middleware that builds a cloud-native, high-availability and multi-active disaster tolerance
+AppActive is an open source middleware that builds a cloud-native, high-availability and multi-active disaster tolerance
 architecture for business applications. It provides standards, implementations, and demos for applying the multi-active
 disaster recovery architecture, which is suitable for rich business scenarios (single AZ, single region, single cloud,
 multi AZ, multi region, multi-cloud, self-built IDC...).
 
-AppActive is an internal open source project of AHAS-MSHA.It is based on Alibaba's nearly 9-year production disaster
+AppActive is an internal open source project of AHAS-MSHA. It is based on Alibaba's nearly 9-year production disaster
 recovery practice, and combines the best practices of many external customers and communities from Alibaba Cloud's
 commercial services, and has the characteristics of high reliability and scalability.
 
@@ -27,7 +27,7 @@ commercial services, and has the characteristics of high reliability and scalabi
 
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/aactive_landscape.jpg?x-oss-process=style/h600)
 
-The overall structure of AppActive covers the data plane and the control plane。It manages application traffic and data
+The overall structure of AppActive covers the data plane and the control plane. It manages application traffic and data
 in the whole process. As shown in the figure above, the details can be found in the following links:
 
 - [Architecture](docs/en/details/architecture.md): Introduce AppActive deployment architecture and technical
@@ -43,7 +43,7 @@ The following software are assumed installed:
 - docker && docker-compose
 - curl
 
-note：this demo contains many applications，please adjust your memory settings to avoid failures.
+note：this demo contains many applications, please adjust your memory settings to avoid failures.
 
 ### Experience
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
@@ -81,5 +81,5 @@ details see [here](docs/en/contributing/contributing.md)
 
 ## License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) Copyright (C) Apache Software Foundation
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) Copyright (C) Apache Software Foundation.
 
