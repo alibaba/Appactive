@@ -14,7 +14,7 @@ English | [中文](docs/cn/README_CN.md)
 
 ## Introduction
 
-AppActiveis, an open source middleware that builds a cloud-native, high-availability and multi-active disaster tolerance
+AppActive is an open source middleware that builds a cloud-native, high-availability and multi-active disaster tolerance
 architecture for business applications. It provides standards, implementations, and demos for applying the multi-active
 disaster recovery architecture, which is suitable for rich business scenarios (single AZ, single region, single cloud,
 multi AZ, multi region, multi-cloud, self-built IDC...).
