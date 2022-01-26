@@ -28,7 +28,7 @@
 
     <groupId>com.alicloud.msha</groupId>
     <artifactId>msha-appactive</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}-${project.version}</name>

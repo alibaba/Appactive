@@ -71,7 +71,7 @@ The entry application is responsible for extracting the routing beacon from the 
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-servlet</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 ```
 
@@ -102,22 +102,22 @@ public class WebConfig {
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-rule</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 ```
 
@@ -183,12 +183,12 @@ Last but no least, we import unit protection filter. Take springboot as an examp
 <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
  <dependency>
     <groupId>com.alicloud.msha</groupId>
     <artifactId>client-bridge-db-mysql</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2</version>
 </dependency>
 ```
 2. Add parameters to the database connection, such as
