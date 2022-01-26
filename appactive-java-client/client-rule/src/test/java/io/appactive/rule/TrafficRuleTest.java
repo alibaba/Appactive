@@ -58,8 +58,8 @@ public class TrafficRuleTest extends BaseTest {
         TransformerRuleService wholeService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
 
         ForbiddenRuleService forbiddenRuleService = new FileForbiddenRuleServiceImpl(path,wholeService);
-        Assert.assertTrue(forbiddenRuleService.isRouteIdForbidden("A"));
-        Assert.assertTrue(forbiddenRuleService.isRouteIdForbidden("B"));
+        Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("A"));
+        Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("B"));
         Assert.assertTrue(forbiddenRuleService.isRouteIdForbidden("100"));
         Assert.assertTrue(forbiddenRuleService.isRouteIdForbidden("499"));
         Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("D"));
@@ -72,17 +72,14 @@ public class TrafficRuleTest extends BaseTest {
         TransformerRuleService wholeService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
 
         TrafficRouteRuleService trafficRouteRuleService = new FileTrafficRouteRuleServiceImpl(path,wholeService);
-        Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("A"));
-        Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("B"));
-        Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("C"));
+        Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("A"));
+        Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("B"));
+        Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("C"));
         Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("100"));
         Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("500"));
         // accurate
-        Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("499"));
+        Assert.assertEquals("BJ",trafficRouteRuleService.getUnitByRouteId("499"));
 
-        Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("D"));
-        Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("E"));
-        Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("F"));
         Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("800"));
         Assert.assertEquals("NH",trafficRouteRuleService.getUnitByRouteId("900"));
         Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("H"));

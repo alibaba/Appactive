@@ -39,8 +39,8 @@ public class FileForbiddenRuleServiceImpl extends BaseFileRuleService implements
     @Override
     public boolean isRouteIdForbidden(String routeId) {
         if (memoryConditions == null){
-            // not have rule,not forbidden
-            return true;
+            // no rule, no forbidding
+            return false;
         }
         String innerId = transformerRuleService.getRouteIdAfterTransformer(routeId);
         for (RuleCondition memoryCondition : memoryConditions) {
