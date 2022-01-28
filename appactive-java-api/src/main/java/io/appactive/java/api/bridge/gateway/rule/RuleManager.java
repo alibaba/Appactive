@@ -23,7 +23,7 @@ public class RuleManager {
     /**
      * 获得业务类型下的规规则
      * 需要实现
-     * @return
+     * @return GatewayRule
      */
     public AbstractGatewayRule getRule(){
         throw new UnsupportedOperationException();

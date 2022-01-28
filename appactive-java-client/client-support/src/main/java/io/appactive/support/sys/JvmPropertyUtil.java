@@ -25,7 +25,6 @@ import io.appactive.support.log.LogUtil;
 
 public class JvmPropertyUtil {
 
-    /**********公共类********/
 
     public static String getJvmValue(String key) {
         return getValueFromJVM(key);
@@ -34,8 +33,8 @@ public class JvmPropertyUtil {
     /**
      * 从 jvm 和 env 获得值，jvm 为第一优先级
      *
-     * @param key
-     * @return
+     * @param key as it is
+     * @return value of the key
      */
     public static String getJvmAndEnvValue(String key) {
         String valueFromJVM = getValueFromJVM(key);
@@ -68,7 +67,6 @@ public class JvmPropertyUtil {
         }
     }
 
-    /**********单个普通类********/
 
     public static String getLocalEnvDisasterFileName() {
         return LOCAL_ENV_DISASTER_FILE_NAME;
@@ -78,9 +76,7 @@ public class JvmPropertyUtil {
 
     public static String getAppName() {return APP_NAME;}
 
-    /**
-     * ===========private======
-     **/
+
     private static Map<String, String> JVM_MEM_MAP = new ConcurrentHashMap<String, String>();
     private static Map<String, String> ENV_MEM_MAP = new ConcurrentHashMap<String, String>();
 

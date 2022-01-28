@@ -24,8 +24,8 @@ public class SafeWrappers {
     /**
      * 封装 runnable，防止异常不被捕获
      *
-     * @param runnable
-     * @return
+     * @param runnable as it is
+     * @return runnable
      */
     public static Runnable safeRunnable(final Runnable runnable) {
         return new Runnable() {

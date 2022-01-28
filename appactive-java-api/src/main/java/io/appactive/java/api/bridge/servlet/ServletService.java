@@ -29,6 +29,9 @@ import javax.validation.constraints.NotNull;
 public interface ServletService {
     /**
      * get routeId from header
+     * @param request the request
+     * @param tokenKey the header key
+     * @return the value of the above key
      */
     static String getRouteIdFromHeader(@NotNull HttpServletRequest request,
                                        String tokenKey) {
@@ -37,6 +40,9 @@ public interface ServletService {
 
     /**
      * get routeId from cookie
+     * @param request the request
+     * @param tokenKey the cookie key
+     * @return the value of the above key
      */
     static String getRouteIdFromCookie(@NotNull HttpServletRequest request,
                                        String tokenKey) {
@@ -55,6 +61,9 @@ public interface ServletService {
 
     /**
      * get routeId from params
+     * @param request the request
+     * @param tokenKey the query key
+     * @return the value of the above key
      */
     static String getRouteIdFromParams(@NotNull HttpServletRequest request,
                                        String tokenKey) {
@@ -63,6 +72,8 @@ public interface ServletService {
 
     /**
      * set routerId according to IdSourceRule（ordered source） and request
+     * @param IdSourceRule the IdSourceRule
+     * @param request the request
      *
      * @return the source from which we get routerId
      *  or null when there is no required routerId in the request

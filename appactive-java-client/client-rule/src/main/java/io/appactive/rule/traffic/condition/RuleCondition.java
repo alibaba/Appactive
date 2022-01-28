@@ -23,21 +23,21 @@ public interface RuleCondition {
     /**
      * 条件类型代码
      *
-     * @return
+     * @return conditionType
      */
     String conditionType();
 
     /**
      * 当前条件使用的tokenName
      *
-     * @return
+     * @return tokenName
      */
     String tokenName();
 
     /**
      * 条件优先级
      *
-     * @return
+     * @return priority
      */
     int priority();
 
@@ -46,13 +46,14 @@ public interface RuleCondition {
      *
      * @param conditionIndex 优先级
      * @param routeTokenName 路由令牌名称
+     * @param valueList specific condition value
      */
     void init(int conditionIndex, String routeTokenName, List<String> valueList);
 
     /**
      * token是否符合本条件
-     *
-     * @return
+     * @param innerId as it is
+     * @return innerId meets the criteria or not
      */
     boolean accept(String innerId);
 }

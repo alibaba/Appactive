@@ -32,19 +32,19 @@ public enum MQSubChainStatusEnum {
      */
     consumeGroupNoUnit(),
     /**
-     * 非单元化Group && 非应用双活Group，继续消费
+     * 非单元化Group 和 非应用双活Group，继续消费
      */
     consumeOtherGroup(),
     /**
-     * 其他Topic && 应用双活Group，继续消费
+     * 其他Topic 和 应用双活Group，继续消费
      */
     consumeOtherTopicIsApplicationGroup(),
     /**
-     * 单元化Topic && 应用双活Group，不消费
+     * 单元化Topic 和 应用双活Group，不消费
      */
     notConsumeUnitTopicIsApplicationGroup(),
     /**
-     * 应用双活Topic && 应用双活Group，应用双活逻辑消费
+     * 应用双活Topic 和 应用双活Group，应用双活逻辑消费
      */
     consumeByApplication(),
     /**

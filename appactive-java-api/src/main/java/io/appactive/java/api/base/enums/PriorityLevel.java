@@ -70,8 +70,8 @@ public enum PriorityLevel implements IEnum<Integer> {
     /**
      * level是否完全与当前Level对象相同
      *
-     * @param level
-     * @return
+     * @param level as it is
+     * @return same or not
      */
     public boolean identical(int level) {
         PriorityLevel status = LEVEL_MAP.get(level);

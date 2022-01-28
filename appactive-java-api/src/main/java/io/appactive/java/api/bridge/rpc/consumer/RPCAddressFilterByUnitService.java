@@ -25,6 +25,7 @@ public interface RPCAddressFilterByUnitService<T> {
 
     /**
      * init service list
+     * @param providerAppName as it is
      * @param servicePrimaryName primaryKey, dubbo: service+group+verison
      * @param list service remote ip list
      */
@@ -32,6 +33,10 @@ public interface RPCAddressFilterByUnitService<T> {
 
     /**
      * used with refreshAddressList， filter address
+     * @param providerAppName as it is
+     * @param servicePrimaryName primaryKey, dubbo: service+group+verison
+     * @param routeId as it is
+     * @return address list
      */
     List<T> addressFilter(String providerAppName, String servicePrimaryName,String routeId);
 
@@ -41,7 +46,8 @@ public interface RPCAddressFilterByUnitService<T> {
      * @param providerAppName appName
      * @param servicePrimaryName 同机房优先的service 唯一标示，一般 springcloud 为 app+uri，hsf/dubbo 为 service+group+version
      * @param list 服务提供的列表
-     *
+     * @param routeId as it is
+     * @return address list
      */
     List<T> addressFilter(String providerAppName, String servicePrimaryName, List<T> list,String routeId);
 

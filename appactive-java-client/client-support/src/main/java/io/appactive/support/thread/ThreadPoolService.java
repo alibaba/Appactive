@@ -35,8 +35,8 @@ public class ThreadPoolService {
     /**
      * 获取周期性调用的单线程执行器
      *
-     * @param threadName
-     * @return
+     * @param threadName as it is
+     * @return ScheduledExecutorService
      */
     public static ScheduledExecutorService createSingleThreadScheduledExecutor(String threadName) {
         return new ScheduledThreadPoolExecutor(1, new DefaultThreadFactory(threadName),
@@ -46,8 +46,8 @@ public class ThreadPoolService {
     /**
      * 获取 client main thread
      *
-     * @param runnable
-     * @return
+     * @param runnable as it is
+     * @return Thread
      */
     public static Thread createClientMainThread(Runnable runnable) {
         return new DefaultThreadFactory("main").newThread(runnable);
@@ -56,7 +56,7 @@ public class ThreadPoolService {
     /**
      * 获取服务监听处理线程池
      *
-     * @return
+     * @return ExecutorService
      */
     private static ExecutorService createServiceListenerThreadPool() {
         return new ThreadPoolExecutor(1, 3, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000), new

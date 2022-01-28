@@ -25,21 +25,24 @@ public interface RPCProviderProtectService<T,P,meta> {
 
     /**
      * check normal service
-     *
+     * @param invocation the invocation
+     * @param serviceMetadata the serviceMetadata
      * @return null: do nothing result: error
      */
     Result normalResourceProtect(T invocation, meta serviceMetadata);
 
     /**
      * check unit service
-     *
+     * @param invocation the invocation
+     * @param providerModel the providerModel
      * @return null: do nothing result: error
      */
     Result unitResourceProtect(T invocation, P providerModel);
 
     /**
      * check center service
-     *
+     * @param invocation the invocation
+     * @param serviceMetadata the serviceMetadata
      * @return null: do nothing result: error
      */
     Result centerResourceProtect(T invocation,meta serviceMetadata);

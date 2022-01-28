@@ -48,7 +48,7 @@ public class AppContextClient {
 
     /**
      * 获得当前线程上下文的  单元化分流的用户维度id
-     * @return
+     * @return routerId
      */
     public static String getRouteId(){
         return UNIT_INFO.get();

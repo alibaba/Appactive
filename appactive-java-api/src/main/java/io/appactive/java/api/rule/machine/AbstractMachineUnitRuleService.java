@@ -22,10 +22,7 @@ import io.appactive.java.api.rule.machine.bo.MachineUnitBO;
 @SPI
 public abstract class AbstractMachineUnitRuleService {
 
-    /**
-     * machine unit flag
-     * @return
-     */
+
     protected abstract MachineUnitBO getMachineUnitBO();
 
     /**
@@ -41,11 +38,6 @@ public abstract class AbstractMachineUnitRuleService {
         return machineUnitBO.getCheckIsCenterFlag();
     }
 
-    /**
-     * 获得当前机器所在的单元标识
-     *
-     * @return
-     */
     public String getCurrentUnit(){
         MachineUnitBO machineUnitBO = getMachineUnitBO();
         if (machineUnitBO == null) {

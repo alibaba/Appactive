@@ -40,20 +40,11 @@ public class AppactiveException extends RuntimeException {
         super(message);
     }
 
-    /**
-     * @param code
-     * @param msg
-     */
     public AppactiveException(String code, String msg){
         this.code = code;
         this.msg = msg;
     }
 
-    /**
-     * @param code
-     * @param msg
-     * @param tr
-     */
     public AppactiveException(String code, String msg, Throwable tr){
         super(tr);
         this.code = code;
@@ -78,11 +69,7 @@ public class AppactiveException extends RuntimeException {
         return strBuilder.toString();
     }
 
-    /**
-     * 取得简短异常信息提示
-     * 
-     * @return
-     */
+
     public String getShortMessage() {
         StringBuffer message = new StringBuffer(this.getMsg());
         if (StringUtils.isNotBlank(super.getMessage())) {
@@ -91,12 +78,7 @@ public class AppactiveException extends RuntimeException {
         return message.toString();
     }
 
-    /**
-     * 指定的信息是否与当前Exception是相同的
-     * 
-     * @param code
-     * @return
-     */
+
     public boolean isMatchCode(String code) {
         if (code == null) {
             return false;
@@ -105,12 +87,7 @@ public class AppactiveException extends RuntimeException {
         return this.code.equals(code);
     }
 
-    /**
-     * 指定的信息是否与当前Exception是相同的
-     *
-     * @param msgInfo
-     * @return
-     */
+
     public boolean isMatchMsg(IMsg msgInfo) {
         if (msgInfo == null || this.code == null) {
             return false;
@@ -147,13 +124,7 @@ public class AppactiveException extends RuntimeException {
         this.msg = msg;
     }
 
-    /**
-     * 安全的获取上下文
-     * 
-     * @param <T>
-     * @param contextType
-     * @return
-     */
+
     @SuppressWarnings("unchecked")
     public <T> T getContext(Class<T> contextType) {
         if (contextType.isInstance(this.context)) {

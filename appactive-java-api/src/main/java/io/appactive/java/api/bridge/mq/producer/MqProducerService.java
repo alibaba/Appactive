@@ -24,14 +24,15 @@ public interface MqProducerService<T> {
 
     /**
      * add attribute
-     * @param message
+     * @param message the message
+     * @param messageAttributeService service that can handle messages
      */
     void addAttribute(T message, MessageAttributeService messageAttributeService);
 
     /**
-     * judge message is legal
-     * @param messageUnitService
-     * @return
+     * judge weather a message is legal
+     * @param messageUnitService service that can handle messages
+     * @return how we handle this message
      */
     MQPubChainStatusEnum send(MessageUnitService<T> messageUnitService);
 }

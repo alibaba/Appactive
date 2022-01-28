@@ -20,8 +20,8 @@ public interface ConverterInterface<S,T> {
 
     /**
      * convert source to target
-     * @param source
-     * @return
+     * @param source as it is
+     * @return result after convention
      */
     T convert(S source);
 }

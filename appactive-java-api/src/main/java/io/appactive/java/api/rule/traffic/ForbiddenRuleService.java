@@ -23,8 +23,8 @@ public interface ForbiddenRuleService {
 
     /**
      * 指定用户是否被禁
-     *
-     * @return
+     * @param routeId as it is
+     * @return Forbidden or not
      */
     boolean isRouteIdForbidden(String routeId);
 

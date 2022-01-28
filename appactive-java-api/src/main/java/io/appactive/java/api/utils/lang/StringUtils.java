@@ -78,8 +78,6 @@ public class StringUtils {
         return false;
     }
 
-    /**
-     */
     public static boolean isNumbers(String str) {
         return pattern.matcher(str).matches();
     }

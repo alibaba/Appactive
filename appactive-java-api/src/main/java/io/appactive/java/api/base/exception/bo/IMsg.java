@@ -20,15 +20,15 @@ public interface IMsg {
 
     /**
      * 取得信息定义Key
-     * 
-     * @return
+     *
+     * @return key
      */
     String getKey();
 
     /**
      * 取得当前信息对应的国际化文本
-     * 
-     * @return
+     * @param params as it is
+     * @return msg
      */
     String getMsg(Object... params);
 }

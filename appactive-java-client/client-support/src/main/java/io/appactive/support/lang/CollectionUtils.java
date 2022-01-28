@@ -29,12 +29,6 @@ import java.util.function.Function;
  */
 public class CollectionUtils {
 
-    /**
-     * 将 list 转换为 map
-     *
-     * @param list          待转化的 list
-     * @return
-     */
     public static <K, O> Map<K, O> toMap(List<O> list, Function<O, K> keyConverter) {
         if (CollectionUtils.isEmpty(list)) {
             return Collections.emptyMap();
@@ -47,23 +41,10 @@ public class CollectionUtils {
         return map;
     }
 
-
-    /**
-     * Return {@code true} if the supplied Collection is {@code null}
-     * or empty. Otherwise, return {@code false}.
-     * @param collection the Collection to check
-     * @return whether the given Collection is empty
-     */
     public static boolean isEmpty(Collection collection) {
         return (collection == null || collection.isEmpty());
     }
 
-    /**
-     * Return {@code true} if the supplied Map is {@code null}
-     * or empty. Otherwise, return {@code false}.
-     * @param map the Map to check
-     * @return whether the given Map is empty
-     */
     public static boolean isEmpty(Map map) {
         return (map == null || map.isEmpty());
     }
@@ -77,12 +58,6 @@ public class CollectionUtils {
         return !isEmpty(map);
     }
 
-    /**
-     * 将多个 EnumSet 结合在一起
-     *
-     * @param enumSets
-     * @return
-     */
     public static <O extends Enum<O>> EnumSet<O> union(Class<O> clazz, EnumSet<O>... enumSets) {
         if (null == enumSets) {
             return null;

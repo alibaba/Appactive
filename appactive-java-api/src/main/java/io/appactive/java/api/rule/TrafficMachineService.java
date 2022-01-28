@@ -34,6 +34,8 @@ public class TrafficMachineService {
 
     /**
      * 当前用户是否在当前单元类型下的单元为本单元，仅供外部业务系统使用
+     * @param routeId as it is
+     * @return as explained above
      */
     public boolean isInCurrentUnit(String routeId) {
         String unitByRouteId = trafficRouteRuleService.getUnitByRouteId(routeId);

@@ -27,7 +27,7 @@ import io.appactive.rule.traffic.condition.impl.BetweenConditionImpl;
  */
 public enum ConditionType {
     /**
-     * A~B:number between A<= value >= B
+     * A~B:number between A 	&lt;= value &gt;= B
      */
     Between("between", "@", BetweenConditionImpl.class);
 

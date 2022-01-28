@@ -40,9 +40,9 @@ public final class ExceptionFactory {
     /**
      * 直接构建异常
      *
-     * @param code
-     * @param msg
-     * @return
+     * @param code as it is
+     * @param msg as it is
+     * @return AppactiveException
      */
     public static AppactiveException makeFault(String code, String msg) {
         AppactiveException exp = new AppactiveException(code, msg);
@@ -52,10 +52,10 @@ public final class ExceptionFactory {
     /**
      * 直接构建异常（基于已存在的异常）
      *
-     * @param code
-     * @param msg
-     * @param tr
-     * @return
+     * @param code as it is
+     * @param msg as it is
+     * @param tr as it is
+     * @return AppactiveException
      */
     public static AppactiveException makeFault(String code, String msg, Throwable tr) {
         AppactiveException exp = new AppactiveException(code, msg, tr);
@@ -65,9 +65,9 @@ public final class ExceptionFactory {
     /**
      * 创建业务异常
      *
-     * @param messageInfo
-     * @param params
-     * @return
+     * @param messageInfo as it is
+     * @param params as it is
+     * @return AppactiveException
      */
     public static AppactiveException makeFault(IMsg messageInfo, Object... params) {
         String message = messageInfo.getMsg(params);
@@ -78,8 +78,8 @@ public final class ExceptionFactory {
     /**
      * 创建业务异常
      *
-     * @param msg
-     * @return
+     * @param msg as it is
+     * @return AppactiveException
      */
     public static AppactiveException makeFault(IMsg msg) {
         String message = msg.getMsg();
@@ -90,10 +90,10 @@ public final class ExceptionFactory {
     /**
      * 创建具有异常对象的ServiceException
      *
-     * @param msg
-     * @param tr
-     * @param params
-     * @return
+     * @param msg as it is
+     * @param tr as it is
+     * @param params as it is
+     * @return AppactiveException
      */
     public static AppactiveException makeFault(IMsg msg, Throwable tr, Object... params) {
         String message = msg.getMsg(params);

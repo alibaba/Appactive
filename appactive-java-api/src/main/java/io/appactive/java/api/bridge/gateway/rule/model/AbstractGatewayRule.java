@@ -25,7 +25,7 @@ public abstract class AbstractGatewayRule extends TrafficRule {
 
     /**
      * 获得提取路由标的源
-     * @return
+     * @return source list
      */
     public abstract List<String> getTokenSource();
 

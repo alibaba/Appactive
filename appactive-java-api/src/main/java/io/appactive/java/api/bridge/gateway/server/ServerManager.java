@@ -23,8 +23,8 @@ public class ServerManager {
     /**
      * 获得 某单元标下的所有server ip
      * 需要实现
-     * @param unitFlag
-     * @return
+     * @param unitFlag as it is
+     * @return server ip list
      */
     public List<String> getServerList( String unitFlag) {
         throw new UnsupportedOperationException();
@@ -33,9 +33,9 @@ public class ServerManager {
     /**
      * 设置 server ip
      * 需要实现
-     * @param unitFlag
-     * @param serverList
-     * @return
+     * @param unitFlag as it is
+     * @param serverList as it is
+     * @return server
      */
     public String setServerList(String unitFlag, List<String> serverList) {
         throw new UnsupportedOperationException();

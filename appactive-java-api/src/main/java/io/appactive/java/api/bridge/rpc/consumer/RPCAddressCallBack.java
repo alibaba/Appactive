@@ -25,22 +25,29 @@ public interface RPCAddressCallBack<T> {
     /**
      * 获得当前 server 的 标签map
      * @param server rpc 框架的server 对象，要查询的 key
+     * @param key as it is
      * @return value
      */
     String getMetaMapValue(T server,String key);
 
     /**
      * server 的 string 内容，用于打印和唯一使用
+     * @param server server
+     * @return string
      */
     String getServerToString(T server);
 
     /**
      * 原始地址变更为 优先需要的统一地址
+     * @param servers server list
+     * @return prefer address
      */
     List<RPCInvokerBO<T>> changeToRPCInvokerBOList(List<T> servers);
 
     /**
      * 优先地址更改回原始地址
+     * @param RPCInvokerBOS RPCInvokerBO list
+     * @return origin address
      */
     List<T> changedToOriginalInvokerList(List<RPCInvokerBO<T>> RPCInvokerBOS);
 }

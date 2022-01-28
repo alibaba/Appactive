@@ -22,7 +22,7 @@ public interface MysqlDriverService {
 
     /**
      * if appactive,check current mysql is support
-     * @param info
+     * @param info connection property
      */
     void check(Properties info);
 
