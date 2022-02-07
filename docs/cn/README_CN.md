@@ -19,7 +19,7 @@ AppActive 建立在 阿里巴巴 使用 AHAS-MSHA 系统大规模运行生产应
 
 AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量和数据，如上图，详细内容可见下述的链接：
 
-- [架构(Architecture)](details/architecture.md)：介绍 Appactive 部署架构和技术架构。
+- [架构(Architecture)](details/architecture.md)：介绍 Appactive 部署1架构和技术架构。
 - [概念(Concept)](details/concept.md)：介绍 Appactive 的基本概念模型。
 - [特性(Features)](details/features.md)：介绍 Appactive 实现的功能特性。
 
@@ -57,9 +57,6 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 ## 联系
 - 钉钉群（推荐）：34222602
-
-## License
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) Copyright (C) Apache Software Foundation.
 
 
 
