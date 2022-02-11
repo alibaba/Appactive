@@ -69,7 +69,7 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 
 ```
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-bridge-servlet</artifactId>
     <version>0.2</version>
 </dependency>
@@ -99,22 +99,22 @@ public class WebConfig {
 
 ```
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
     <version>0.2</version>
 </dependency>
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
     <version>0.2</version>
 </dependency>
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
     <version>0.2</version>
 </dependency>
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-rule</artifactId>
     <version>0.2</version>
 </dependency>
@@ -180,12 +180,12 @@ rsActive 的 候选 value 有:
 
 ```
 <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-spi-metainfo</artifactId>
     <version>0.2</version>
 </dependency>
  <dependency>
-    <groupId>com.alicloud.msha</groupId>
+    <groupId>com.alibaba.msha</groupId>
     <artifactId>client-bridge-db-mysql</artifactId>
     <version>0.2</version>
 </dependency>

@@ -20,7 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>msha-appactive</artifactId>
-        <groupId>com.alicloud.msha</groupId>
+        <groupId>com.alibaba.msha</groupId>
         <version>0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>

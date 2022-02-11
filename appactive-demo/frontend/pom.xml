@@ -27,7 +27,7 @@
 
     <parent>
         <artifactId>appactive-demo</artifactId>
-        <groupId>com.alicloud.msha</groupId>
+        <groupId>com.alibaba.msha</groupId>
         <version>0.2</version>
     </parent>
 
@@ -78,28 +78,28 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alicloud.msha</groupId>
+            <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
             <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.alicloud.msha</groupId>
+            <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
             <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.alicloud.msha</groupId>
+            <groupId>com.alibaba.msha</groupId>
             <artifactId>client-spi-metainfo</artifactId>
             <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.alicloud.msha</groupId>
+            <groupId>com.alibaba.msha</groupId>
             <artifactId>client-rule</artifactId>
             <version>0.2</version>
         </dependency>
 
         <dependency>
-            <groupId>com.alicloud.msha</groupId>
+            <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-servlet</artifactId>
             <version>0.2</version>
         </dependency>
