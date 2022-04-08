@@ -16,6 +16,10 @@
 
 package io.appactive.rule;
 
+import io.appactive.channel.ClientChannelService;
+import io.appactive.channel.PathUtil;
+import io.appactive.java.api.base.exception.ExceptionFactory;
+import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
 import io.appactive.java.api.rule.property.db.DataScopeRuleService;
 import io.appactive.java.api.rule.traffic.ForbiddenRuleService;
@@ -55,5 +59,25 @@ public class ClientRuleService {
 
     public static IdSourceRuleService getIdSourceRuleService() {
         return idSourceRuleService;
+    }
+
+    public static String getDefaultUri(RuleTypeEnum ruleTypeEnum){
+        PathUtil pathUtil = ClientChannelService.getPathUtil();
+        switch (ruleTypeEnum){
+            case machineRule:
+                return pathUtil.getMachineRulePath();
+            case forbiddenRule:
+                return pathUtil.getForbiddenRulePath();
+            case transformerRule:
+                return pathUtil.getTransformerRulePath();
+            case idSourceRulePath:
+                return pathUtil.getIdSourceRulePath();
+            case trafficRouteRule:
+                return pathUtil.getTrafficRouteRulePath();
+            case dataScopeRuleDirectory:
+                return pathUtil.getDataScopeRuleDirectoryPath();
+            default:
+                throw ExceptionFactory.makeFault("unsupported ruleType:{}",ruleTypeEnum.name());
+        }
     }
 }

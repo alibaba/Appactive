@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package io.appactive.rule.base.property;
+package io.appactive.channel.file;
+
+import java.nio.charset.Charset;
+
+public interface FileConstant {
 
 
-public interface RulePropertyConstant {
+    int DEFAULT_BUF_SIZE = 1024 * 1024;
 
-    String PROPERTY_HEADER = "appactive";
-
-    /**
-     * unit-flag from jvm/env key
-     */
-    String UNIT_LAG_PROPERTY_KEY = PROPERTY_HEADER+".unit";
-
+    Charset DEFAULT_CHARSET = Charset.forName("utf-8");
 }

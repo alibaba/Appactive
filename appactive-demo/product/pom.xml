@@ -23,12 +23,12 @@
 
     <artifactId>product</artifactId>
     <groupId>io.appactive.demo</groupId>
-    <version>0.2</version>
+    <version>0.3</version>
 
     <parent>
         <artifactId>appactive-demo</artifactId>
         <groupId>com.alibaba.msha</groupId>
-        <version>0.2</version>
+        <version>0.3</version>
     </parent>
 
     <properties>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>io.appactive.demo</groupId>
             <artifactId>common</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
 
         <dependency>
@@ -69,28 +69,28 @@
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-spi-metainfo</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-rule</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-servlet</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
     </dependencies>
 

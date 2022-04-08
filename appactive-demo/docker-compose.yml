@@ -36,7 +36,7 @@ services:
   storage:
     build: ./storage
     restart: on-failure:3
-    image: app-active/storage:0.2
+    image: app-active/storage:0.3
     container_name: storage
     hostname: storage
     environment:
@@ -58,7 +58,7 @@ services:
 
   storage-unit:
     restart: on-failure:3
-    image: app-active/storage:0.2
+    image: app-active/storage:0.3
     container_name: storage-unit
     hostname: storage-unit
     environment:
@@ -81,7 +81,7 @@ services:
   product:
     build: ./product
     restart: on-failure:3
-    image: app-active/product:0.2
+    image: app-active/product:0.3
     container_name: product
     hostname: product
     environment:
@@ -103,7 +103,7 @@ services:
 
   product-unit:
     restart: on-failure:3
-    image: app-active/product:0.2
+    image: app-active/product:0.3
     container_name: product-unit
     hostname: product-unit
     environment:
@@ -126,7 +126,7 @@ services:
   frontend:
     build: ./frontend
     restart: on-failure:3
-    image: app-active/frontend:0.2
+    image: app-active/frontend:0.3
     container_name: frontend
     hostname: frontend
     environment:
@@ -147,7 +147,7 @@ services:
 
   frontend-unit:
     restart: on-failure:3
-    image: app-active/frontend:0.2
+    image: app-active/frontend:0.3
     container_name: frontend-unit
     hostname: frontend-unit
     environment:

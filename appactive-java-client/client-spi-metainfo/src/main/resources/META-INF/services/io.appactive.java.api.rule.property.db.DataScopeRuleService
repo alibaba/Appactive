@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.appactive.rule.peoperty.db.FileDataScopeRuleServiceImpl
+io.appactive.rule.peoperty.db.DataScopeRuleServiceImpl

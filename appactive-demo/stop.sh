@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.appactive.rule.machine.ChannelMachineUnitRuleServiceImpl
+docker-compose down

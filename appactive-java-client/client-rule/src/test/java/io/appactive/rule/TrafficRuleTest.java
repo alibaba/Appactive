@@ -23,10 +23,10 @@ import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
 import io.appactive.java.api.rule.traffic.bo.IdSourceEnum;
 import io.appactive.java.api.rule.traffic.bo.IdSourceRule;
-import io.appactive.rule.traffic.impl.file.FileForbiddenRuleServiceImpl;
-import io.appactive.rule.traffic.impl.file.FileIdSourceRuleImpl;
-import io.appactive.rule.traffic.impl.file.FileTrafficRouteRuleServiceImpl;
-import io.appactive.rule.traffic.impl.file.FileTransformerRuleServiceImpl;
+import io.appactive.rule.traffic.impl.ForbiddenRuleServiceImpl;
+import io.appactive.rule.traffic.impl.IdSourceRuleImpl;
+import io.appactive.rule.traffic.impl.TrafficRouteRuleServiceImpl;
+import io.appactive.rule.traffic.impl.TransformerRuleServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,14 +37,14 @@ public class TrafficRuleTest extends BaseTest {
 
     @Test
     public void testTransFormerRule(){
-        TransformerRuleService modService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerModRule.json");
+        TransformerRuleService modService = new TransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerModRule.json");
 
         Assert.assertEquals("1",modService.getRouteIdAfterTransformer("1"));
         Assert.assertEquals("12",modService.getRouteIdAfterTransformer("12"));
         Assert.assertEquals("111",modService.getRouteIdAfterTransformer("111"));
         Assert.assertEquals("500",modService.getRouteIdAfterTransformer("1123123500"));
 
-        TransformerRuleService wholeService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
+        TransformerRuleService wholeService = new TransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
 
         Assert.assertEquals("1",wholeService.getRouteIdAfterTransformer("1"));
         Assert.assertEquals("12",wholeService.getRouteIdAfterTransformer("12"));
@@ -55,9 +55,9 @@ public class TrafficRuleTest extends BaseTest {
     @Test
     public void testForbiddenRule(){
         String path = TEST_RESOURCE_PATH+"traffic/forbiddenRule.json";
-        TransformerRuleService wholeService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
+        TransformerRuleService wholeService = new TransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
 
-        ForbiddenRuleService forbiddenRuleService = new FileForbiddenRuleServiceImpl(path,wholeService);
+        ForbiddenRuleService forbiddenRuleService = new ForbiddenRuleServiceImpl(path,wholeService);
         Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("A"));
         Assert.assertFalse(forbiddenRuleService.isRouteIdForbidden("B"));
         Assert.assertTrue(forbiddenRuleService.isRouteIdForbidden("100"));
@@ -69,9 +69,9 @@ public class TrafficRuleTest extends BaseTest {
     @Test
     public void testTrafficRule(){
         String path = TEST_RESOURCE_PATH+"traffic/unitMappingRule.json";
-        TransformerRuleService wholeService = new FileTransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
+        TransformerRuleService wholeService = new TransformerRuleServiceImpl(TEST_RESOURCE_PATH+"traffic/transformerWholeRule.json");
 
-        TrafficRouteRuleService trafficRouteRuleService = new FileTrafficRouteRuleServiceImpl(path,wholeService);
+        TrafficRouteRuleService trafficRouteRuleService = new TrafficRouteRuleServiceImpl(path,wholeService);
         Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("A"));
         Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("B"));
         Assert.assertNull(trafficRouteRuleService.getUnitByRouteId("C"));
@@ -87,7 +87,7 @@ public class TrafficRuleTest extends BaseTest {
 
     @Test
     public void idSourceRule(){
-        IdSourceRuleService idSourceRuleService = new FileIdSourceRuleImpl(TEST_RESOURCE_PATH+"traffic/idSource.json");
+        IdSourceRuleService idSourceRuleService = new IdSourceRuleImpl(TEST_RESOURCE_PATH+"traffic/idSource.json");
         IdSourceRule idSourceRule = idSourceRuleService.getIdSourceRule();
 
         Assert.assertNotNull(idSourceRule);

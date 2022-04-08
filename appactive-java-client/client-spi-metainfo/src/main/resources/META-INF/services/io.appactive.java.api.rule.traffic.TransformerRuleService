@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.appactive.rule.traffic.impl.file.FileTransformerRuleServiceImpl
+io.appactive.rule.traffic.impl.TransformerRuleServiceImpl

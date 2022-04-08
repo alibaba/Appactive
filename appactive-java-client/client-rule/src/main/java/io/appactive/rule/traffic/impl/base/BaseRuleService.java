@@ -14,30 +14,22 @@
  * limitations under the License.
  */
 
-package io.appactive.rule.traffic.impl.file.base;
+package io.appactive.rule.traffic.impl.base;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-
-import io.appactive.channel.file.FileReadDataSource;
-import io.appactive.java.api.base.exception.ExceptionFactory;
+import io.appactive.channel.ClientChannelService;
+import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.utils.lang.StringUtils;
-import io.appactive.rule.base.file.FileConstant;
 import io.appactive.rule.traffic.bo.item.RuleItemType;
 import io.appactive.rule.traffic.bo.UnitMappingRuleBO;
 
-public class BaseFileRuleService {
+public class BaseRuleService {
 
-    protected FileReadDataSource<UnitMappingRuleBO> getUnitMappingRuleReadDataSource(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
-            throw ExceptionFactory.makeFault("filePath is empty");
-        }
-        ConverterInterface<String, UnitMappingRuleBO> ruleConverterInterface = source -> JSON.parseObject(source,
-            new TypeReference<UnitMappingRuleBO>() {});
-        FileReadDataSource<UnitMappingRuleBO> fileReadDataSource = new FileReadDataSource<>(filePath,
-            FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE, ruleConverterInterface);
-        return fileReadDataSource;
+    protected ConfigReadDataSource<UnitMappingRuleBO> getUnitMappingRuleReadDataSource(String uri) {
+        ConverterInterface<String, UnitMappingRuleBO> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<UnitMappingRuleBO>() {});
+        return ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
     }
 
     protected boolean checkRuleRight(UnitMappingRuleBO unitMappingRule) {

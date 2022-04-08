@@ -19,7 +19,7 @@ package io.appactive.rule.machine;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
 import io.appactive.java.api.rule.machine.bo.MachineUnitBO;
 import io.appactive.support.sys.JvmPropertyUtil;
-import io.appactive.rule.base.property.RulePropertyConstant;
+import io.appactive.channel.file.RulePropertyConstant;
 
 public class JVMMachineUnitRuleServiceImpl extends AbstractMachineUnitRuleService {
 

@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package io.appactive.rule.traffic.impl.file;
+package io.appactive.rule.traffic.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 
-import io.appactive.channel.file.FileReadDataSource;
+import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.listener.DataListener;
+import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.traffic.ForbiddenRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
+import io.appactive.rule.ClientRuleService;
 import io.appactive.rule.traffic.bo.UnitMappingRuleBO;
 import io.appactive.rule.traffic.condition.ConditionUtil;
 import io.appactive.rule.traffic.condition.RuleCondition;
-import io.appactive.rule.traffic.impl.file.base.BaseFileRuleService;
-import io.appactive.rule.utils.FilePathUtil;
+import io.appactive.rule.traffic.impl.base.BaseRuleService;
 import io.appactive.support.log.LogUtil;
 
-public class FileForbiddenRuleServiceImpl extends BaseFileRuleService implements ForbiddenRuleService {
+public class ForbiddenRuleServiceImpl extends BaseRuleService implements ForbiddenRuleService {
 
     private TransformerRuleService transformerRuleService;
 
@@ -56,18 +57,18 @@ public class FileForbiddenRuleServiceImpl extends BaseFileRuleService implements
         this.transformerRuleService = transformerRuleService;
     }
 
-    public FileForbiddenRuleServiceImpl() {
-        initFromFile(FilePathUtil.getForbiddenRulePath());
+    public ForbiddenRuleServiceImpl() {
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.forbiddenRule));
     }
 
-    public FileForbiddenRuleServiceImpl(TransformerRuleService transformerRuleService) {
+    public ForbiddenRuleServiceImpl(TransformerRuleService transformerRuleService) {
         this.transformerRuleService = transformerRuleService;
-        initFromFile(FilePathUtil.getForbiddenRulePath());
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.forbiddenRule));
     }
 
-    public FileForbiddenRuleServiceImpl(String filePath, TransformerRuleService transformerRuleService) {
+    public ForbiddenRuleServiceImpl(String uri, TransformerRuleService transformerRuleService) {
         this.transformerRuleService = transformerRuleService;
-        initFromFile(filePath);
+        initFromUri(uri);
     }
 
     private List<RuleCondition> memoryConditions;
@@ -93,9 +94,8 @@ public class FileForbiddenRuleServiceImpl extends BaseFileRuleService implements
         }
     };
 
-    private void initFromFile(String filePath) {
-        FileReadDataSource<UnitMappingRuleBO> dataSource
-            = getUnitMappingRuleReadDataSource(filePath);
+    private void initFromUri(String uri) {
+        ConfigReadDataSource<UnitMappingRuleBO> dataSource = getUnitMappingRuleReadDataSource(uri);
         dataSource.addDataChangedListener(listener);
     }
 }

@@ -18,18 +18,17 @@ package io.appactive.rule.machine;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-
-import io.appactive.channel.file.FileReadDataSource;
+import io.appactive.channel.ClientChannelService;
 import io.appactive.java.api.base.exception.ExceptionFactory;
+import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
+import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
 import io.appactive.java.api.rule.machine.bo.MachineUnitBO;
-import io.appactive.java.api.utils.lang.StringUtils;
-import io.appactive.rule.utils.FilePathUtil;
-import io.appactive.rule.base.file.FileConstant;
+import io.appactive.rule.ClientRuleService;
 
-public class FileMachineUnitRuleServiceImpl extends AbstractMachineUnitRuleService {
+public class ChannelMachineUnitRuleServiceImpl extends AbstractMachineUnitRuleService {
 
     private MachineUnitBO machineUnitBO;
 
@@ -45,23 +44,19 @@ public class FileMachineUnitRuleServiceImpl extends AbstractMachineUnitRuleServi
         }
     };
 
-    public FileMachineUnitRuleServiceImpl() {
-        initFromFile(FilePathUtil.getMachineRulePath());
+    public ChannelMachineUnitRuleServiceImpl() {
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.machineRule));
     }
 
-    public FileMachineUnitRuleServiceImpl(String filePath) {
-        initFromFile(filePath);
+    public ChannelMachineUnitRuleServiceImpl(String uri) {
+        initFromUri(uri);
     }
 
-    private void initFromFile(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
-            throw ExceptionFactory.makeFault("filePath is empty");
-        }
-        ConverterInterface<String, MachineUnitBO> converterInterface = source -> JSON.parseObject(source,
-            new TypeReference<MachineUnitBO>() {});
-        FileReadDataSource<MachineUnitBO> fileReadDataSource = new FileReadDataSource<>(filePath,
-            FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE, converterInterface);
-
+    private void initFromUri(String uri) {
+        ConverterInterface<String, MachineUnitBO> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<MachineUnitBO>() {});
+        ConfigReadDataSource<MachineUnitBO> fileReadDataSource = ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
+        /// error
+        // ConfigReadDataSource<MachineUnitBO> fileReadDataSource = ClientChannelService.getConfigReadDataSource(uri);
         fileReadDataSource.addDataChangedListener(listener);
     }
 

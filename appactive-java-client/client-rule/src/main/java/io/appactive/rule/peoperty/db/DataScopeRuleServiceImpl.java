@@ -18,17 +18,21 @@ package io.appactive.rule.peoperty.db;
 
 import java.util.Set;
 
-import io.appactive.channel.file.FileReadDataSource;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import io.appactive.channel.ClientChannelService;
 import io.appactive.java.api.bridge.db.constants.DataScope;
+import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
+import io.appactive.java.api.rule.RuleTypeEnum;
+import io.appactive.java.api.rule.machine.bo.MachineUnitBO;
 import io.appactive.java.api.rule.property.db.DataScopeRuleService;
 import io.appactive.java.api.utils.lang.StringUtils;
-import io.appactive.rule.base.file.FileConstant;
-import io.appactive.rule.utils.FilePathUtil;
+import io.appactive.rule.ClientRuleService;
 import io.appactive.support.lang.ConcurrentHashSet;
 
-public class FileDataScopeRuleServiceImpl implements DataScopeRuleService {
+public class DataScopeRuleServiceImpl implements DataScopeRuleService {
 
     private final Set<String> existScopeKeySet = new ConcurrentHashSet<>();
 
@@ -39,12 +43,12 @@ public class FileDataScopeRuleServiceImpl implements DataScopeRuleService {
      */
     private final String FILE_RESOURCES_PATH;
 
-    public FileDataScopeRuleServiceImpl() {
-        FILE_RESOURCES_PATH = FilePathUtil.getDataScopeRuleDirectoryPath();
+    public DataScopeRuleServiceImpl() {
+        FILE_RESOURCES_PATH = ClientRuleService.getDefaultUri(RuleTypeEnum.dataScopeRuleDirectory);
     }
 
-    public FileDataScopeRuleServiceImpl(String fileHeader) {
-        FILE_RESOURCES_PATH = fileHeader;
+    public DataScopeRuleServiceImpl(String uri) {
+        FILE_RESOURCES_PATH = uri;
     }
 
     @Override
@@ -69,10 +73,10 @@ public class FileDataScopeRuleServiceImpl implements DataScopeRuleService {
 
 
     private void initDataListener(String scopeKey) {
-        String path = FILE_RESOURCES_PATH + "/"+scopeKey;
-        ConverterInterface<String, String> converterInterface = source -> source;
-        FileReadDataSource<String> fileReadDataSource = new FileReadDataSource<>(path,
-            FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE, converterInterface);
+        String path = FILE_RESOURCES_PATH + "/" + scopeKey;
+
+        ConverterInterface<String, String> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<String>() {});
+        ConfigReadDataSource<String> readDataSource = ClientChannelService.getConfigReadDataSource(path,ruleConverterInterface);
 
         DataListener<String> listener =new DataListener<String>() {
             @Override
@@ -91,7 +95,7 @@ public class FileDataScopeRuleServiceImpl implements DataScopeRuleService {
             }
         };
 
-        fileReadDataSource.addDataChangedListener(listener);
+        readDataSource.addDataChangedListener(listener);
         haveInitScopeKeySet.add(scopeKey);
     }
 

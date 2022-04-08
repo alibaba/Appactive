@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appactive.rule.traffic.impl.file;
+package io.appactive.rule.traffic.impl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,18 +24,22 @@ import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSON;
 
-import io.appactive.channel.file.FileReadDataSource;
+import com.alibaba.fastjson.TypeReference;
+import io.appactive.java.api.channel.ConfigReadDataSource;
+import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
+import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
+import io.appactive.rule.ClientRuleService;
+import io.appactive.rule.traffic.bo.TransformerRuleBO;
 import io.appactive.rule.traffic.bo.UnitMappingRuleBO;
 import io.appactive.rule.traffic.condition.ConditionUtil;
 import io.appactive.rule.traffic.condition.RuleCondition;
-import io.appactive.rule.traffic.impl.file.base.BaseFileRuleService;
-import io.appactive.rule.utils.FilePathUtil;
+import io.appactive.rule.traffic.impl.base.BaseRuleService;
 import io.appactive.support.log.LogUtil;
 
-public class FileTrafficRouteRuleServiceImpl extends BaseFileRuleService implements TrafficRouteRuleService {
+public class TrafficRouteRuleServiceImpl extends BaseRuleService implements TrafficRouteRuleService {
 
     private TransformerRuleService transformerRuleService;
 
@@ -65,18 +69,18 @@ public class FileTrafficRouteRuleServiceImpl extends BaseFileRuleService impleme
         this.transformerRuleService = transformerRuleService;
     }
 
-    public FileTrafficRouteRuleServiceImpl() {
-        initFromFile(FilePathUtil.getTrafficRouteRulePath());
+    public TrafficRouteRuleServiceImpl() {
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.trafficRouteRule));
     }
 
-    public FileTrafficRouteRuleServiceImpl(TransformerRuleService transformerRuleService) {
+    public TrafficRouteRuleServiceImpl(TransformerRuleService transformerRuleService) {
         this.transformerRuleService = transformerRuleService;
-        initFromFile(FilePathUtil.getTrafficRouteRulePath());
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.trafficRouteRule));
     }
 
-    public FileTrafficRouteRuleServiceImpl(String filePath, TransformerRuleService transformerRuleService) {
+    public TrafficRouteRuleServiceImpl(String uri, TransformerRuleService transformerRuleService) {
         this.transformerRuleService = transformerRuleService;
-        initFromFile(filePath);
+        initFromUri(uri);
     }
 
 
@@ -114,9 +118,8 @@ public class FileTrafficRouteRuleServiceImpl extends BaseFileRuleService impleme
         }
     };
 
-    private void initFromFile(String filePath) {
-        FileReadDataSource<UnitMappingRuleBO> dataSource
-            = getUnitMappingRuleReadDataSource(filePath);
+    private void initFromUri(String filePath) {
+        ConfigReadDataSource<UnitMappingRuleBO> dataSource = getUnitMappingRuleReadDataSource(filePath);
         dataSource.addDataChangedListener(listener);
     }
 

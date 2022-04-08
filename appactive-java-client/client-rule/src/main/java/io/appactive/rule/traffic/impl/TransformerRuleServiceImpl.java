@@ -14,31 +14,32 @@
  * limitations under the License.
  */
 
-package io.appactive.rule.traffic.impl.file;
+package io.appactive.rule.traffic.impl;
+
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-
-import io.appactive.channel.file.FileReadDataSource;
+import io.appactive.channel.ClientChannelService;
 import io.appactive.java.api.base.exception.ExceptionFactory;
+import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
+import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
 import io.appactive.java.api.utils.lang.StringUtils;
-import io.appactive.rule.utils.FilePathUtil;
+import io.appactive.rule.ClientRuleService;
 import io.appactive.support.log.LogUtil;
-import io.appactive.rule.base.file.FileConstant;
 import io.appactive.rule.traffic.bo.TransformerRuleBO;
 
-public class FileTransformerRuleServiceImpl implements TransformerRuleService {
+public class TransformerRuleServiceImpl implements TransformerRuleService {
 
     private TransformerRuleBO transformerRuleBO;
 
-    public FileTransformerRuleServiceImpl() {
-        initFromFile(FilePathUtil.getTransformerRulePath());
+    public TransformerRuleServiceImpl() {
+        initFromUri(ClientRuleService.getDefaultUri(RuleTypeEnum.transformerRule));
     }
 
-    public FileTransformerRuleServiceImpl(String filePath) {
-        initFromFile(filePath);
+    public TransformerRuleServiceImpl(String uri) {
+        initFromUri(uri);
     }
 
     @Override
@@ -60,14 +61,9 @@ public class FileTransformerRuleServiceImpl implements TransformerRuleService {
     }
 
 
-    private void initFromFile(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
-            throw ExceptionFactory.makeFault("filePath is empty");
-        }
-        ConverterInterface<String, TransformerRuleBO> converterInterface = source -> JSON.parseObject(source,
-            new TypeReference<TransformerRuleBO>() {});
-        FileReadDataSource<TransformerRuleBO> fileReadDataSource = new FileReadDataSource<>(filePath,
-            FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE, converterInterface);
+    private void initFromUri(String uri) {
+        ConverterInterface<String, TransformerRuleBO> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<TransformerRuleBO>() {});
+        ConfigReadDataSource<TransformerRuleBO> fileReadDataSource =  ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
         try {
             transformerRuleBO = fileReadDataSource.read();
         } catch (Exception e) {
