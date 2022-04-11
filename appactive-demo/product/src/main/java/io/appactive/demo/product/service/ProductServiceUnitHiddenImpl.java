@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit"})
 public class ProductServiceUnitHiddenImpl implements ProductServiceUnitHidden {
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @Autowired

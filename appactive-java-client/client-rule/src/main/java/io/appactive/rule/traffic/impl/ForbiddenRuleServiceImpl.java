@@ -82,7 +82,7 @@ public class ForbiddenRuleServiceImpl extends BaseRuleService implements Forbidd
 
         @Override
         public void dataChanged(UnitMappingRuleBO old,UnitMappingRuleBO unitMappingRule) {
-            if (!checkRuleRight(unitMappingRule)) {
+            if (!checkRule(unitMappingRule)) {
                 LogUtil.error("forbidden rule error,not change memory value,data:"+ JSON.toJSONString(unitMappingRule));
                 return;
             }

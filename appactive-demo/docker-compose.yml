@@ -43,8 +43,8 @@ services:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
 #      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
-      - io.appactive.demo.unit=center
-      - io.appactive.demo.app=storage
+      - appactive.unit=center
+      - appactive.app=storage
       - server.port=8881
       - dubbo.protocol.port=-1
     volumes:
@@ -65,8 +65,8 @@ services:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
 #      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
-      - io.appactive.demo.unit=unit
-      - io.appactive.demo.app=storage
+      - appactive.unit=unit
+      - appactive.app=storage
       - server.port=8882
       - dubbo.protocol.port=-1
     volumes:
@@ -87,8 +87,8 @@ services:
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
-      - io.appactive.demo.unit=center
-      - io.appactive.demo.app=product
+      - appactive.unit=center
+      - appactive.app=product
       - server.port=8883
       - dubbo.protocol.port=-1
     volumes:
@@ -109,8 +109,8 @@ services:
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
-      - io.appactive.demo.unit=unit
-      - io.appactive.demo.app=product
+      - appactive.unit=unit
+      - appactive.app=product
       - server.port=8884
       - dubbo.protocol.port=-1
     volumes:
@@ -131,8 +131,8 @@ services:
     hostname: frontend
     environment:
       - dubbo.registry.address=nacos://nacos:8848
-      - io.appactive.demo.unit=center
-      - io.appactive.demo.app=frontend
+      - appactive.unit=center
+      - appactive.app=frontend
       - io.appactive.demo.unitlist=center,unit
       - io.appactive.demo.applist=frontend,product,storage
       - server.port=8885
@@ -152,8 +152,8 @@ services:
     hostname: frontend-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
-      - io.appactive.demo.unit=unit
-      - io.appactive.demo.app=frontend
+      - appactive.unit=unit
+      - appactive.app=frontend
       - io.appactive.demo.unitlist=center,unit
       - io.appactive.demo.applist=frontend,product,storage
       - server.port=8886

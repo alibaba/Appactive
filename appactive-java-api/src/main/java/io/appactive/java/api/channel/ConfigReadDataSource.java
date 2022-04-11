@@ -19,6 +19,9 @@ package io.appactive.java.api.channel;
 import io.appactive.java.api.base.extension.SPI;
 import io.appactive.java.api.channel.listener.DataListener;
 
+import java.io.IOException;
+import java.util.List;
+
 @SPI
 public interface ConfigReadDataSource<T> {
 
@@ -26,5 +29,17 @@ public interface ConfigReadDataSource<T> {
 
     void addDataChangedListener(DataListener<T> listener);
 
+    List<DataListener<T>> getDataListeners();
+
+    default void listenerNotify(T oldValue,T newValue){
+        for (DataListener<T> dataListener : getDataListeners()) {
+            /// for debug
+            // String listenerName = dataListener.getListenerName();
+            dataListener.dataChanged(oldValue,newValue);
+        }
+    }
+
     void close() throws Exception;
+
+    T getValueFromSource() throws IOException;
 }

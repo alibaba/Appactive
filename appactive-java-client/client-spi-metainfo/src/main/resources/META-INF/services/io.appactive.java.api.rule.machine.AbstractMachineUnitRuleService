@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.appactive.rule.machine.ChannelMachineUnitRuleServiceImpl
+io.appactive.rule.machine.JVMMachineUnitRuleServiceImpl

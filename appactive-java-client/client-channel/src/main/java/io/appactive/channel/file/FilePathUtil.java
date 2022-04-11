@@ -9,6 +9,7 @@ import io.appactive.support.log.LogUtil;
 import io.appactive.support.sys.JvmPropertyUtil;
 
 import java.util.Map;
+import java.util.Properties;
 
 public class FilePathUtil implements PathUtil {
 
@@ -70,6 +71,21 @@ public class FilePathUtil implements PathUtil {
     @Override
     public String getIdSourceRulePath() {
         return idSourceRulePath;
+    }
+
+    @Override
+    public String getConfigServerAddress() {
+        return ALL_RULE_DEFINE_PATH;
+    }
+
+    @Override
+    public Properties getAuth() {
+        return null;
+    }
+
+    @Override
+    public Properties getExtras() {
+        return null;
     }
 
 

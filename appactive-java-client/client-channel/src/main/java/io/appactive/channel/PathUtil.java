@@ -1,5 +1,7 @@
 package io.appactive.channel;
 
+import java.util.Properties;
+
 public interface PathUtil {
 
     String getMachineRulePath() ;
@@ -13,4 +15,10 @@ public interface PathUtil {
     String getTransformerRulePath() ;
 
     String getIdSourceRulePath() ;
+
+    String getConfigServerAddress();
+
+    Properties getAuth();
+
+    Properties getExtras();
 }

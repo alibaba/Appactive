@@ -26,7 +26,6 @@ import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
 import io.appactive.java.api.rule.RuleTypeEnum;
-import io.appactive.java.api.rule.machine.bo.MachineUnitBO;
 import io.appactive.java.api.rule.property.db.DataScopeRuleService;
 import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rule.ClientRuleService;
@@ -41,14 +40,14 @@ public class DataScopeRuleServiceImpl implements DataScopeRuleService {
     /**
      * path example: /home/admin/appactive/resources/db
      */
-    private final String FILE_RESOURCES_PATH;
+    private final String RESOURCES_URI;
 
     public DataScopeRuleServiceImpl() {
-        FILE_RESOURCES_PATH = ClientRuleService.getDefaultUri(RuleTypeEnum.dataScopeRuleDirectory);
+        RESOURCES_URI = ClientRuleService.getDefaultUri(RuleTypeEnum.dataScopeRuleDirectory);
     }
 
     public DataScopeRuleServiceImpl(String uri) {
-        FILE_RESOURCES_PATH = uri;
+        RESOURCES_URI = uri;
     }
 
     @Override
@@ -73,10 +72,10 @@ public class DataScopeRuleServiceImpl implements DataScopeRuleService {
 
 
     private void initDataListener(String scopeKey) {
-        String path = FILE_RESOURCES_PATH + "/" + scopeKey;
+        String uri = RESOURCES_URI + "/" + scopeKey;
 
         ConverterInterface<String, String> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<String>() {});
-        ConfigReadDataSource<String> readDataSource = ClientChannelService.getConfigReadDataSource(path,ruleConverterInterface);
+        ConfigReadDataSource<String> readDataSource = ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
 
         DataListener<String> listener =new DataListener<String>() {
             @Override

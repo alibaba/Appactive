@@ -35,7 +35,7 @@ public class InitData implements ApplicationRunner {
     @Resource
     ProductRepository productRepository;
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @Override

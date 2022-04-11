@@ -1,12 +1,12 @@
 package io.appactive.channel.nacos;
 
 import io.appactive.channel.PathUtil;
-import io.appactive.channel.file.FilePathUtil;
 import io.appactive.channel.file.RulePropertyConstant;
+import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.support.log.LogUtil;
 import io.appactive.support.sys.JvmPropertyUtil;
 
-import static io.appactive.channel.file.RulePropertyConstant.GROUP_ID;
+import java.util.Properties;
 
 public class NacosPathUtil implements PathUtil {
 
@@ -14,7 +14,7 @@ public class NacosPathUtil implements PathUtil {
 
     public static NacosPathUtil getInstance() {
         if (instance == null) {
-            synchronized(FilePathUtil.class) {
+            synchronized(NacosPathUtil.class) {
                 if (instance == null) {
                     instance = new NacosPathUtil();
                 }
@@ -37,6 +37,10 @@ public class NacosPathUtil implements PathUtil {
     private String trafficRouteRulePath;
     private String transformerRulePath;
     private String idSourceRulePath;
+    private String serverAddress;
+
+    private final Properties extras = new Properties();
+    private final Properties auths = new Properties();
 
     @Override
     public String getMachineRulePath() {
@@ -68,10 +72,20 @@ public class NacosPathUtil implements PathUtil {
         return idSourceRulePath;
     }
 
-    public static String getGroupId() {
-        return GROUP_ID;
+    @Override
+    public String getConfigServerAddress(){
+        return serverAddress;
     }
 
+    @Override
+    public Properties getAuth() {
+        return auths;
+    }
+
+    @Override
+    public Properties getExtras() {
+        return extras;
+    }
 
     private void initPathValue() throws Exception {
         // 1. from system
@@ -104,6 +118,24 @@ public class NacosPathUtil implements PathUtil {
         key = RulePropertyConstant.DATA_ID_HEADER+".idSourceRulePath";
         value = JvmPropertyUtil.getJvmAndEnvValue(key);
         idSourceRulePath = value == null ? key : value;
+
+        key = RulePropertyConstant.PROPERTY_HEADER + ".serverAddr";
+        value = JvmPropertyUtil.getJvmAndEnvValue(key);
+        serverAddress = value == null ? RulePropertyConstant.LOCAL_NACOS : value;
+
+
+        key = RulePropertyConstant.GROUP_ID;
+        value = JvmPropertyUtil.getJvmAndEnvValue(key);
+        value = value == null ? key : value;
+        extras.put(key, value);
+
+        key = RulePropertyConstant.NAMESPACE_ID;
+        value = JvmPropertyUtil.getJvmAndEnvValue(key);
+        String namespaceId = "";
+        if (StringUtils.isNotBlank(value)){
+            namespaceId = value;
+        }
+        extras.put(key, namespaceId);
 
     }
 

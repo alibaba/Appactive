@@ -79,8 +79,8 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend
 -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
 -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
 -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
--Dio.appactive.demo.unit=unit \
--Dio.appactive.demo.app=frontend \
+-Dappactive.unit=unit \
+-Dappactive.app=frontend \
 -Dio.appactive.demo.unitlist=center,unit \
 -Dio.appactive.demo.applist=frontend,product,storage \
 -Dserver.port=8886 \
@@ -129,8 +129,8 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-
      -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
      -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
      -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
-     -Dio.appactive.demo.unit=unit \
-     -Dio.appactive.demo.app=storage \
+     -Dappactive.unit=unit \
+     -Dappactive.app=storage \
      -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
      -Dserver.port=8882 \
 -jar storage-0.2.jar

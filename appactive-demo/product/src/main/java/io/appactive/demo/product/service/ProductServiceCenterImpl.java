@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","center","routeIndex","0"})
 public class ProductServiceCenterImpl implements ProductServiceCenter {
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @DubboReference(version = "1.0.0", group = "appactive", check = false)

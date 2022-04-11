@@ -31,8 +31,12 @@ public interface RulePropertyConstant {
      */
     String CHANNEL_TYPE_ENUM = PROPERTY_HEADER + ".channelTypeEnum";
 
+    /**
+     * nacos
+     */
     String DATA_ID_HEADER = PROPERTY_HEADER + ".dataId";
     String GROUP_ID = PROPERTY_HEADER + ".groupId";
-
+    String NAMESPACE_ID = PROPERTY_HEADER + ".namespaceId";
+    String LOCAL_NACOS = "127.0.0.1:8848";
 
 }

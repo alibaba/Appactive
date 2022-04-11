@@ -67,7 +67,7 @@ public class IdSourceRuleImpl implements IdSourceRuleService {
         try {
             idSourceRule = readDataSource.read();
         } catch (Exception e) {
-            String msg = "read file failed,e" + e.getMessage();
+            String msg = "initFromUri exception:" + e.getMessage();
             LogUtil.error(msg,e);
             throw ExceptionFactory.makeFault(msg);
         }

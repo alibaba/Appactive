@@ -24,15 +24,12 @@ import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSON;
 
-import com.alibaba.fastjson.TypeReference;
 import io.appactive.java.api.channel.ConfigReadDataSource;
-import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
 import io.appactive.java.api.rule.RuleTypeEnum;
 import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.rule.traffic.TransformerRuleService;
 import io.appactive.rule.ClientRuleService;
-import io.appactive.rule.traffic.bo.TransformerRuleBO;
 import io.appactive.rule.traffic.bo.UnitMappingRuleBO;
 import io.appactive.rule.traffic.condition.ConditionUtil;
 import io.appactive.rule.traffic.condition.RuleCondition;
@@ -93,7 +90,7 @@ public class TrafficRouteRuleServiceImpl extends BaseRuleService implements Traf
 
         @Override
         public void dataChanged(UnitMappingRuleBO old,UnitMappingRuleBO unitMappingRule) {
-            if (!checkRuleRight(unitMappingRule)) {
+            if (!checkRule(unitMappingRule)) {
                 LogUtil.error("forbidden rule error,not change memory value,data:"+ JSON.toJSONString(unitMappingRule));
                 return;
             }

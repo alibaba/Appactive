@@ -29,7 +29,7 @@ public class ChainFilter implements Filter {
         System.out.println(object);
         if (object instanceof ResultHolder){
             ResultHolder resultHolder = (ResultHolder)object;
-            resultHolder.addChain(System.getenv("io.appactive.demo.app"),System.getenv("io.appactive.demo.unit"));
+            resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
             result.setValue(resultHolder);
         }
         return result;

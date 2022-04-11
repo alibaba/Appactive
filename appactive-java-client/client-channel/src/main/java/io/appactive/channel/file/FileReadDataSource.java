@@ -107,7 +107,7 @@ public class FileReadDataSource<T> implements ConfigReadDataSource<T> {
         }
         try {
             T oldValue = memoryValue;
-            T valueFromFile = getValueFromFile();
+            T valueFromFile = getValueFromSource();
             listenerNotify(oldValue,valueFromFile);
             memoryValue = valueFromFile;
         } catch (IOException e) {
@@ -139,22 +139,13 @@ public class FileReadDataSource<T> implements ConfigReadDataSource<T> {
         listener.dataChanged(null,memoryValue);
     }
 
-    private void listenerNotify(T oldValue,T newValue) {
-        for (DataListener<T> dataListener : dataListeners) {
-            try {
-                String listenerName = dataListener.getListenerName();
-                String msg = MessageFormat.format("listener data changed,old:{0},new:{1},listener:{2}",
-                    JSON.toJSONString(oldValue), JSON.toJSONString(newValue), listenerName);
-                LogUtil.info(msg);
-                dataListener.dataChanged(oldValue,newValue);
-            }catch (Exception e){
-                LogUtil.error("dataChanged failed,listener:"+dataListener.toString()+",e:"+e.getMessage(),e);
-            }
-        }
+    @Override
+    public List<DataListener<T>> getDataListeners() {
+        return dataListeners;
     }
 
-
-    private T getValueFromFile() throws IOException {
+    @Override
+    public T getValueFromSource() throws IOException {
         if (file == null) {
             LogUtil.warn("[FileReadDataSource] File is null");
             return null;

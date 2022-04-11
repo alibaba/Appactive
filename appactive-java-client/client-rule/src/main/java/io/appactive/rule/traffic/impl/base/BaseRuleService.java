@@ -32,7 +32,7 @@ public class BaseRuleService {
         return ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
     }
 
-    protected boolean checkRuleRight(UnitMappingRuleBO unitMappingRule) {
+    protected boolean checkRule(UnitMappingRuleBO unitMappingRule) {
         if (unitMappingRule == null) {
             return true;
         }

@@ -19,7 +19,6 @@ package io.appactive.rule.machine;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import io.appactive.channel.ClientChannelService;
-import io.appactive.java.api.base.exception.ExceptionFactory;
 import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;

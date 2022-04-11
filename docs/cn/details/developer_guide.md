@@ -136,7 +136,7 @@ import org.springframework.beans.factory.annotation.Value;
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit","routeIndex","0"})
 public class ProductServiceUnitImpl implements ProductServiceUnit {
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @Autowired

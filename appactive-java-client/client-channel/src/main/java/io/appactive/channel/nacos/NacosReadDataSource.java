@@ -16,24 +16,21 @@
 
 package io.appactive.channel.nacos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.PropertyKeyConst;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.listener.Listener;
+import com.alibaba.nacos.api.exception.NacosException;
 import io.appactive.java.api.channel.ConfigReadDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.channel.listener.DataListener;
 import io.appactive.support.log.LogUtil;
-import io.appactive.support.thread.SafeWrappers;
-import io.appactive.support.thread.ThreadPoolService;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Properties;
+import java.util.concurrent.Executor;
 
 public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
 
@@ -41,62 +38,81 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
 
     private List<DataListener<T>> dataListeners = new ArrayList<>();
 
+    private String serverAddr;
     private String dataId;
     private String groupId;
+    private String namespaceId;
+
+    private ConfigService configService;
 
     /**
      * TimeUnit.MILLISECONDS
-     * file read period
      */
     private long timerPeriod = 3000L;
-
     private T memoryValue = null;
     private long lastModified = 0L;
+    private long curLastModified = -1L;
 
 
-    public NacosReadDataSource(String dataId, ConverterInterface<String, T> converterInterface) {
-        this(dataId, NacosPathUtil.getGroupId(), converterInterface);
+    public NacosReadDataSource(String serverAddr, String dataId, String groupId, ConverterInterface<String, T> converterInterface) {
+        this(serverAddr,dataId,groupId,"", converterInterface);
     }
 
-    public NacosReadDataSource(String dataId, String groupId, ConverterInterface<String, T> converterInterface) {
+    public NacosReadDataSource(String serverAddr, String dataId, String groupId, String namespaceId, ConverterInterface<String, T> converterInterface) {
+        this.serverAddr = serverAddr;
         this.dataId = dataId;
         this.groupId = groupId;
+        this.namespaceId = namespaceId;
         this.converterInterface = converterInterface;
-        initMemoryValue();
+
         startTimerService();
+        initMemoryValue();
     }
 
     private void startTimerService() {
-        ScheduledExecutorService executorService = ThreadPoolService.createSingleThreadScheduledExecutor(
-            "appactive.file-read-value-task");
-        executorService.scheduleAtFixedRate(SafeWrappers.safeRunnable(checkFileChanged()), timerPeriod,timerPeriod, TimeUnit.MILLISECONDS);
+        try {
+            Properties properties = new Properties();
+            properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+            properties.put(PropertyKeyConst.NAMESPACE, namespaceId);
+            configService = NacosFactory.createConfigService(properties);
+
+            configService.addListener(dataId, groupId, new Listener() {
+                @Override
+                public void receiveConfigInfo(String configInfo) {
+                    LogUtil.warn("get Nacos configInfo {}", configInfo);
+                    lastModified = System.currentTimeMillis();
+                    initMemoryValue();
+                }
+                @Override
+                public Executor getExecutor() {
+                    return null;
+                }
+            });
+        } catch (NacosException e) {
+            LogUtil.error("get Nacos configService Exception ", e);
+        }
     }
 
-    private Runnable checkFileChanged() {
-        return new Runnable() {
-            @Override
-            public void run() {
-                initMemoryValue();
-            }
-        };
-    }
 
     private void initMemoryValue() {
         if (!isModified()) {
-            // not changed
             return;
         }
         try {
             T oldValue = memoryValue;
-            T valueFromFile = getValueFromFile();
-            listenerNotify(oldValue,valueFromFile);
-            memoryValue = valueFromFile;
+            T newValue = getValueFromSource();
+            listenerNotify(oldValue,newValue);
+            memoryValue = newValue;
         } catch (IOException e) {
-            LogUtil.error("file-read-failed,e:"+e.getMessage(),e);
+            LogUtil.error("nacos-read-failed,e:"+e.getMessage(),e);
         }
     }
 
     private boolean isModified() {
+        if (curLastModified != this.lastModified) {
+            this.curLastModified = lastModified;
+            return true;
+        }
         return false;
     }
 
@@ -114,26 +130,26 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
         listener.dataChanged(null,memoryValue);
     }
 
-    private void listenerNotify(T oldValue,T newValue) {
-        for (DataListener<T> dataListener : dataListeners) {
-            try {
-                String listenerName = dataListener.getListenerName();
-                String msg = MessageFormat.format("listener data changed,old:{0},new:{1},listener:{2}",
-                    JSON.toJSONString(oldValue), JSON.toJSONString(newValue), listenerName);
-                LogUtil.info(msg);
-                dataListener.dataChanged(oldValue,newValue);
-            }catch (Exception e){
-                LogUtil.error("dataChanged failed,listener:"+dataListener.toString()+",e:"+e.getMessage(),e);
-            }
-        }
+    @Override
+    public List<DataListener<T>> getDataListeners() {
+        return dataListeners;
     }
 
-    private T getValueFromFile() throws IOException {
-        return null;
+    @Override
+    public T getValueFromSource() throws IOException{
+        try {
+            String content = configService.getConfig(dataId, groupId, timerPeriod);
+            return converterInterface.convert(content);
+        } catch (NacosException e) {
+            LogUtil.warn("getValueFromSource Exception ", e);
+            return null;
+        }
     }
 
     @Override
     public void close() throws Exception {
-
+        if (configService!=null){
+            configService.shutDown();
+        }
     }
 }

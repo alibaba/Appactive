@@ -14,19 +14,16 @@
 # limitations under the License.
 #
 
-server.port=8089
-spring.application.name=io-appactive-demo-frontend-${appactive.unit:default}
+docker-compose -f docker-compose-nacos.yml build
+docker-compose -f docker-compose-nacos.yml up -d nacos mysql
+sleep 20s
+docker-compose -f docker-compose-nacos.yml up -d storage storage-unit
+sleep 15s
+docker-compose -f docker-compose-nacos.yml up -d product product-unit
+sleep 15s
+docker-compose -f docker-compose-nacos.yml up -d frontend frontend-unit
+sleep 3s
+docker-compose -f docker-compose-nacos.yml up -d gateway
 
-dubbo.registry.address=nacos://127.0.0.1:8848
-dubbo.registry.timeout=10000
-
-appactive.unit=center
-appactive.app=frontend
-io.appactive.demo.unitlist=center,unit
-io.appactive.demo.applist=frontend,product,storage
-
-spring.thymeleaf.mode=LEGACYHTML5
-spring.thymeleaf.encoding=UTF-8
-spring.thymeleaf.servlet.content-type=text/html
-spring.thymeleaf.suffix=.html
-spring.thymeleaf.cache=false
+# docker-compose up --no-recreate
+# docker-compose down

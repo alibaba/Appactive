@@ -31,7 +31,7 @@ import java.util.List;
 @DubboService(version = "1.0.0", group = "appactive")
 public class ProductServiceNormalImpl implements ProductServiceNormal {
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @Autowired

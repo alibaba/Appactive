@@ -31,7 +31,7 @@ import java.util.Optional;
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","center","routeIndex","0"})
 public class OrderServiceImpl implements OrderService {
 
-    @Value("${io.appactive.demo.unit}")
+    @Value("${appactive.unit}")
     private String unit;
 
     @Autowired

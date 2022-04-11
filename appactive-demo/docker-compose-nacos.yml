@@ -28,15 +28,17 @@ services:
   gateway:
     container_name: gateway
     hostname: gateway
-    image: appactiveio/gateway:0.2
+    image: app-active/gateway:0.2
     ports:
       - "80:80"
       - "8090:8090"
 
   storage:
+    build: ./storage
     restart: on-failure:3
-    image: appactiveio/storage:0.2
+    image: app-active/storage:0.3
     container_name: storage
+    hostname: storage
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -45,6 +47,7 @@ services:
       - appactive.app=storage
       - server.port=8881
       - dubbo.protocol.port=-1
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/storage-center:/app/data
@@ -56,8 +59,9 @@ services:
 
   storage-unit:
     restart: on-failure:3
-    image: appactiveio/storage:0.2
+    image: app-active/storage:0.3
     container_name: storage-unit
+    hostname: storage-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -66,6 +70,7 @@ services:
       - appactive.app=storage
       - server.port=8882
       - dubbo.protocol.port=-1
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/storage-unit:/app/data
@@ -76,9 +81,11 @@ services:
       - "mysql"
 
   product:
+    build: ./product
     restart: on-failure:3
-    image: appactiveio/product:0.2
+    image: app-active/product:0.3
     container_name: product
+    hostname: product
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -86,6 +93,7 @@ services:
       - appactive.app=product
       - server.port=8883
       - dubbo.protocol.port=-1
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/product-center:/app/data
@@ -98,8 +106,9 @@ services:
 
   product-unit:
     restart: on-failure:3
-    image: appactiveio/product:0.2
+    image: app-active/product:0.3
     container_name: product-unit
+    hostname: product-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -107,6 +116,7 @@ services:
       - appactive.app=product
       - server.port=8884
       - dubbo.protocol.port=-1
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/product-unit:/app/data
@@ -118,9 +128,11 @@ services:
       - "storage-unit"
 
   frontend:
+    build: ./frontend
     restart: on-failure:3
-    image: appactiveio/frontend:0.2
+    image: app-active/frontend:0.3
     container_name: frontend
+    hostname: frontend
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - appactive.unit=center
@@ -128,6 +140,7 @@ services:
       - io.appactive.demo.unitlist=center,unit
       - io.appactive.demo.applist=frontend,product,storage
       - server.port=8885
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/frontend-center:/app/data
@@ -139,8 +152,9 @@ services:
 
   frontend-unit:
     restart: on-failure:3
-    image: appactiveio/frontend:0.2
+    image: app-active/frontend:0.3
     container_name: frontend-unit
+    hostname: frontend-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - appactive.unit=unit
@@ -148,6 +162,7 @@ services:
       - io.appactive.demo.unitlist=center,unit
       - io.appactive.demo.applist=frontend,product,storage
       - server.port=8886
+      - appactive.channelTypeEnum=NACOS
     volumes:
       - ./data/path-address:/home/admin/appactive/path-address
       - ./data/frontend-unit:/app/data

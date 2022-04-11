@@ -32,7 +32,7 @@ public class ChainAspect {
         String name = joinPoint.getSignature().getName();
         if (result instanceof ResultHolder){
             ResultHolder resultHolder = (ResultHolder)result;
-            resultHolder.addChain(System.getenv("io.appactive.demo.app"),System.getenv("io.appactive.demo.unit"));
+            resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
         }
     }
 }

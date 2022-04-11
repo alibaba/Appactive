@@ -32,6 +32,8 @@ import io.appactive.java.api.channel.ConverterInterface;
 import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.support.sys.JvmPropertyUtil;
 
+import java.util.Properties;
+
 /**
  * 选择合适的channel
  */
@@ -69,10 +71,15 @@ public class ClientChannelService {
         switch (CHANNEL_TYPE_ENUM){
             case FILE:
                 configReadDataSource = new FileReadDataSource<>(uri,
-                        FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE, ruleConverterInterface);
+                        FileConstant.DEFAULT_CHARSET, FileConstant.DEFAULT_BUF_SIZE,
+                        ruleConverterInterface);
                 break;
             case NACOS:
-                configReadDataSource = new NacosReadDataSource<>(uri, ruleConverterInterface);
+                PathUtil pathUtil = getPathUtil();
+                Properties extra = pathUtil.getExtras();
+                configReadDataSource = new NacosReadDataSource<>(pathUtil.getConfigServerAddress(), uri,
+                        extra.getProperty(RulePropertyConstant.GROUP_ID), extra.getProperty(RulePropertyConstant.NAMESPACE_ID),
+                        ruleConverterInterface);
                 break;
             default:
                 throw ExceptionFactory.makeFault("unsupported channel:{}", CHANNEL_TYPE_ENUM.name());
