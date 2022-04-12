@@ -79,8 +79,8 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
             configService.addListener(dataId, groupId, new Listener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
-                    LogUtil.warn("get Nacos configInfo {}", configInfo);
                     lastModified = System.currentTimeMillis();
+                    LogUtil.warn("get Nacos configInfo {}", configInfo);
                     initMemoryValue();
                 }
                 @Override
@@ -109,8 +109,8 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
     }
 
     private boolean isModified() {
-        if (curLastModified != this.lastModified) {
-            this.curLastModified = lastModified;
+        if (this.curLastModified != this.lastModified) {
+            this.curLastModified = this.lastModified;
             return true;
         }
         return false;
@@ -141,7 +141,8 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
             String content = configService.getConfig(dataId, groupId, timerPeriod);
             return converterInterface.convert(content);
         } catch (NacosException e) {
-            LogUtil.warn("getValueFromSource Exception ", e);
+            LogUtil.warn("getValueFromSource serverAddr: {}, namespaceId: {}, dataId: {}, groupId: {}, Exception ",
+                    serverAddr, namespaceId , dataId, groupId, e);
             return null;
         }
     }

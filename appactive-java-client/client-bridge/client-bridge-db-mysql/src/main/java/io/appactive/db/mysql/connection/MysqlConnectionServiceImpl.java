@@ -56,11 +56,10 @@ public class MysqlConnectionServiceImpl implements MysqlConnectionService, SQLPr
 
     @Override
     public void initDriverConnect(String url, Properties property) {
-        logger.info("driver:ConnectionServiceImpl::initDriverConnect start,url:{}.property:{}", url, property);
+        logger.info("driver:ConnectionServiceImpl::initDriverConnect start. url: {}, property: {}", url, property);
         DataScope dataScope = DataScopeUtil.getDataScopeFromUrl(url);
         if (dataScope == null) {
-            // url 无多活标识，默认不建立监听
-            logger.info("ConnectionServiceImpl::initDriverConnect dataScope is empty. url:{},property:{}", url, property);
+            logger.info("ConnectionServiceImpl::initDriverConnect dataScope is empty. url: {}, property: {}", url, property);
             return;
         }
         setDataScopeToProperty(property, dataScope);
@@ -117,7 +116,6 @@ public class MysqlConnectionServiceImpl implements MysqlConnectionService, SQLPr
         String instanceId = property.getProperty(INSTANCE_ID);
         String dbName = property.getProperty(DB_NAME);
         String port = property.getProperty(PORT_NAME);
-        // 若 url 无两个instanceId与dbName参数，则表示非多活逻辑，不走 多活逻辑
         if (StringUtils.isBlank(instanceId) || StringUtils.isBlank(dbName)) {
             return null;
         }

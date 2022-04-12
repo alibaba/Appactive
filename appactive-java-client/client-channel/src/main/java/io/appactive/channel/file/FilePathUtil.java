@@ -30,6 +30,7 @@ public class FilePathUtil implements PathUtil {
             synchronized(FilePathUtil.class) {
                 if (instance == null) {
                     instance = new FilePathUtil();
+                    LogUtil.warn("instance: {}",instance);
                 }
             }
         }
@@ -136,6 +137,18 @@ public class FilePathUtil implements PathUtil {
         if (idSourceRulePath == null) {
             idSourceRulePath = pathMap.get(RulePropertyConstant.PROPERTY_HEADER + ".idSourceRulePath");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "FilePathUtil{" +
+                "machineRulePath='" + machineRulePath + '\'' +
+                ", dataScopeRuleDirectoryPath='" + dataScopeRuleDirectoryPath + '\'' +
+                ", forbiddenRulePath='" + forbiddenRulePath + '\'' +
+                ", trafficRouteRulePath='" + trafficRouteRulePath + '\'' +
+                ", transformerRulePath='" + transformerRulePath + '\'' +
+                ", idSourceRulePath='" + idSourceRulePath + '\'' +
+                '}';
     }
 }
 

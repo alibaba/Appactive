@@ -17,6 +17,7 @@ public class NacosPathUtil implements PathUtil {
             synchronized(NacosPathUtil.class) {
                 if (instance == null) {
                     instance = new NacosPathUtil();
+                    LogUtil.warn("instance: {}",instance);
                 }
             }
         }
@@ -37,7 +38,7 @@ public class NacosPathUtil implements PathUtil {
     private String trafficRouteRulePath;
     private String transformerRulePath;
     private String idSourceRulePath;
-    private String serverAddress;
+    private String configServerAddress;
 
     private final Properties extras = new Properties();
     private final Properties auths = new Properties();
@@ -74,7 +75,7 @@ public class NacosPathUtil implements PathUtil {
 
     @Override
     public String getConfigServerAddress(){
-        return serverAddress;
+        return configServerAddress;
     }
 
     @Override
@@ -119,9 +120,9 @@ public class NacosPathUtil implements PathUtil {
         value = JvmPropertyUtil.getJvmAndEnvValue(key);
         idSourceRulePath = value == null ? key : value;
 
-        key = RulePropertyConstant.PROPERTY_HEADER + ".serverAddr";
+        key = RulePropertyConstant.PROPERTY_HEADER + ".configServerAddress";
         value = JvmPropertyUtil.getJvmAndEnvValue(key);
-        serverAddress = value == null ? RulePropertyConstant.LOCAL_NACOS : value;
+        configServerAddress = value == null ? RulePropertyConstant.LOCAL_NACOS : value;
 
 
         key = RulePropertyConstant.GROUP_ID;
@@ -139,4 +140,18 @@ public class NacosPathUtil implements PathUtil {
 
     }
 
+    @Override
+    public String toString() {
+        return "NacosPathUtil{" +
+                "machineRulePath='" + machineRulePath + '\'' +
+                ", dataScopeRuleDirectoryPath='" + dataScopeRuleDirectoryPath + '\'' +
+                ", forbiddenRulePath='" + forbiddenRulePath + '\'' +
+                ", trafficRouteRulePath='" + trafficRouteRulePath + '\'' +
+                ", transformerRulePath='" + transformerRulePath + '\'' +
+                ", idSourceRulePath='" + idSourceRulePath + '\'' +
+                ", configServerAddress='" + configServerAddress + '\'' +
+                ", extras=" + extras +
+                ", auths=" + auths +
+                '}';
+    }
 }

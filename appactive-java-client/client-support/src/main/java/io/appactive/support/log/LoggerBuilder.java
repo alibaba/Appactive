@@ -27,10 +27,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.LevelFilter;
 import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
+import org.slf4j.LoggerFactory;
 
 import static ch.qos.logback.core.spi.FilterReply.ACCEPT;
 import static ch.qos.logback.core.spi.FilterReply.DENY;
@@ -104,6 +106,7 @@ public class LoggerBuilder {
         AsyncAppender infoAppender = getAsyncAppender(getAppender(name,null));
         logger.addAppender(infoAppender);
 
+        logger.addAppender(getConsoleAppender("appactive-console-"+name ,null));
         // 格式化的日志不需要这个错误日志收集
         if(!name.endsWith(STANDARD_LOG_NAME_END_FIX)){
             AsyncAppender errorAppender = getAsyncAppender(getAppender(name + "_error",Level.ERROR));
@@ -135,12 +138,38 @@ public class LoggerBuilder {
         return asyncAppender;
     }
 
-    /**
-     * 通过传入的名字和级别，动态设置appender
-     *
-     * @param name
-     * @return
-     */
+    private static ConsoleAppender getConsoleAppender(String name,Level level) {
+        ConsoleAppender appender = new ConsoleAppender();
+        appender.setName(name);
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        appender.setContext(context);
+        //这里设置级别过滤器
+        if(level != null){
+            // 这里设置级别过滤器
+            LevelFilter levelFilter = getLevelFilter(Level.ERROR);
+            levelFilter.start();
+            appender.addFilter(levelFilter);
+        }
+
+        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+        //设置上下文，每个logger都关联到logger上下文，默认上下文名称为default。
+        //但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
+        encoder.setContext(context);
+        //设置格式
+        encoder.setPattern("%d %p [%t] - %msg%n");
+        encoder.start();
+        //加入下面两个节点
+        appender.setEncoder(encoder);
+        appender.start();
+        return appender;
+    }
+
+        /**
+         * 通过传入的名字和级别，动态设置appender
+         *
+         * @param name
+         * @return
+         */
     private static RollingFileAppender getAppender(String name, Level level) {
         LoggerContext context = getContext();
         //这里是可以用来设置appender的，在xml配置文件里面，是这种形式：

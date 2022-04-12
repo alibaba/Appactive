@@ -102,4 +102,15 @@ public class ClientChannelService {
         }
     }
 
+    public static String getSubKeySplit(){
+        switch (CHANNEL_TYPE_ENUM){
+            case NACOS:
+                return "_";
+            case FILE:
+                return "/";
+            default:
+                throw ExceptionFactory.makeFault("unsupported channel:{}", CHANNEL_TYPE_ENUM.name());
+        }
+    }
+
 }

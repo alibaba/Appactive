@@ -72,7 +72,7 @@ public class DataScopeRuleServiceImpl implements DataScopeRuleService {
 
 
     private void initDataListener(String scopeKey) {
-        String uri = RESOURCES_URI + "/" + scopeKey;
+        String uri = RESOURCES_URI + ClientChannelService.getSubKeySplit() + scopeKey;
 
         ConverterInterface<String, String> ruleConverterInterface = (source) -> JSON.parseObject(source,new TypeReference<String>() {});
         ConfigReadDataSource<String> readDataSource = ClientChannelService.getConfigReadDataSource(uri,ruleConverterInterface);
