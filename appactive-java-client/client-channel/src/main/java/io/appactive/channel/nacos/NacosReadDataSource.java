@@ -66,7 +66,7 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
         this.converterInterface = converterInterface;
 
         startTimerService();
-        initMemoryValue();
+        initMemoryValue(null);
     }
 
     private void startTimerService() {
@@ -81,7 +81,7 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
                 public void receiveConfigInfo(String configInfo) {
                     lastModified = System.currentTimeMillis();
                     LogUtil.warn("get Nacos configInfo {}", configInfo);
-                    initMemoryValue();
+                    initMemoryValue(converterInterface.convert(configInfo));
                 }
                 @Override
                 public Executor getExecutor() {
@@ -94,13 +94,15 @@ public class NacosReadDataSource<T> implements ConfigReadDataSource<T> {
     }
 
 
-    private void initMemoryValue() {
+    private void initMemoryValue(T newValue) {
         if (!isModified()) {
             return;
         }
         try {
             T oldValue = memoryValue;
-            T newValue = getValueFromSource();
+            if(newValue == null){
+                newValue = getValueFromSource();
+            }
             listenerNotify(oldValue,newValue);
             memoryValue = newValue;
         } catch (IOException e) {
