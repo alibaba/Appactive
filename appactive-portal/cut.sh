@@ -14,8 +14,43 @@
 # limitations under the License.
 #
 
+# sh cut.sh
+# sh cut.sh NACOS ee723cb4-1faa-43d5-825e-7900390a3666
+
+channel=$1
+tenant=$2
+if  [ ! -n "$channel" ] ;then
+    channel="FILE"
+fi
+echo "channel: ${channel}"
+dataIdPrefix="appactive.dataId."
+groupId="appactive.groupId"
+
 forbiddenFile="forbiddenRule.json"
 idUnitMappingNextFile="idUnitMappingNext.json"
+
+if [ $channel = "FILE" ]
+then
+  for file in $(ls ../appactive-demo/data/); do
+    if [[ "$file" == *"path-address"* ]]; then
+      echo "continue"
+      continue
+    fi
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送中)"
+    cp -f ./rule/$forbiddenFile "../appactive-demo/data/$file/forbiddenRule.json"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送完成"
+  done
+elif [ $channel = "NACOS" ]
+then
+   forbiddenRule=$(cat ./rule/forbiddenRule.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") forbiddenRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}forbiddenRulePath&group=${groupId}&content=${forbiddenRule}" \
+      && echo ""
+else
+  echo "unsupported channel: ${channel}"
+  exit 1
+fi
 
 idSource=$(cat ./rule/idSource.json)
 idTransformer=$(cat ./rule/idTransformer.json)
@@ -29,25 +64,28 @@ echo "$(date "+%Y-%m-%d %H:%M:%S") gateway 新规则推送结果: " && curl --he
 --data "$data" \
 127.0.0.1:8090/set
 
-for file in $(ls ../appactive-demo/data/); do
-  if [[ "$file" == *"path-address"* ]]; then
-    echo "continue"
-    continue
-  fi
-  echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送中)"
-  cp -f ./rule/$forbiddenFile "../appactive-demo/data/$file/forbiddenRule.json"
-  echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送完成"
-done
-
 echo "等待数据追平......"
 sleep 3s
 
-for file in $(ls ../appactive-demo/data/); do
-  if [[ "$file" == *"path-address"* ]]; then
-    echo "continue"
-    continue
-  fi
-  echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送中"
-  cp -f ./rule/$idUnitMappingNextFile "../appactive-demo/data/$file/idUnitMapping.json"
-  echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送完成"
-done
+if [ $channel = "FILE" ]
+then
+  for file in $(ls ../appactive-demo/data/); do
+    if [[ "$file" == *"path-address"* ]]; then
+      echo "continue"
+      continue
+    fi
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送中"
+    cp -f ./rule/$idUnitMappingNextFile "../appactive-demo/data/$file/idUnitMapping.json"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送完成"
+  done
+elif [ $channel = "NACOS" ]
+then
+  idUnitMappingRule=$(cat ./rule/idUnitMappingNext.json)
+  echo "$(date "+%Y-%m-%d %H:%M:%S") idUnitMappingRule 推送结果: " \
+    && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+    -d "tenant=${tenant}&dataId=${dataIdPrefix}trafficRouteRulePath&group=${groupId}&content=${idUnitMappingRule}" \
+    && echo ""
+else
+  echo "unsupported channel: ${channel}"
+  exit 1
+fi

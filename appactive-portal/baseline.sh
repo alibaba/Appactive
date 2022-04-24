@@ -14,25 +14,76 @@
 # limitations under the License.
 #
 
+# sh baseline.sh 2
+# sh baseline.sh 2 NACOS ee723cb4-1faa-43d5-825e-7900390a3666
+# sh baseline.sh 3
+
 type=$1
+channel=$2
+tenant=$3
+if  [ ! -n "$channel" ] ;then
+    channel="FILE"
+fi
+echo "channel: ${channel}"
+
 
 if [ `expr $type % 2` == 0 ]
 then
-  for file in $(ls ../appactive-demo/data/); do
-    if [[ "$file" == *"path-address"* ]]; then
-      echo "continue"
-      continue
-    fi
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送中";
-    cp -f ./rule/idSource.json "../appactive-demo/data/$file/"
-    cp -f ./rule/transformerBetween.json "../appactive-demo/data/$file/idTransformer.json"
-    cp -f ./rule/idUnitMapping.json "../appactive-demo/data/$file/"
-    cp -f ./rule/dbProperty.json "../appactive-demo/data/$file/mysql-product"
-    arr=(${file//-/ })
-    unitFlag=${arr[1]}
-    echo "{\"unitFlag\":\"${unitFlag}\"}" > "../appactive-demo/data/$file/machine.json"
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送完成"
-  done
+  if [ $channel = "FILE" ]
+  then
+    for file in $(ls ../appactive-demo/data/); do
+      if [[ "$file" == *"path-address"* ]]; then
+        echo "continue"
+        continue
+      fi
+      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送中";
+      cp -f ./rule/idSource.json "../appactive-demo/data/$file/"
+      cp -f ./rule/transformerBetween.json "../appactive-demo/data/$file/idTransformer.json"
+      cp -f ./rule/idUnitMapping.json "../appactive-demo/data/$file/"
+      cp -f ./rule/dbProperty.json "../appactive-demo/data/$file/mysql-product"
+      arr=(${file//-/ })
+      unitFlag=${arr[1]}
+      echo "{\"unitFlag\":\"${unitFlag}\"}" > "../appactive-demo/data/$file/machine.json"
+      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送完成"
+    done
+  elif [ $channel = "NACOS" ]
+  then
+    dataIdPrefix="appactive.dataId."
+    groupId="appactive.groupId"
+
+    idSourceRule=$(cat ./rule/idSource.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") idSourceRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}idSourceRulePath&group=${groupId}&content=${idSourceRule}" \
+      && echo ""
+
+    idTransformerRule=$(cat ./rule/idTransformer.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") idTransformerRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}transformerRulePath&group=${groupId}&content=${idTransformerRule}" \
+      && echo ""
+
+    idUnitMappingRule=$(cat ./rule/idUnitMapping.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") idUnitMappingRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}trafficRouteRulePath&group=${groupId}&content=${idUnitMappingRule}" \
+      && echo ""
+
+    forbiddenRule=$(cat ./rule/forbiddenRule.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") forbiddenRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}forbiddenRulePath&group=${groupId}&content=${forbiddenRule}" \
+      && echo ""
+
+    dataScopeRule=$(cat ./rule/dbProperty.json)
+    echo "$(date "+%Y-%m-%d %H:%M:%S") dataScopeRule 推送结果: " \
+      && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}dataScopeRuleDirectoryPath&group=${groupId}&content=${dataScopeRule}" \
+      && echo ""
+  else
+    echo "unsupported channel: ${channel}"
+    exit 1
+  fi
 fi
 
 if [ `expr $type % 3` == 0 ]

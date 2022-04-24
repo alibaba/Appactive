@@ -22,7 +22,7 @@ then
   docker-compose -f docker-compose-nacos.yml up -d nacos mysql
 fi
 
-# sh run-nacos.sh 2 79e007b8-4b3e-40b2-9c8a-06bd5335498b
+# sh run-nacos.sh 2 ee723cb4-1faa-43d5-825e-7900390a3666
 if [ $type == 2 ]
 then
   temp=$2
