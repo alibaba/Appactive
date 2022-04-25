@@ -57,7 +57,7 @@ then
       -d "tenant=${tenant}&dataId=${dataIdPrefix}idSourceRulePath&group=${groupId}&content=${idSourceRule}" \
       && echo ""
 
-    idTransformerRule=$(cat ./rule/idTransformer.json)
+    idTransformerRule=$(cat ./rule/transformerBetween.json)
     echo "$(date "+%Y-%m-%d %H:%M:%S") idTransformerRule 推送结果: " \
       && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
       -d "tenant=${tenant}&dataId=${dataIdPrefix}transformerRulePath&group=${groupId}&content=${idTransformerRule}" \
