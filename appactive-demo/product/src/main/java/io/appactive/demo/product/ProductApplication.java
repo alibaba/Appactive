@@ -16,12 +16,14 @@
 
 package io.appactive.demo.product;
 
+import io.appactive.demo.common.RPCType;
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.demo.common.service.dubbo.ProductServiceCenter;
 import io.appactive.demo.common.service.dubbo.ProductServiceNormal;
 import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
 import io.appactive.demo.common.service.dubbo.ProductServiceUnitHidden;
+import io.appactive.demo.common.service.springcloud.OrderDAO;
 import io.appactive.java.api.base.AppContextClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +32,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,10 +42,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "io.appactive.demo")
 @EntityScan("io.appactive.demo.*")
 @Controller("/")
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"io.appactive.demo"})
 public class ProductApplication {
 
     public static void main(String[] args) {
@@ -59,6 +64,9 @@ public class ProductApplication {
 
     @Autowired
     private ProductServiceCenter productServiceCenter;
+
+    @Autowired
+    OrderDAO orderDAO;
 
     @Value("${spring.application.name}")
     private String appName;
@@ -95,11 +103,15 @@ public class ProductApplication {
     @RequestMapping("/buy")
     @ResponseBody
     public ResultHolder<String> buy(
-            @RequestParam(required = false, defaultValue = "jack") String rId,
+            @RequestParam(required = false, defaultValue = "Dubbo") RPCType rpcType,
+            @RequestParam(required = false, defaultValue = "12") String rId,
             @RequestParam(required = false, defaultValue = "12") String pId,
             @RequestParam(required = false, defaultValue = "5") Integer number
     ) {
-        return new ResultHolder<>(String.format("routerId %s bought %d of item %s, result: %s", AppContextClient.getRouteId(), number, pId ,productServiceCenter.buy(rId, pId, number)));
+        return rpcType == RPCType.Dubbo ?
+                 productServiceCenter.buy(rId, pId, number)
+                : orderDAO.buy(rId, pId, number);
+
     }
 
     @RequestMapping("/check")

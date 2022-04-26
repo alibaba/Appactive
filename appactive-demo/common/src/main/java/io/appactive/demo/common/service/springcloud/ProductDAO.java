@@ -1,5 +1,6 @@
 package io.appactive.demo.common.service.springcloud;
 
+import io.appactive.demo.common.RPCType;
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ProductDAO {
     }
 
     public ResultHolder<String> buy(String rId, String pId, Integer number){
-        return productService.buy(rId, pId, number);
+        return productService.buy(RPCType.SpringCloud.name(), rId, pId, number);
     }
 
     @FeignClient(name = "product")
@@ -49,7 +50,8 @@ public class ProductDAO {
         );
 
         @RequestMapping("/buy/")
-        ResultHolder<String> buy(@RequestParam(name = "rId") String rId,
+        ResultHolder<String> buy(@RequestParam(name = "rpcType") String rpcType,
+                                 @RequestParam(name = "rId") String rId,
                                   @RequestParam(name = "pId") String pId,
                                   @RequestParam(name = "number") Integer number
         );

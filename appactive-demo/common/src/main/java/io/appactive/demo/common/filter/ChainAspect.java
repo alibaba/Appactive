@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appactive.demo.frontend.filter;
+package io.appactive.demo.common.filter;
 
 import io.appactive.demo.common.entity.ResultHolder;
 import org.aspectj.lang.JoinPoint;
@@ -26,13 +26,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChainAspect {
 
-    @AfterReturning(pointcut="execution(* io.appactive.demo.frontend.service.*.*(..))" ,returning = "result")
+    @AfterReturning(pointcut=
+            "execution(* io.appactive.demo.frontend.service.*.*(..)) || " +
+            "execution(* io.appactive.demo.product.service.*.*(..)) || " +
+            "execution(* io.appactive.demo.storage.service.*.*(..)) || " +
+            "execution(* io.appactive.demo.common.service.springcloud.*.*(..))" ,
+            returning = "result")
     public void afterRunning(JoinPoint joinPoint, Object result){
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();
         if (result instanceof ResultHolder){
             ResultHolder resultHolder = (ResultHolder)result;
             resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
+            System.out.println("ChainAspect: "+resultHolder);
         }
     }
 }

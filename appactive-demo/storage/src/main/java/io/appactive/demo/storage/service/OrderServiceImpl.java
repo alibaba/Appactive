@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultHolder<String> buy(String rId, String pId, Integer number) {
-        System.out.println("buy: " + rId + " : " + pId + " : " + number);
+        System.out.println("storage buy: " + rId + " : " + pId + " : " + number);
         String result = null;
         try {
             Optional<Product> op = repository.findById(pId);

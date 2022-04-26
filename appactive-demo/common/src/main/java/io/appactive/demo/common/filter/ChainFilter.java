@@ -25,13 +25,14 @@ public class ChainFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         Result result = invoker.invoke(invocation);
-        Object object = result.getValue();
-        System.out.println(object);
-        if (object instanceof ResultHolder){
-            ResultHolder resultHolder = (ResultHolder)object;
-            resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
-            result.setValue(resultHolder);
-        }
+        // Object object = result.getValue();
+        // System.out.println(object);
+        // if (object instanceof ResultHolder){
+        //     ResultHolder resultHolder = (ResultHolder)object;
+        //     resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
+        //     result.setValue(resultHolder);
+        //     System.out.println("ChainFilter: "+resultHolder);
+        // }
         return result;
     }
 }

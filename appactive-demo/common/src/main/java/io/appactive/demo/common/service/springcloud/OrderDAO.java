@@ -1,5 +1,6 @@
 package io.appactive.demo.common.service.springcloud;
 
+import io.appactive.demo.common.entity.ResultHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class OrderDAO {
     @Autowired
     private OrderService orderService;
 
-    String buy(String rId, String pId, Integer number){
+    public ResultHolder<String> buy(String rId, String pId, Integer number){
         return orderService.buy(rId, pId, number);
     }
 
@@ -21,8 +22,8 @@ public class OrderDAO {
     public interface OrderService {
 
         @GetMapping("/buy/")
-        String buy( @RequestParam(name = "rId") String rId,
-                    @RequestParam(name = "id") String id,
-                    @RequestParam(name = "number") Integer number);
+        ResultHolder<String> buy(@RequestParam(name = "rId") String rId,
+                                 @RequestParam(name = "id") String id,
+                                 @RequestParam(name = "number") Integer number);
     }
 }

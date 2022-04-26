@@ -46,9 +46,19 @@ public class ResultHolder <T>  implements Serializable {
         chain.add(new Node(app, unitFlag));
     }
 
+    /**
+     * 默认构造器，便于序列化
+     */
+    public ResultHolder() {
+
+    }
+
     static class Node implements Serializable{
         private String app;
         private String unitFlag;
+
+        public Node() {
+        }
 
         public Node(String app, String unitFlag) {
             this.app = app;

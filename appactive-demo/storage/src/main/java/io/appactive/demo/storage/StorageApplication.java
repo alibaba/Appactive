@@ -25,6 +25,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +34,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @SpringBootApplication
 @EntityScan("io.appactive.demo.*")
+@ComponentScan(basePackages = "io.appactive.demo")
 @Controller("/")
 @EnableDiscoveryClient
-// @EnableFeignClients
+@EnableFeignClients(basePackages = {"io.appactive.demo"})
 public class StorageApplication {
     public static void main(String[] args) {
         SpringApplication.run(StorageApplication.class, args);
@@ -48,7 +51,7 @@ public class StorageApplication {
 
     @RequestMapping("/buy")
     @ResponseBody
-    public String buy(
+    public ResultHolder<String> buy(
             @RequestParam(required = false, defaultValue = "jack") String rId,
             @RequestParam(required = false, defaultValue = "12") String id,
             @RequestParam(required = false, defaultValue = "1") Integer number
@@ -56,7 +59,10 @@ public class StorageApplication {
         String routerId = AppContextClient.getRouteId();
         System.out.println("buy:"+routerId);
         ResultHolder<String> resultHolder = orderService.buy(rId, id, number);
-        return String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult());
+        // add hard-coded chain
+        // resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
+        resultHolder.setResult(String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult()));
+        return resultHolder;
     }
 
     @RequestMapping("/check")
