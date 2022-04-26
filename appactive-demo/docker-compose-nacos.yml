@@ -41,6 +41,7 @@ services:
     hostname: storage
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
 #      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
       - appactive.unit=center
@@ -66,6 +67,7 @@ services:
     hostname: storage-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
 #      - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product
       - appactive.unit=unit
@@ -92,6 +94,7 @@ services:
     hostname: product
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
       - appactive.unit=center
       - appactive.app=product
@@ -117,6 +120,7 @@ services:
     hostname: product-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
       - appactive.unit=unit
       - appactive.app=product
@@ -143,6 +147,7 @@ services:
     hostname: frontend
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - appactive.unit=center
       - appactive.app=frontend
       - appactive.namespaceId=${appactiveNamespaceId}
@@ -167,6 +172,7 @@ services:
     hostname: frontend-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
+      - spring.cloud.nacos.discovery.server-addr=nacos:8848
       - appactive.unit=unit
       - appactive.app=frontend
       - appactive.namespaceId=${appactiveNamespaceId}

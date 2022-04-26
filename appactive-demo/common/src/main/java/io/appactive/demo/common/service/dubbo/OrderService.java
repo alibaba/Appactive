@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package io.appactive.demo.common.service;
+package io.appactive.demo.common.service.dubbo;
 
-import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
 
-import java.util.List;
+public interface OrderService {
 
-public interface ProductServiceNormal {
-
-    ResultHolder<List<Product>> list();
+    ResultHolder<String> buy(String rId, String pId, Integer number);
 
 }

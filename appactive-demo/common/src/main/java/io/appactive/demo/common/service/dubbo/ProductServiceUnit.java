@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package io.appactive.demo.common.service;
+package io.appactive.demo.common.service.dubbo;
 
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
 
-public interface ProductServiceUnitHidden {
+import java.util.List;
 
-    ResultHolder<Product> detail(String pId);
+public interface ProductServiceUnit {
+
+    ResultHolder<Product> detail(String rId, String pId);
 }

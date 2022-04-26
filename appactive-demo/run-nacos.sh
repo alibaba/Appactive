@@ -22,7 +22,7 @@ then
   docker-compose -f docker-compose-nacos.yml up -d nacos mysql
 fi
 
-# sh run-nacos.sh 2 ee723cb4-1faa-43d5-825e-7900390a3666
+# sh run-nacos.sh 2 appactiveDemoNamespaceId
 if [ $type == 2 ]
 then
   temp=$2

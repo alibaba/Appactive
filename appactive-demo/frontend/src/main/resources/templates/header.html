@@ -38,7 +38,7 @@
         window.onload=function(){
             setMenu();
             hideGateway();
-            refresh();
+            refresh(undefined, undefined);
             drawArrow();
         };
 
@@ -97,18 +97,25 @@
             elem.addClass("active");
         }
 
-        function refresh(routerIdNew){
-	        let routerId = routerIdNew === undefined ? getRouterId() : routerIdNew;
+        function refresh(routerIdNew, rpcTypeNew){
+          let routerId = routerIdNew === undefined ? getRouterId() : routerIdNew;
+          let rpcType = rpcTypeNew === undefined ? getRpcType() : rpcTypeNew;
 	        let element = document.getElementById("routerId");
 	        element.value = routerId;
-	        document.cookie = "r_id="+routerId+"; path=/";
+	        element = document.getElementById("rpcType");
+          element.value = rpcType;
+          document.cookie = ("rpc_type="+rpcType+"; path=/");
+          document.cookie = ("r_id="+routerId+"; path=/");
         }
 
-        function setRouterId() {
+        function setMeta() {
 	        let element = document.getElementById("routerId");
 	        let routerId = element.value;
-	        // 整个网站生效 用 /
-	        refresh(routerId);
+	        let element1 = document.getElementById("rpcType");
+          let rpcType = element1.value;
+          console.log(routerId+","+rpcType)
+            // 整个网站生效 用 /
+	        refresh(routerId, rpcType);
         }
 
         function getRouterId() {
@@ -120,6 +127,17 @@
               routerId = 24
             }
             return routerId;
+        }
+
+        function getRpcType() {
+            let rpcType = getQuery("rpc_type")
+            if (rpcType === undefined){
+                rpcType = getCookie("rpc_type")
+            }
+            if (rpcType === undefined){
+                rpcType = "Dubbo"
+            }
+            return rpcType;
         }
 
         function getCookie(cname){
@@ -156,7 +174,12 @@
                     <li id="listProduct"><a class="nav-link" th:href="@{'/listProduct'}">列表(普通服务)</a></li>
                     <li id="detailProduct"><a class="nav-link" th:href="@{'/detailProduct'}">详情(单元服务)</a></li>
                     <li id="buyProduct"><a class="nav-link" th:href="@{'/buyProduct'}">下单(中心服务)</a></li>
-                    <li><input type="text" class="form-control" placeholder="路由ID" id="routerId" onblur="setRouterId()"></li>
+<!--                    <li><input type="text" class="form-control" placeholder="Rpc类型" id="rpcType" onblur="setMeta()"></li>-->
+                    <select name="rpcType" id="rpcType" class="form-control" style="width:150px" onchange="setMeta()">
+                        <option value="Dubbo">Dubbo</option>
+                        <option value="SpringCloud">SpringCloud</option>
+                    </select>
+                    <li><input type="text" class="form-control" placeholder="路由ID" id="routerId" onchange="setMeta()" onblur="setMeta()"></li>
                 </ul>
             </div>
         </nav>

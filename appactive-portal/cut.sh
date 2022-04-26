@@ -14,8 +14,7 @@
 # limitations under the License.
 #
 
-# sh cut.sh
-# sh cut.sh NACOS ee723cb4-1faa-43d5-825e-7900390a3666
+# sh cut.sh   or   sh cut.sh NACOS appactiveDemoNamespaceId
 
 channel=$1
 tenant=$2

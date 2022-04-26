@@ -17,9 +17,11 @@
 package io.appactive.demo.frontend.controller;
 
 import com.alibaba.fastjson.JSON;
+import io.appactive.demo.common.RPCType;
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.ProductServiceUnitHidden;
+import io.appactive.demo.common.service.dubbo.ProductServiceUnitHidden;
+import io.appactive.demo.common.service.springcloud.ProductDAO;
 import io.appactive.demo.frontend.service.FrontEndService;
 import io.appactive.java.api.base.AppContextClient;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -31,6 +33,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,9 @@ public class FrontController {
 
     @Autowired
     private FrontEndService frontEndService;
+
+    @Resource
+    private ProductDAO productDAO;
 
     @Value("${spring.application.name}")
     private String appName;
@@ -131,10 +137,13 @@ public class FrontController {
     }
 
     @GetMapping("/listProduct")
-    public String listProduct(Model model) {
+    public String listProduct(@CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
+                              Model model) {
         // normal
-        ResultHolder<List<Product>> resultHolder = frontEndService.list();
+        ResultHolder<List<Product>> resultHolder = rpcType == RPCType.Dubbo ?
+                frontEndService.list() : productDAO.list();
         System.out.println(resultHolder.getChain());
+
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
         model.addAttribute("current", "listProduct");
@@ -142,11 +151,18 @@ public class FrontController {
     }
 
     @GetMapping(value = "/detailProduct")
-    public String detailProduct(@RequestParam(required = false, defaultValue = "12") String id,
+    public String detailProduct(@CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
+                                @RequestParam(required = false, defaultValue = "12") String id,
                                 @RequestParam(required = false, defaultValue = "false") Boolean hidden,
                                 Model model) {
         // unit
-        ResultHolder<Product> resultHolder = hidden ? frontEndService.detailHidden(id) : frontEndService.detail(AppContextClient.getRouteId(), id);
+        ResultHolder<Product> resultHolder ;
+        if (rpcType == RPCType.Dubbo){
+            resultHolder = hidden ? frontEndService.detailHidden(id) : frontEndService.detail(AppContextClient.getRouteId(), id);
+        }else {
+            resultHolder = hidden ? productDAO.detailHidden(id) : productDAO.detail(AppContextClient.getRouteId(), id);
+        }
+
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
         model.addAttribute("current", "detailProduct");
@@ -155,13 +171,16 @@ public class FrontController {
 
     @RequestMapping("/buyProduct")
     public String buyProduct(
+            @CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
             @RequestParam(required = false, defaultValue = "jack") String rId,
             @RequestParam(required = false, defaultValue = "12") String pId,
             @RequestParam(required = false, defaultValue = "5") Integer number,
             Model model
     ) {
         // unit
-        ResultHolder<String> resultHolder = frontEndService.buy(pId, number);
+        ResultHolder<String> resultHolder = rpcType == RPCType.Dubbo ?
+                frontEndService.buy(pId, number) : productDAO.buy(AppContextClient.getRouteId(), pId, number);
+
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
         model.addAttribute("current", "buyProduct");

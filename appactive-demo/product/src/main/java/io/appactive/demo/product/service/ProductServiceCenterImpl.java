@@ -17,8 +17,8 @@
 package io.appactive.demo.product.service;
 
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.OrderService;
-import io.appactive.demo.common.service.ProductServiceCenter;
+import io.appactive.demo.common.service.dubbo.OrderService;
+import io.appactive.demo.common.service.dubbo.ProductServiceCenter;
 import io.appactive.demo.product.repository.ProductRepository;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;

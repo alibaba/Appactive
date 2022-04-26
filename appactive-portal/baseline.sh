@@ -14,8 +14,7 @@
 # limitations under the License.
 #
 
-# sh baseline.sh 2
-# sh baseline.sh 2 NACOS ee723cb4-1faa-43d5-825e-7900390a3666
+# sh baseline.sh 2   or   sh baseline.sh 2 NACOS appactiveDemoNamespaceId
 # sh baseline.sh 3
 
 type=$1

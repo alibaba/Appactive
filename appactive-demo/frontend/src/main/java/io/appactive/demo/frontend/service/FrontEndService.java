@@ -18,10 +18,10 @@ package io.appactive.demo.frontend.service;
 
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.ProductServiceCenter;
-import io.appactive.demo.common.service.ProductServiceNormal;
-import io.appactive.demo.common.service.ProductServiceUnit;
-import io.appactive.demo.common.service.ProductServiceUnitHidden;
+import io.appactive.demo.common.service.dubbo.ProductServiceCenter;
+import io.appactive.demo.common.service.dubbo.ProductServiceNormal;
+import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
+import io.appactive.demo.common.service.dubbo.ProductServiceUnitHidden;
 import io.appactive.java.api.base.AppContextClient;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;

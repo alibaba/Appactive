@@ -18,7 +18,7 @@ package io.appactive.demo.storage.service;
 
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.OrderService;
+import io.appactive.demo.common.service.dubbo.OrderService;
 import io.appactive.demo.storage.repository.ProductRepository;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;

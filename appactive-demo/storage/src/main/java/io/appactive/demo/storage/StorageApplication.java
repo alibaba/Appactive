@@ -17,13 +17,14 @@
 package io.appactive.demo.storage;
 
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.OrderService;
+import io.appactive.demo.common.service.dubbo.OrderService;
 import io.appactive.java.api.base.AppContextClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SpringBootApplication
 @EntityScan("io.appactive.demo.*")
 @Controller("/")
+@EnableDiscoveryClient
+// @EnableFeignClients
 public class StorageApplication {
     public static void main(String[] args) {
         SpringApplication.run(StorageApplication.class, args);
