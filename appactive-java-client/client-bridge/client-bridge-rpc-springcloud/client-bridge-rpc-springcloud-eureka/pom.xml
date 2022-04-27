@@ -19,18 +19,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>client-bridge</artifactId>
+        <artifactId>client-bridge-rpc-springcloud</artifactId>
         <groupId>com.alibaba.msha</groupId>
         <version>0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>client-bridge-rpc-springcloud</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>client-bridge-rpc-springcloud-nacos</module>
-        <module>client-bridge-rpc-springcloud-eureka</module>
-    </modules>
+    <artifactId>client-bridge-rpc-springcloud-eureka</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -39,38 +34,16 @@
 
     <dependencies>
 
-        <!--test-->
+        <!-- eureka client-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.2.10.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
-            <version>2.0.0.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.0.5.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>3.0.5.RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>appactive-java-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>client-rule</artifactId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+            <version>2.2.10.RELEASE</version>
         </dependency>
 
     </dependencies>
