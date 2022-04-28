@@ -27,7 +27,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages = {"io.appactive.demo","io.appactive.rpc.springcloud.nacos.provider"})
+@ComponentScan(basePackages = {
+        "io.appactive.demo",
+        "io.appactive.rpc.springcloud.common.consumer",
+        "io.appactive.rpc.springcloud.nacos.provider"
+})
 // @Configuration
 // @EnableAutoConfiguration
 @EnableDiscoveryClient

@@ -75,6 +75,11 @@
             <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
             <version>0.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+            <version>0.3</version>
+        </dependency>
     </dependencies>
 
 

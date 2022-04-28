@@ -16,6 +16,7 @@
 
 package io.appactive.demo.storage.config;
 
+import io.appactive.rpc.springcloud.common.provider.RouterIdFilter;
 import io.appactive.servlet.RequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,14 @@ public class WebConfig {
     public FilterRegistrationBean<RequestFilter> appActiveFilter() {
         FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         RequestFilter reqResFilter = new RequestFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+    @Bean
+    public FilterRegistrationBean<RouterIdFilter> appActiveProviderFilter() {
+        FilterRegistrationBean<RouterIdFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        RouterIdFilter reqResFilter = new RouterIdFilter();
         filterRegistrationBean.setFilter(reqResFilter);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;

@@ -30,6 +30,7 @@
     <modules>
         <module>client-bridge-rpc-springcloud-nacos</module>
         <module>client-bridge-rpc-springcloud-eureka</module>
+        <module>client-bridge-rpc-springcloud-common</module>
     </modules>
 
     <properties>
@@ -61,6 +62,25 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>3.0.5.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>9.5.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.2.21.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
