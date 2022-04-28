@@ -19,8 +19,11 @@ package io.appactive.rpc.springcloud.common.provider;
 import io.appactive.java.api.base.AppContextClient;
 import io.appactive.java.api.base.constants.AppactiveConstant;
 import io.appactive.java.api.bridge.servlet.ServletService;
+import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rpc.springcloud.common.Constants;
 import io.appactive.support.log.LogUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +35,7 @@ import java.io.IOException;
  *
  * @author mageekchiu
  */
-public class RouterIdFilter implements Filter{
+public class UnitServiceFilter implements Filter{
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -48,6 +51,9 @@ public class RouterIdFilter implements Filter{
         }
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         String routerId = ServletService.getRouteIdFromHeader(httpRequest, Constants.ROUTER_ID_HEADER_KEY);
+        if (StringUtils.isBlank(routerId)){
+            throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "no routerId provided for this request");
+        }
         AppContextClient.setUnitContext(routerId);
         LogUtil.info(AppactiveConstant.PROJECT_NAME + "-routerIdFilter-doFilter-header:" + AppContextClient.getRouteId());
         chain.doFilter(request, response);

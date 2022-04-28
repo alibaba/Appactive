@@ -23,6 +23,7 @@ public enum MiddleWareTypeEnum {
      * open rocketmq
      */
     OPEN_ROCKETMQ("open_rocketmq"),
+    SPRING_CLOUD("spring_cloud"),
     DUBBO("dubbo"),
     ;
 

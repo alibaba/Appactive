@@ -63,8 +63,6 @@ public class StorageApplication {
         String routerId = AppContextClient.getRouteId();
         System.out.println("buy:"+routerId);
         ResultHolder<String> resultHolder = orderService.buy(rId, id, number);
-        // add hard-coded chain
-        // resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
         resultHolder.setResult(String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult()));
         return resultHolder;
     }

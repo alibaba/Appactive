@@ -45,11 +45,16 @@ public class FileWriteDataSource<T> implements ConfigWriteDataSource<T> {
     }
 
     @Override
-    public void write(T value) throws Exception {
-        syncWriteFile(value);
+    public boolean write(T value) throws Exception {
+        return syncWriteFile(value);
     }
 
-    private void syncWriteFile(T value) throws Exception {
+    @Override
+    public boolean write(T value, String type) throws Exception {
+        return syncWriteFile(value);
+    }
+
+    private boolean syncWriteFile(T value) throws Exception {
         String convertResult = converterInterface.convert(value);
         FileOutputStream outputStream = null;
         try {
@@ -68,6 +73,7 @@ public class FileWriteDataSource<T> implements ConfigWriteDataSource<T> {
                 }
             }
         }
+        return true;
     }
 
     @Override

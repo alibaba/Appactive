@@ -16,62 +16,90 @@
 
 package io.appactive.channel.nacos;
 
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.PropertyKeyConst;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.ConfigType;
+import com.alibaba.nacos.api.exception.NacosException;
 import io.appactive.java.api.channel.ConfigWriteDataSource;
 import io.appactive.java.api.channel.ConverterInterface;
+import io.appactive.java.api.channel.listener.DataListener;
 import io.appactive.support.log.LogUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class NacosWriteDataSource<T> implements ConfigWriteDataSource<T> {
 
-    private final File file;
+    private final ConverterInterface<T, String> converterInterface;
 
-    private final Charset charset;
+    private List<DataListener<T>> dataListeners = new ArrayList<>();
 
-    private final ConverterInterface<T,String> converterInterface;
+    private String serverAddr;
+    private String dataId;
+    private String groupId;
+    private String namespaceId;
 
-    public NacosWriteDataSource(String filePath, Charset charset,
-                                ConverterInterface<T, String> converterInterface) {
-       this(new File(filePath),charset,converterInterface);
+    private ConfigService configService;
+
+    /**
+     * TimeUnit.MILLISECONDS
+     */
+    private long timerPeriod = 3000L;
+    private T memoryValue = null;
+    private long lastModified = 0L;
+    private long curLastModified = -1L;
+
+    public NacosWriteDataSource(String serverAddr, String dataId, String groupId, ConverterInterface<T, String> converterInterface) {
+        this(serverAddr,dataId,groupId,"", converterInterface);
     }
 
-    public NacosWriteDataSource(File file, Charset charset,
-                                ConverterInterface<T, String> converterInterface) {
-        this.file = file;
-        this.charset = charset;
+    public NacosWriteDataSource(String serverAddr, String dataId, String groupId, String namespaceId, ConverterInterface<T, String> converterInterface) {
+        this.serverAddr = serverAddr;
+        this.dataId = dataId;
+        this.groupId = groupId;
+        this.namespaceId = namespaceId;
         this.converterInterface = converterInterface;
+
+        startTimerService();
     }
 
-    @Override
-    public void write(T value) throws Exception {
-        syncWriteFile(value);
-    }
-
-    private void syncWriteFile(T value) throws Exception {
-        String convertResult = converterInterface.convert(value);
-        FileOutputStream outputStream = null;
+    private void startTimerService() {
         try {
-            outputStream = new FileOutputStream(file);
-            byte[] bytesArray = convertResult.getBytes(charset);
-
-            LogUtil.info("[FileWritableDataSource] Writing to file {}: {}", file, convertResult);
-            outputStream.write(bytesArray);
-            outputStream.flush();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (Exception ignore) {
-                    // nothing
-                }
-            }
+            Properties properties = new Properties();
+            properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+            properties.put(PropertyKeyConst.NAMESPACE, namespaceId);
+            configService = NacosFactory.createConfigService(properties);
+        } catch (NacosException e) {
+            LogUtil.error("get Nacos configService Exception ", e);
         }
     }
 
     @Override
-    public void close() throws Exception {
+    public boolean write(T value) throws Exception {
+        return write(value, ConfigType.JSON.getType());
+    }
 
+    @Override
+    public boolean write(T value, String type) throws Exception {
+        return syncWriteNacos(value,type);
+    }
+
+    private boolean syncWriteNacos(T value, String type) throws Exception {
+        try {
+            String convertResult = converterInterface.convert(value);
+            return configService.publishConfig(dataId, groupId, convertResult, type);
+        }catch (Exception e){
+            LogUtil.error("write Nacos config Exception ", e);
+        }
+        return false;
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (configService!=null){
+            configService.shutDown();
+        }
     }
 }

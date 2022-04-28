@@ -16,7 +16,8 @@
 
 package io.appactive.demo.product.config;
 
-import io.appactive.rpc.springcloud.common.provider.RouterIdFilter;
+import io.appactive.rpc.springcloud.common.provider.CenterServiceFilter;
+import io.appactive.rpc.springcloud.common.provider.UnitServiceFilter;
 import io.appactive.servlet.RequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,19 +27,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
     @Bean
-    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+    public FilterRegistrationBean<RequestFilter> appActiveWebFilter() {
         FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         RequestFilter reqResFilter = new RequestFilter();
         filterRegistrationBean.setFilter(reqResFilter);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
     }
+
     @Bean
-    public FilterRegistrationBean<RouterIdFilter> appActiveProviderFilter() {
-        FilterRegistrationBean<RouterIdFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        RouterIdFilter reqResFilter = new RouterIdFilter();
+    public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
+        FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        UnitServiceFilter reqResFilter = new UnitServiceFilter();
         filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns("/detailHidden","/detail");
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CenterServiceFilter> appActiveCenterServiceFilter() {
+        FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        CenterServiceFilter reqResFilter = new CenterServiceFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/buy");
         return filterRegistrationBean;
     }
 }

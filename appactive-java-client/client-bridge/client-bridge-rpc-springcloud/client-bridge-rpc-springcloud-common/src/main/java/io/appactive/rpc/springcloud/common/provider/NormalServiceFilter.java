@@ -14,16 +14,34 @@
  * limitations under the License.
  */
 
-package io.appactive.java.api.channel;
+package io.appactive.rpc.springcloud.common.provider;
 
-import io.appactive.java.api.base.extension.SPI;
+import javax.servlet.*;
+import java.io.IOException;
 
-@SPI
-public interface ConfigWriteDataSource<T> {
+/**
+ * only for normal service
+ *
+ * @author mageekchiu
+ */
+public class NormalServiceFilter implements Filter{
 
-    boolean write(T value) throws Exception;
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
 
-    boolean write(T value, String type) throws Exception;
+    }
 
-    void close() throws Exception;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException{
+        // todo
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+
 }
