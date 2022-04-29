@@ -35,12 +35,15 @@ public class WebConfig {
         return filterRegistrationBean;
     }
 
+    /**
+     * AntPathMatcher (Spring Framework 5.3.19 API): https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/AntPathMatcher.html
+     */
     @Bean
     public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
         FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         UnitServiceFilter reqResFilter = new UnitServiceFilter();
         filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/detailHidden","/detail");
+        filterRegistrationBean.addUrlPatterns("/detailHidden/*","/detail/*");
         return filterRegistrationBean;
     }
 
@@ -49,7 +52,7 @@ public class WebConfig {
         FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         CenterServiceFilter reqResFilter = new CenterServiceFilter();
         filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/buy");
+        filterRegistrationBean.addUrlPatterns("/buy/*");
         return filterRegistrationBean;
     }
 }

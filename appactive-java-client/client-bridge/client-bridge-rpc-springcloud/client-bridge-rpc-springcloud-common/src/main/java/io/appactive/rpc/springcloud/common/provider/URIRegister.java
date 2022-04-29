@@ -25,13 +25,12 @@ public class URIRegister {
     @Autowired
     private List<FilterRegistrationBean> beanList;
 
+    private ServiceMetaObject serviceMetaObject;
+
     @PostConstruct
     public void doRegister(){
         doRegisterUris();
     }
-
-    private final List<ServiceMeta> serviceMetaList = new LinkedList<>();
-    private final ServiceMetaObject serviceMetaObject = new ServiceMetaObject();
 
     /**
      * publish to registry meta like dubbo
@@ -39,6 +38,7 @@ public class URIRegister {
      */
     public void doRegisterUris(){
         if (CollectionUtils.isNotEmpty(beanList)){
+            List<ServiceMeta> serviceMetaList = new LinkedList<>();
             for (FilterRegistrationBean filterRegistrationBean : beanList) {
                 Filter filter = filterRegistrationBean.getFilter();
                 if (filter==null){
@@ -64,13 +64,16 @@ public class URIRegister {
                     }
                 }
             }
+            if (CollectionUtils.isNotEmpty(serviceMetaList)){
+                serviceMetaObject = new ServiceMetaObject();
+                Collections.sort(serviceMetaList);
+                serviceMetaObject.setServiceMetaList(serviceMetaList);
+                String meta = JSON.toJSONString(serviceMetaObject);
+                serviceMetaObject.setMeta(meta);
+                String md5 = DigestUtils.md5Hex(meta.getBytes(StandardCharsets.UTF_8));
+                serviceMetaObject.setMd5(md5);
+            }
         }
-        Collections.sort(serviceMetaList);
-        serviceMetaObject.setServiceMetaList(serviceMetaList);
-        String meta = JSON.toJSONString(serviceMetaObject);
-        serviceMetaObject.setMeta(meta);
-        String md5 = DigestUtils.md5Hex(meta.getBytes(StandardCharsets.UTF_8));
-        serviceMetaObject.setMd5(md5);
     }
 
     public ServiceMetaObject getServiceMetaObject() {

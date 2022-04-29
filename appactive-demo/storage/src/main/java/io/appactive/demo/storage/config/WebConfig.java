@@ -40,7 +40,7 @@ public class WebConfig {
         FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         CenterServiceFilter reqResFilter = new CenterServiceFilter();
         filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/buy");
+        filterRegistrationBean.addUrlPatterns("/buy/*");
         return filterRegistrationBean;
     }
 }

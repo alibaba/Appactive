@@ -32,8 +32,6 @@ import org.springframework.context.annotation.Configuration;
         "io.appactive.rpc.springcloud.common.consumer",
         "io.appactive.rpc.springcloud.nacos.provider"
 })
-// @Configuration
-// @EnableAutoConfiguration
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"io.appactive.demo"})
 public class FrontendApplication {
