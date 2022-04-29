@@ -6,20 +6,17 @@ package io.appactive.rpc.springcloud.common;
 public class ServiceMeta implements Comparable<ServiceMeta>{
 
     private String uriPrefix;
-    private Label labels;
+    private String ra;
 
     public ServiceMeta() {
     }
 
-    public ServiceMeta(String uriPrefix, Label labels) {
+    public ServiceMeta(String uriPrefix, String ra) {
         this.uriPrefix = uriPrefix;
-        this.labels = labels;
+        this.ra = ra;
     }
 
-    public ServiceMeta(String uriPrefix, String writeMode) {
-        this.uriPrefix = uriPrefix;
-        this.labels = new Label(writeMode);
-    }
+
 
     public String getUriPrefix() {
         return uriPrefix;
@@ -29,57 +26,26 @@ public class ServiceMeta implements Comparable<ServiceMeta>{
         this.uriPrefix = uriPrefix;
     }
 
-    public Label getLabels() {
-        return labels;
+    public String getRa() {
+        return ra;
     }
 
-    public void setLabels(Label labels) {
-        this.labels = labels;
+    public void setRa(String ra) {
+        this.ra = ra;
     }
 
     @Override
     public String toString() {
         return "ServiceMeta{" +
                 "uriPrefix='" + uriPrefix + '\'' +
-                ", labels=" + labels +
+                ", ra=" + ra +
                 '}';
     }
 
     @Override
     public int compareTo(ServiceMeta o) {
         int pre = this.uriPrefix.compareTo(o.getUriPrefix());
-        return pre == 0 ? this.labels.compareTo(o.getLabels()) : pre;
+        return pre == 0 ? this.ra.compareTo(o.getRa()) : pre;
     }
 
-
-    public static class Label implements Comparable<Label>{
-        private String writeMode;
-
-        public Label() {
-        }
-
-        public Label(String writeMode) {
-            this.writeMode = writeMode;
-        }
-
-        public String getWriteMode() {
-            return writeMode;
-        }
-
-        public void setWriteMode(String writeMode) {
-            this.writeMode = writeMode;
-        }
-
-        @Override
-        public String toString() {
-            return "Label{" +
-                    ", writeMode='" + writeMode + '\'' +
-                    '}';
-        }
-
-        @Override
-        public int compareTo(Label o) {
-            return this.getWriteMode().compareTo(o.getWriteMode());
-        }
-    }
 }
