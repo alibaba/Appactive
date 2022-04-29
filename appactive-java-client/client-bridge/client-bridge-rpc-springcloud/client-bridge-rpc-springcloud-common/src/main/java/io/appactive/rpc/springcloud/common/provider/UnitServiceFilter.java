@@ -19,8 +19,12 @@ package io.appactive.rpc.springcloud.common.provider;
 import io.appactive.java.api.base.AppContextClient;
 import io.appactive.java.api.base.constants.AppactiveConstant;
 import io.appactive.java.api.bridge.servlet.ServletService;
+import io.appactive.java.api.rule.TrafficMachineService;
+import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
+import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rpc.springcloud.common.Constants;
+import io.appactive.rule.ClientRuleService;
 import io.appactive.support.log.LogUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,6 +41,10 @@ import java.io.IOException;
  */
 public class UnitServiceFilter implements Filter{
 
+    private final TrafficRouteRuleService trafficRouteRuleService = ClientRuleService.getTrafficRouteRuleService();
+    private final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
+    private final TrafficMachineService trafficMachineService = new TrafficMachineService(trafficRouteRuleService,
+            machineUnitRuleService);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -53,6 +61,9 @@ public class UnitServiceFilter implements Filter{
         String routerId = ServletService.getRouteIdFromHeader(httpRequest, Constants.ROUTER_ID_HEADER_KEY);
         if (StringUtils.isBlank(routerId)){
             throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "no routerId provided for this request");
+        }
+        if (!trafficMachineService.isInCurrentUnit(routerId)) {
+            throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "routerId "+ routerId + " not belong in unit:"+ machineUnitRuleService.getCurrentUnit());
         }
         AppContextClient.setUnitContext(routerId);
         LogUtil.info(AppactiveConstant.PROJECT_NAME + "-routerIdFilter-doFilter-header:" + AppContextClient.getRouteId());

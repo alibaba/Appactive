@@ -16,6 +16,11 @@
 
 package io.appactive.rpc.springcloud.common.provider;
 
+import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
+import io.appactive.rule.ClientRuleService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.servlet.*;
 import java.io.IOException;
 
@@ -26,6 +31,8 @@ import java.io.IOException;
  */
 public class CenterServiceFilter implements Filter{
 
+    private final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -34,7 +41,9 @@ public class CenterServiceFilter implements Filter{
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException{
-        // todo
+        if (!machineUnitRuleService.isCenterUnit()){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "this is not center machine:" + machineUnitRuleService.getCurrentUnit());
+        }
         chain.doFilter(request, response);
     }
 
