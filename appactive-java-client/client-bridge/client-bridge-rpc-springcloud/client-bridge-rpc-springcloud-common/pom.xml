@@ -34,11 +34,65 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-base</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
             <version>2.0.6.RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.13</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon-loadbalancer</artifactId>
+            <version>2.2.5</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+                    <!-- Weave third party dependency -->
+                    <weaveDependencies>
+                        <weaveDependency>
+                            <groupId>com.netflix.ribbon</groupId>
+                            <artifactId>ribbon-loadbalancer</artifactId>
+                        </weaveDependency>
+                    </weaveDependencies>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <complianceLevel>1.8</complianceLevel>
+                    <forceAjcCompile>true</forceAjcCompile>
+                </configuration>
+                <!-- Weave on compile -->
+                <executions>
+                    <execution>
+                        <id>compileId</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <showWeaveInfo>true</showWeaveInfo>
+                            <Xlint>cantFindType=warning</Xlint>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

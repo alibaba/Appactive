@@ -129,6 +129,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+<!--                    &lt;!&ndash; Weave third party dependency &ndash;&gt;-->
+<!--                    <weaveDependencies>-->
+<!--                        <weaveDependency>-->
+<!--                            <groupId>com.netflix.ribbon</groupId>-->
+<!--                            <artifactId>ribbon-loadbalancer</artifactId>-->
+<!--                        </weaveDependency>-->
+<!--                    </weaveDependencies>-->
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>com.alibaba.msha</groupId>
+                            <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <complianceLevel>1.8</complianceLevel>
+                    <forceAjcCompile>true</forceAjcCompile>
+                </configuration>
+                <!-- Weave on compile -->
+                <executions>
+                    <execution>
+                        <id>compileId</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
