@@ -68,10 +68,10 @@ public class URIRegister {
                 serviceMetaObject = new ServiceMetaObject();
                 Collections.sort(serviceMetaList);
                 serviceMetaObject.setServiceMetaList(serviceMetaList);
-                String meta = JSON.toJSONString(serviceMetaObject);
+                String meta = JSON.toJSONString(serviceMetaList);
                 serviceMetaObject.setMeta(meta);
                 String md5 = DigestUtils.md5Hex(meta.getBytes(StandardCharsets.UTF_8));
-                serviceMetaObject.setMd5(md5);
+                serviceMetaObject.setMd5OfList(md5);
             }
         }
     }

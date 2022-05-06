@@ -46,7 +46,7 @@ public class Register {
             return;
         }
         map.put(RPCConstant.SPRING_CLOUD_SERVICE_META, serviceMetaObject.getMeta());
-        map.put(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION, serviceMetaObject.getMd5());
+        map.put(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION, serviceMetaObject.getMd5OfList());
     }
 
 
