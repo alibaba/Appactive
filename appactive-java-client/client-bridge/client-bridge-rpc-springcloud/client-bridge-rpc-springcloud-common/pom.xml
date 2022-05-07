@@ -56,6 +56,14 @@
             <version>2.2.5</version>
             <scope>compile</scope>
         </dependency>
+        <!-- weaving cant find type, so add dependency-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -87,7 +95,7 @@
                         </goals>
                         <configuration>
                             <showWeaveInfo>true</showWeaveInfo>
-                            <Xlint>cantFindType=warning</Xlint>
+<!--                            <Xlint>cantFindType=warning</Xlint>-->
                         </configuration>
                     </execution>
                 </executions>

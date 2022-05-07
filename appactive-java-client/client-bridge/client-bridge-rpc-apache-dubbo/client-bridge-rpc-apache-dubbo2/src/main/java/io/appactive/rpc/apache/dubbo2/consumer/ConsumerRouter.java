@@ -122,7 +122,7 @@ public class ConsumerRouter implements Router {
             addressFilterByUnitService = new RPCAddressFilterByUnitServiceImpl<T>(MiddleWareTypeEnum.DUBBO);
             addressFilterByUnitService.initAddressCallBack(callBack);
         }
-        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, invokers);
+        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, invokers, null);
     }
 
     private <T> void initRouteIdIndex(List<Invoker<T>> invokers) {

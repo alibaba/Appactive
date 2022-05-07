@@ -20,13 +20,16 @@ import com.netflix.loadbalancer.Server;
 import io.appactive.java.api.bridge.rpc.constants.bo.RPCInvokerBO;
 import io.appactive.java.api.bridge.rpc.consumer.RPCAddressCallBack;
 import io.appactive.rpc.springcloud.common.consumer.ServerMeta;
-import io.appactive.support.spi.SpiUtil;
 
 import java.util.List;
 
 public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
 
-    private static ServerMeta serverMeta = SpiUtil.loadFirstInstance(ServerMeta.class);
+    private ServerMeta serverMeta;
+
+    public SpringCloud2AddressCallBack(ServerMeta serverMeta) {
+        this.serverMeta = serverMeta;
+    }
 
     @Override
     public String getMetaMapValue(T server, String key) {

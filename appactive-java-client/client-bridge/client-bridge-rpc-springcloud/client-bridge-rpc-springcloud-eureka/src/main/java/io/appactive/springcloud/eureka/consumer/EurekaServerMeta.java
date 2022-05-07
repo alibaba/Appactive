@@ -10,6 +10,10 @@ import java.util.Map;
  * @author mageekchiu
  */
 public class EurekaServerMeta implements ServerMeta {
+
+    public EurekaServerMeta() {
+    }
+
     @Override
     public Map<String, String> getMetaMap(Server server) {
         return ((DiscoveryEnabledServer)server).getInstanceInfo().getMetadata();

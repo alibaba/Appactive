@@ -4,18 +4,15 @@ package io.appactive.rpc.springcloud.common.consumer;
 import com.netflix.loadbalancer.Server;
 import io.appactive.java.api.base.AppContextClient;
 import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
-import io.appactive.java.api.bridge.rpc.consumer.RPCAddressFilterByUnitService;
-import io.appactive.java.api.rule.TrafficMachineService;
-import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
-import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
-import io.appactive.rpc.base.consumer.RPCAddressFilterByUnitServiceImpl;
+import io.appactive.java.api.base.exception.ExceptionFactory;
+import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
 import io.appactive.rpc.springcloud.common.UriContext;
 import io.appactive.rpc.springcloud.common.consumer.callback.SpringCloud2AddressCallBack;
-import io.appactive.rule.ClientRuleService;
 import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -25,25 +22,38 @@ public class ConsumerRouter {
 
     private static final Logger logger = LogUtil.getLogger();
 
+    private static final ServerMeta serverMeta ;
+    private static final SpringCloudAddressFilterByUnitServiceImpl<Server> addressFilterByUnitService;
 
-    private final TrafficRouteRuleService trafficRouteRuleService = ClientRuleService.getTrafficRouteRuleService();
-    private final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
-    private final TrafficMachineService trafficMachineService = new TrafficMachineService(trafficRouteRuleService,
-            machineUnitRuleService);
-
-    private String servicePrimaryKey;
-
-
-    /**
-     * remove unqualified servers from origin list
-     * @param servers origin server list
-     */
-    public static void filterOrigin(List<Server> servers){
-        if (CollectionUtils.isEmpty(servers)){
-            return;
+    static {
+        String baseName = "io.appactive.rpc.springcloud.nacos.consumer.";
+        String[] classes = new String[]{
+                "NacosServerMeta",
+                "EurekaServerMeta",
+        };
+        serverMeta = loadServerMeta(baseName, classes);
+        if (serverMeta == null){
+            String msg = MessageFormat.format("No available ServerMeta among classes: {0}",classes);
+            throw ExceptionFactory.makeFault(msg);
+        }else {
+            logger.info("filter ServerMeta found: {}", serverMeta.getClass().getName());
+            addressFilterByUnitService = new SpringCloudAddressFilterByUnitServiceImpl<>(MiddleWareTypeEnum.SPRING_CLOUD);
+            addressFilterByUnitService.initAddressCallBack(new SpringCloud2AddressCallBack<>(serverMeta));
         }
-        // todo remove unqualified servers
     }
+
+    private static ServerMeta loadServerMeta(String baseName, String[] classNames){
+        for (String className : classNames) {
+            try {
+                Class clazz = Class.forName(baseName+className);
+                return (ServerMeta)clazz.newInstance();
+            }catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+
+            }
+        }
+        return null;
+    }
+
 
     /**
      * return qualified server subset from origin list
@@ -54,15 +64,13 @@ public class ConsumerRouter {
         if (CollectionUtils.isEmpty(servers)){
             return servers;
         }
-        return servers;
-        // todo filtering
-        // String servicePrimaryKey = servers.get(0).getMetaInfo().getAppName() + UriContext.getUriPath();
-        //
-        // RPCAddressFilterByUnitService addressFilterByUnitService = new RPCAddressFilterByUnitServiceImpl<List<Server>>(MiddleWareTypeEnum.SPRING_CLOUD);
-        // addressFilterByUnitService.initAddressCallBack(new SpringCloud2AddressCallBack());
-        // addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers);
-        //
-        // List<Server> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey, AppContextClient.getRouteId());
-        // return list;
+        Server oneServer = servers.get(0);
+        String appName = oneServer.getMetaInfo().getAppName();
+        String version = serverMeta.getMetaMap(oneServer).get(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION);
+        String servicePrimaryKey = appName + UriContext.getUriPath();
+
+        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version);
+        List<Server> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey, AppContextClient.getRouteId());
+        return list;
     }
 }

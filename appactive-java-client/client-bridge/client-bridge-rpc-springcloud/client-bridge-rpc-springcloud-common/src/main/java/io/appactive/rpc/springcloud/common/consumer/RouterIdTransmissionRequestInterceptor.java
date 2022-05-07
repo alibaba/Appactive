@@ -26,6 +26,6 @@ public class RouterIdTransmissionRequestInterceptor implements RequestIntercepto
         }
         requestTemplate.header(Constants.ROUTER_ID_HEADER_KEY, AppContextClient.getRouteId());
         // store uri for routing filter
-        UriContext.setUriPath(request.getRequestURI());
+        UriContext.setUriPath(requestTemplate.url());
     }
 }

@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public class NacosServerMeta implements ServerMeta {
 
+    public NacosServerMeta() {
+    }
+
     @Override
     public Map<String, String> getMetaMap(Server server) {
         return ((NacosServer)server).getMetadata();

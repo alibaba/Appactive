@@ -47,11 +47,12 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
     private final MiddleWareTypeEnum middleWareTypeEnum;
 
-    private RPCAddressCallBack<T> rpcUnitCellCallBack;
+    protected RPCAddressCallBack<T> rpcUnitCellCallBack;
 
     private static final String NO_UNIT_LABEL_PROVIDER_TAG_NAME = "NO_UNIT_FLAG_LABEL";
 
     private final Map<String, AddressActive<T>> SERVICE_REMOTE_ADDRESS_MAP = new ConcurrentHashMap<>();
+    private final Map<String,String> SERVICE_REMOTE_ADDRESS_MAP_VERSION = new ConcurrentHashMap<>();
 
     private final TrafficRouteRuleService trafficRouteRuleService = ClientRuleService.getTrafficRouteRuleService();
 
@@ -67,16 +68,24 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     }
 
     @Override
-    public void refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list) {
+    public void refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version) {
         if (CollectionUtils.isEmpty(list)){
             SERVICE_REMOTE_ADDRESS_MAP.remove(servicePrimaryName);
+            SERVICE_REMOTE_ADDRESS_MAP_VERSION.remove(servicePrimaryName);
         }
-        String resourceType = getResourceType(servicePrimaryName,list);
+        String cachedVersion = SERVICE_REMOTE_ADDRESS_MAP_VERSION.get(servicePrimaryName);
+        if (cachedVersion != null && cachedVersion.equalsIgnoreCase(version)){
+            return;
+        }
+        String resourceType = getResourceType(servicePrimaryName, list, version);
         Map<String, List<T>> unitServersMap = transToUnitFlagServerListMap(list);
 
         AddressActive<T> addressActive = new AddressActive<T>(resourceType,unitServersMap,list);
 
         SERVICE_REMOTE_ADDRESS_MAP.put(servicePrimaryName,addressActive);
+        if (version !=null){
+            SERVICE_REMOTE_ADDRESS_MAP_VERSION.put(servicePrimaryName, version);
+        }
     }
 
     @Override
@@ -102,7 +111,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         }
 
         // 1.
-        String resourceType = getResourceType(servicePrimaryName,list);
+        String resourceType = getResourceType(servicePrimaryName,list, null);
 
         // unit: originalServers
         Map<String, List<T>> unitServersMap = transToUnitFlagServerListMap(list);
@@ -116,15 +125,15 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
 
     private List<T> getFilterResult(String servicePrimaryName,String resourceType,Map<String, List<T>> unitServersMap,  List<T> originalServers,String routeId) {
-        if (StringUtils.isBlank(resourceType) || resourceType.equalsIgnoreCase(ResourceActiveType.NORMAL_RESOURCE_TYPE)) {
+        if (StringUtils.isBlank(resourceType) || ResourceActiveType.NORMAL_RESOURCE_TYPE.equalsIgnoreCase(resourceType)) {
             /** 普通服务 或 是未单元化的服务 */
             return commonServers(unitServersMap, originalServers);
         }
-        if (resourceType.equalsIgnoreCase(ResourceActiveType.CENTER_RESOURCE_TYPE)){
+        if (ResourceActiveType.CENTER_RESOURCE_TYPE.equalsIgnoreCase(resourceType)){
             return centerServers(unitServersMap,servicePrimaryName);
         }
 
-        if (resourceType.equalsIgnoreCase(ResourceActiveType.UNIT_RESOURCE_TYPE)) {
+        if (ResourceActiveType.UNIT_RESOURCE_TYPE.equalsIgnoreCase(resourceType)) {
             return unitServers(unitServersMap, servicePrimaryName,routeId);
         }
 
@@ -226,7 +235,15 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     }
 
 
-    private String getResourceType(String servicePrimaryName, List<T> list) {
+    /**
+     * getResourceType
+     * @param servicePrimaryName as it is
+     * @param list provider list
+     * @param version version version of config itself, which can be used to reduce calculation.
+     *                null means you need to calculate list every time
+     * @return
+     */
+    protected String getResourceType(String servicePrimaryName, List<T> list, String version) {
         if (CollectionUtils.isEmpty(list)){
             return null;
         }
