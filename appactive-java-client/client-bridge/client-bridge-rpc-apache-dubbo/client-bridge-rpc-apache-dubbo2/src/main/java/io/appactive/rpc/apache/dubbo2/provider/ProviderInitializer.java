@@ -16,8 +16,10 @@
 
 package io.appactive.rpc.apache.dubbo2.provider;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import io.appactive.java.api.base.constants.ResourceActiveType;
 import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
 import io.appactive.java.api.bridge.rpc.provider.RPCProviderInitService;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
@@ -48,6 +50,11 @@ public class ProviderInitializer implements ConfigInitializer, RPCProviderInitSe
         // 针对特殊的内置 org.apache.dubbo.metadata.MetadataService 处理，无须走后续流程，正常的 parameters 都不会有值
         Map<String, String> parameters = serviceConfig.getParameters();
         if (parameters == null){
+            // 针对普通服务的修正
+            parameters = new HashMap<>(2);
+            parameters.put(RPCConstant.URL_RESOURCE_ACTIVE_LABEL_KEY, ResourceActiveType.NORMAL_RESOURCE_TYPE);
+            parameters.put(RPCConstant.URL_UNIT_LABEL_KEY, machineUnitRuleService.getCurrentUnit());
+            serviceConfig.setParameters(parameters);
             return;
         }
 
