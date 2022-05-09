@@ -17,14 +17,18 @@
 package io.appactive.demo.common.filter;
 
 import io.appactive.demo.common.entity.ResultHolder;
+import io.appactive.support.log.LogUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class ChainAspect {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     @AfterReturning(pointcut=
             "execution(* io.appactive.demo.frontend.service.*.*(..)) || " +
@@ -33,12 +37,10 @@ public class ChainAspect {
             "execution(* io.appactive.demo.common.service.springcloud.*.*(..))" ,
             returning = "result")
     public void afterRunning(JoinPoint joinPoint, Object result){
-        Object[] args = joinPoint.getArgs();
-        String name = joinPoint.getSignature().getName();
         if (result instanceof ResultHolder){
             ResultHolder resultHolder = (ResultHolder)result;
             resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
-            System.out.println("ChainAspect: "+resultHolder);
+            logger.info("ChainAspect: "+resultHolder);
         }
     }
 }

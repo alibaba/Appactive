@@ -43,7 +43,6 @@ public class FeignDecoderPostProcessor implements BeanPostProcessor {
             // Object proxy = Proxy.newProxyInstance(bean.getClass().getClassLoader(),
             //         bean.getClass().getInterfaces(),
             //         (proxy1, method, args) -> {
-            //             System.out.println("ResponseInterceptor....");
             //             String result = (String) method.invoke(bean, args);
             //             return result.toUpperCase();
             //         });
@@ -54,10 +53,5 @@ public class FeignDecoderPostProcessor implements BeanPostProcessor {
         // logger.info("{}",o);
 
         return bean;
-    }
-
-    public static void main(String... args){
-        Decoder d = new Decoder.Default();
-        System.out.println(d instanceof  Decoder);
     }
 }

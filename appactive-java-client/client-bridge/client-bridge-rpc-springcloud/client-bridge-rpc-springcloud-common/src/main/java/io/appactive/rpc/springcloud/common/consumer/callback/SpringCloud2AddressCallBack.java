@@ -17,6 +17,7 @@
 package io.appactive.rpc.springcloud.common.consumer.callback;
 
 import com.netflix.loadbalancer.Server;
+import io.appactive.java.api.base.exception.ExceptionFactory;
 import io.appactive.java.api.bridge.rpc.constants.bo.RPCInvokerBO;
 import io.appactive.java.api.bridge.rpc.consumer.RPCAddressCallBack;
 import io.appactive.rpc.springcloud.common.consumer.ServerMeta;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
 
-    private ServerMeta serverMeta;
+    private final ServerMeta serverMeta;
 
     public SpringCloud2AddressCallBack(ServerMeta serverMeta) {
         this.serverMeta = serverMeta;
@@ -67,6 +68,9 @@ public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
     }
 
     private Server getServer(T server){
-        return (Server) server;
+        if (server instanceof  Server){
+            return (Server) server;
+        }
+        throw ExceptionFactory.makeFault("wrong type for SpringCloud callback:"+server.getClass());
     }
 }

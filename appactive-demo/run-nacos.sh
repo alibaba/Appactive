@@ -37,4 +37,4 @@ then
   docker-compose -f docker-compose-nacos.yml up -d gateway
 fi
 
-# docker-compose stop storage storage-unit product product-unit frontend frontend-unit
+# docker-compose stop storage storage-unit product product-unit frontend frontend-unit gateway

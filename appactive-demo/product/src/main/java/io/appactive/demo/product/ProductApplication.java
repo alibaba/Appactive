@@ -25,6 +25,8 @@ import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
 import io.appactive.demo.common.service.dubbo.ProductServiceUnitHidden;
 import io.appactive.demo.common.service.springcloud.OrderDAO;
 import io.appactive.java.api.base.AppContextClient;
+import io.appactive.support.log.LogUtil;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -53,6 +55,8 @@ import java.util.List;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"io.appactive.demo"})
 public class ProductApplication {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     public static void main(String[] args) {
         SpringApplication.run(ProductApplication.class, args);
@@ -94,6 +98,7 @@ public class ProductApplication {
     @ResponseBody
     public ResultHolder<Product> detailHidden(@RequestParam(required = false, defaultValue = "12") String pId) {
         // unit
+        logger.info("detailHidden, routerId: {}", AppContextClient.getRouteId());
         return productServiceUnitHidden.detail(pId);
     }
 
@@ -102,6 +107,7 @@ public class ProductApplication {
     public ResultHolder<Product> detail(@RequestParam(required = false, defaultValue = "12") String rId,
                                         @RequestParam(required = false, defaultValue = "12") String pId) {
         // unit
+        logger.info("detailHidden, routerId: {}", AppContextClient.getRouteId());
         return productServiceUnit.detail(rId, pId);
     }
 
@@ -113,6 +119,7 @@ public class ProductApplication {
             @RequestParam(required = false, defaultValue = "12") String pId,
             @RequestParam(required = false, defaultValue = "5") Integer number
     ) {
+        logger.info("buy, routerId: {}, rpcType: {}", AppContextClient.getRouteId(), rpcType);
         return rpcType == RPCType.Dubbo ?
                  productServiceCenter.buy(rId, pId, number)
                 : orderDAO.buy(rId, pId, number);

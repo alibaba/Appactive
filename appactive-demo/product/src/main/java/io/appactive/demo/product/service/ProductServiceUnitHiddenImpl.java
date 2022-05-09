@@ -21,7 +21,9 @@ import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.demo.common.service.dubbo.ProductServiceUnitHidden;
 import io.appactive.demo.product.repository.ProductRepository;
 import io.appactive.java.api.base.AppContextClient;
+import io.appactive.support.log.LogUtil;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ import org.springframework.stereotype.Service;
 @Service
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit"})
 public class ProductServiceUnitHiddenImpl implements ProductServiceUnitHidden {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     @Value("${appactive.unit}")
     private String unit;
@@ -39,7 +43,7 @@ public class ProductServiceUnitHiddenImpl implements ProductServiceUnitHidden {
     @Override
     public ResultHolder<Product> detail(String pId) {
         String rId = AppContextClient.getRouteId();
-        System.out.println("detail: " + pId + ",rId " + rId);
+        logger.info("detail: " + pId + ",rId " + rId);
         return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
     }
 }

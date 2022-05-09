@@ -20,8 +20,10 @@ import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.demo.common.service.dubbo.OrderService;
 import io.appactive.demo.common.service.dubbo.ProductServiceCenter;
 import io.appactive.demo.product.repository.ProductRepository;
+import io.appactive.support.log.LogUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ import org.springframework.stereotype.Service;
 @Service
 @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","center","routeIndex","0"})
 public class ProductServiceCenterImpl implements ProductServiceCenter {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     @Value("${appactive.unit}")
     private String unit;
@@ -42,7 +46,7 @@ public class ProductServiceCenterImpl implements ProductServiceCenter {
     @Override
     public ResultHolder<String> buy(String rId, String pId, int number) {
         // center
-        System.out.println("product buy: " + rId + " : " + pId);
+        logger.info("product buy: " + rId + " : " + pId);
         return orderService.buy(rId, pId, number);
     }
 }

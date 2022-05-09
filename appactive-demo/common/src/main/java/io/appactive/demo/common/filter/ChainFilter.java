@@ -17,21 +17,26 @@
 package io.appactive.demo.common.filter;
 
 import io.appactive.demo.common.entity.ResultHolder;
+import io.appactive.support.log.LogUtil;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
+import org.slf4j.Logger;
 
 @Activate
 public class ChainFilter implements Filter {
+
+    private static final Logger logger = LogUtil.getLogger();
+
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         Result result = invoker.invoke(invocation);
         // Object object = result.getValue();
-        // System.out.println(object);
+        // logger.info(object);
         // if (object instanceof ResultHolder){
         //     ResultHolder resultHolder = (ResultHolder)object;
         //     resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
         //     result.setValue(resultHolder);
-        //     System.out.println("ChainFilter: "+resultHolder);
+        //     logger.info("ChainFilter: "+resultHolder);
         // }
         return result;
     }

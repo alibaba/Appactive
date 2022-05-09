@@ -1,6 +1,7 @@
 package io.appactive.rpc.springcloud.common.consumer;
 
 import com.alibaba.fastjson.JSON;
+import io.appactive.java.api.base.constants.ResourceActiveType;
 import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
 import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
 import io.appactive.java.api.utils.lang.StringUtils;
@@ -56,8 +57,10 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
                 }
             }
         }
-        updateMeta(servicePrimaryName, version, null);
-        return null;
+        // 没有标记，默认为是普通服务
+        String ra = ResourceActiveType.NORMAL_RESOURCE_TYPE;
+        updateMeta(servicePrimaryName, version, ra);
+        return ra;
     }
 
     private void updateMeta(String servicePrimaryName, String version, String ra) {

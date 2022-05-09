@@ -17,7 +17,12 @@
 package io.appactive.db.mysql.utils;
 
 
+import io.appactive.support.log.LogUtil;
+import org.slf4j.Logger;
+
 public class JDBCUrlSplitterUtil {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     public static JdbcUrlSpiltResult spilt(String jdbcUrl) {
         JdbcUrlSpiltResult result = new JdbcUrlSpiltResult();
@@ -121,7 +126,7 @@ public class JDBCUrlSplitterUtil {
         }
 
         public static void main(String[] args) {
-            System.out.println(spilt("jdbc:xugu://127.0.0.1:5138/TEST"));
+            logger.info("JdbcUrlSpiltResult {}",spilt("jdbc:xugu://127.0.0.1:5138/TEST"));
         }
 
     }

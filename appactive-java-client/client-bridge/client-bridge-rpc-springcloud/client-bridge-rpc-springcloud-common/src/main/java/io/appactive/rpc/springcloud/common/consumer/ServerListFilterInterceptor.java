@@ -23,7 +23,7 @@ public class ServerListFilterInterceptor {
             + "|| execution(* com.netflix.loadbalancer.BaseLoadBalancer.getReachableServers(..))"
     )
     public List<Server> around(ProceedingJoinPoint pjp){
-        logger.info("ServerListFilterInterceptor at {}", pjp.getSignature());
+        logger.trace("ServerListFilterInterceptor at {}", pjp.getSignature());
         List<Server> finalServers = null;
         try {
             Object result = pjp.proceed();
@@ -31,9 +31,9 @@ public class ServerListFilterInterceptor {
                 List list = (List)result;
                 if (CollectionUtils.isNotEmpty(list) && list.get(0) instanceof Server){
                     List<Server> servers = (List<Server>)list;
-                    logger.info("origin servers {}", servers);
+                    logger.trace("origin servers {}", servers);
                     finalServers = ConsumerRouter.filter(servers);
-                    logger.info("filtered servers {}", finalServers);
+                    logger.trace("filtered servers {}", finalServers);
                 }
             }
         } catch (Throwable th) {

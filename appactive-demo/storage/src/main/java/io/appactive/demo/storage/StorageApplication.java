@@ -19,6 +19,8 @@ package io.appactive.demo.storage;
 import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.demo.common.service.dubbo.OrderService;
 import io.appactive.java.api.base.AppContextClient;
+import io.appactive.support.log.LogUtil;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -43,6 +45,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"io.appactive.demo"})
 public class StorageApplication {
+
+    private static final Logger logger = LogUtil.getLogger();
+
     public static void main(String[] args) {
         SpringApplication.run(StorageApplication.class, args);
     }
@@ -61,7 +66,7 @@ public class StorageApplication {
             @RequestParam(required = false, defaultValue = "1") Integer number
     ) {
         String routerId = AppContextClient.getRouteId();
-        System.out.println("buy:"+routerId);
+        logger.info("buy, routerId: {}", routerId);
         ResultHolder<String> resultHolder = orderService.buy(rId, id, number);
         resultHolder.setResult(String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult()));
         return resultHolder;

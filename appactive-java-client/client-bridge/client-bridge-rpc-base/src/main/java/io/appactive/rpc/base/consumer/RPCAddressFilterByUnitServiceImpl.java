@@ -100,7 +100,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
         List<T> result = getFilterResult(servicePrimaryName,resourceType,unitServersMap,originalList,routeId);
 
-        logServer("route result afterZeroFilterServerList:", result);
+        logServer("server list after filtering:", result);
         return result;
     }
 
@@ -191,6 +191,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         String currentUnit = machineUnitRuleService.getCurrentUnit();
         if (currentUnit == null) {
             // 1 不存在单元标，切0后，随机调用下游
+            logger.info("no unitFlag for current consumer, executing random calling");
             return originalServers;
         }
         // 2 存在单元标
@@ -199,9 +200,10 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         List<T> currentUnitServers = unitServersMap.get(currentUnit);
         if (CollectionUtils.isEmpty(currentUnitServers)) {
             // 2-1. 本单元没机器，则随机全局调用
+            logger.info("no provider for current unit, executing random calling");
             return originalServers;
         }
-
+        logger.info("executing current-unit-preferable calling");
         // 单元内优先调用
         return currentUnitServers;
     }
