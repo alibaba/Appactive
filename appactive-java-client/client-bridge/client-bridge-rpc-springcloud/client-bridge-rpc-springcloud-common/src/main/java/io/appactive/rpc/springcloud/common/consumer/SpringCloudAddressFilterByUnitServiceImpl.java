@@ -6,21 +6,27 @@ import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
 import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
 import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rpc.base.consumer.RPCAddressFilterByUnitServiceImpl;
+import io.appactive.rpc.base.consumer.bo.AddressActive;
 import io.appactive.rpc.springcloud.common.ServiceMeta;
 import io.appactive.rpc.springcloud.common.UriContext;
 import io.appactive.support.lang.CollectionUtils;
+import io.appactive.support.log.LogUtil;
+import org.slf4j.Logger;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.appactive.rpc.springcloud.common.utils.Util.getUriFromPrimaryName;
-import static io.appactive.rpc.springcloud.common.utils.Util.unExistedVersion;
+import static io.appactive.rpc.springcloud.common.utils.Util.*;
 
 /**
  */
 public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilterByUnitServiceImpl<T> {
+
+    private static final Logger logger = LogUtil.getLogger();
 
     private final AntPathMatcher antPathMatcher;
 
@@ -45,6 +51,8 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
             }
         }
 
+        String bestMatcher = "";
+        String ra  = "";
         for (T invoker : list) {
             String metaMapValue = getMetaMapFromServer(invoker, RPCConstant.SPRING_CLOUD_SERVICE_META);
             if (StringUtils.isNotBlank(metaMapValue)){
@@ -52,18 +60,35 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
                 if (CollectionUtils.isNotEmpty(serviceMetaList)){
                     for (ServiceMeta serviceMeta : serviceMetaList) {
                         if (antPathMatcher.match(serviceMeta.getUriPrefix(),uri)){
-                            String ra = serviceMeta.getRa();
-                            updateMeta(servicePrimaryName, version, ra);
-                            return ra;
+                            if (serviceMeta.getUriPrefix().length() > bestMatcher.length()){
+                                bestMatcher = serviceMeta.getUriPrefix();
+                                ra = serviceMeta.getRa();
+                            }
                         }
                     }
                 }
             }
         }
-        // 没有标记，默认为是普通服务
-        String ra = ResourceActiveType.NORMAL_RESOURCE_TYPE;
+        if (StringUtils.isNotBlank(bestMatcher)){
+            updateMeta(servicePrimaryName, version, ra);
+            return ra;
+        }
+        logger.error("no  meta for uri {}, fallback to default normal", servicePrimaryName);
+        // 没有标记，默认为是普通服务. 事实上 不可能走到这里。
+        ra = ResourceActiveType.NORMAL_RESOURCE_TYPE;
         updateMeta(servicePrimaryName, version, ra);
         return ra;
+    }
+
+    @Override
+    public List<T> addressFilter(String providerAppName, String servicePrimaryName,String routeId) {
+        Set<String> candidates = getCachedServicePrimaryNames();
+        if (candidates.contains(servicePrimaryName)){
+            return super.addressFilter(providerAppName, servicePrimaryName, routeId);
+        }
+        String bestMatcher = bestMatcher(candidates, servicePrimaryName);
+        logger.info("candidates {},servicePrimaryName {},bestMatcher {}",candidates,servicePrimaryName,bestMatcher);
+        return super.addressFilter(providerAppName, bestMatcher, routeId);
     }
 
     @Override

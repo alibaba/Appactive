@@ -17,6 +17,7 @@
 package io.appactive.java.api.bridge.rpc.consumer;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface RPCAddressFilterByUnitService<T> {
@@ -30,8 +31,9 @@ public interface RPCAddressFilterByUnitService<T> {
      * @param list service remote ip list
      * @param version version of config itself, which can be used to reduce calculation.
      *                null means you need to calculate list every time
+     * @return did this method actually do the calculating
      */
-    void refreshAddressList(String providerAppName, String servicePrimaryName, List<T> list, String version);
+    Boolean refreshAddressList(String providerAppName, String servicePrimaryName, List<T> list, String version);
 
     /**
      * used with refreshAddressList， filter address
@@ -53,12 +55,10 @@ public interface RPCAddressFilterByUnitService<T> {
      */
     List<T> addressFilter(String providerAppName, String servicePrimaryName, List<T> list,String routeId);
 
-    String getCachedServerVersion(String providerAppName, String servicePrimaryName);
-
-    Integer getCachedServerSize(String providerAppName, String servicePrimaryName);
-
     Boolean emptyCache(String providerAppName, String servicePrimaryName);
 
     String getMetaMapFromServer(T server,String key);
+
+    Set<String> getCachedServicePrimaryNames();
 
 }

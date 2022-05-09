@@ -16,6 +16,7 @@ import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import static io.appactive.rpc.springcloud.common.utils.Util.buildServicePrimaryName;
@@ -71,12 +72,11 @@ public class ConsumerRouter {
         }
         Server oneServer = servers.get(0);
         String appName = oneServer.getMetaInfo().getAppName();
-        String version = serverMeta.getMetaMap(oneServer).get(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION);
         String servicePrimaryKey = buildServicePrimaryName(appName,UriContext.getUriPath());
 
-        // We still need to refresh here because:
-        //  1. normal service might not be refreshed in [ConsumerRouter.refresh].Cause they are not in metadata
-        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version);
+        /// We all ready make sure all service stored through ConsumerRouter.refresh and URIRegister.doRegisterUris,
+        // so there is no need to call method bellow
+        // addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version);
         List<Server> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey, AppContextClient.getRouteId());
         return list;
     }
@@ -104,16 +104,9 @@ public class ConsumerRouter {
         if (CollectionUtils.isEmpty(serviceMetaList)){
             return changed;
         }
-        String providerAppName = null;
         for (ServiceMeta serviceMeta : serviceMetaList) {
             String servicePrimaryKey = buildServicePrimaryName(appName, serviceMeta.getUriPrefix());
-            if (servers.size() != addressFilterByUnitService.getCachedServerSize(providerAppName, servicePrimaryKey)){
-                addressFilterByUnitService.emptyCache(providerAppName, servicePrimaryKey);
-                addressFilterByUnitService.refreshAddressList(providerAppName, servicePrimaryKey, servers, version);
-                changed++;
-            }
-            if (!version.equalsIgnoreCase(addressFilterByUnitService.getCachedServerVersion(null,servicePrimaryKey))){
-                addressFilterByUnitService.refreshAddressList(providerAppName, servicePrimaryKey, servers, version);
+            if(addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version)){
                 changed++;
             }
         }

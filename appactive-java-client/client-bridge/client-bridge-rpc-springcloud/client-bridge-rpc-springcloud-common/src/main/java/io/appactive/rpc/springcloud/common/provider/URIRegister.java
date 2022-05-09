@@ -27,6 +27,8 @@ public class URIRegister {
 
     private ServiceMetaObject serviceMetaObject;
 
+    private final String matchAll = "/**";
+
     @PostConstruct
     public void doRegister(){
         doRegisterUris();
@@ -39,6 +41,7 @@ public class URIRegister {
     public void doRegisterUris(){
         if (CollectionUtils.isNotEmpty(beanList)){
             List<ServiceMeta> serviceMetaList = new LinkedList<>();
+            boolean hasWildChar = false;
             for (FilterRegistrationBean filterRegistrationBean : beanList) {
                 Filter filter = filterRegistrationBean.getFilter();
                 if (filter==null){
@@ -47,22 +50,36 @@ public class URIRegister {
                 if (filter instanceof UnitServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
+                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                            hasWildChar = true;
+                        }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.UNIT_RESOURCE_TYPE);
                         serviceMetaList.add(serviceMeta);
                     }
                 }else if(filter instanceof CenterServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
+                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                            hasWildChar = true;
+                        }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.CENTER_RESOURCE_TYPE);
                         serviceMetaList.add(serviceMeta);
                     }
                 }else if (filter instanceof  NormalServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
+                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                            hasWildChar = true;
+                        }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.NORMAL_RESOURCE_TYPE);
                         serviceMetaList.add(serviceMeta);
                     }
                 }
+            }
+            if (!hasWildChar){
+                // 保证所有 service(app+uri) 都纳入管理，不然不好做缓存管理
+                ServiceMeta serviceMeta = new ServiceMeta(matchAll, ResourceActiveType.NORMAL_RESOURCE_TYPE);
+                serviceMetaList.add(serviceMeta);
             }
             if (CollectionUtils.isNotEmpty(serviceMetaList)){
                 serviceMetaObject = new ServiceMetaObject();

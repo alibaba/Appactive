@@ -67,7 +67,7 @@ public class ServerListFilterInterceptor {
             if (num >0 ){
                 logger.info("new servers {}, updated {} services[app+uri]",servers, num);
             }else {
-                logger.debug("new servers {}, no services[app+uri] updated {} ",servers, num);
+                logger.info("new servers {}, no services[app+uri] updated {} ",servers, num);
             }
         }
     }

@@ -91,7 +91,7 @@ public class ConsumerRouter implements Router {
             RpcContext.getContext().setAttachment(RPCConstant.CONSUMER_REMOTE_ROUTE_ID_KEY, AppContextClient.getRouteId());
         }
 
-        List<Invoker<T>> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey,indexValue);
+        List<Invoker<T>> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey,indexValue, null);
         return list;
     }
 

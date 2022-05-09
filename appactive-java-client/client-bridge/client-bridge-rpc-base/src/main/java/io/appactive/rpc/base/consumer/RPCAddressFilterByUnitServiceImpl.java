@@ -16,10 +16,9 @@
 
 package io.appactive.rpc.base.consumer;
 
+import java.lang.annotation.ElementType;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.appactive.java.api.base.exception.AppactiveException;
@@ -52,7 +51,6 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     private static final String NO_UNIT_LABEL_PROVIDER_TAG_NAME = "NO_UNIT_FLAG_LABEL";
 
     private final Map<String, AddressActive<T>> SERVICE_REMOTE_ADDRESS_MAP = new ConcurrentHashMap<>();
-    private final Map<String,String> SERVICE_REMOTE_ADDRESS_MAP_VERSION = new ConcurrentHashMap<>();
 
     private final TrafficRouteRuleService trafficRouteRuleService = ClientRuleService.getTrafficRouteRuleService();
 
@@ -68,16 +66,15 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     }
 
     @Override
-    public void refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version) {
+    public Boolean refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version) {
         if (CollectionUtils.isEmpty(list)){
             emptyCache(providerAppName, servicePrimaryName);
         }
-        String cachedVersion = getCachedServerVersion(providerAppName, servicePrimaryName);
-        if (cachedVersion != null && cachedVersion.equalsIgnoreCase(version) && SERVICE_REMOTE_ADDRESS_MAP.containsKey(servicePrimaryName)){
-            String resourceType = getResourceType(servicePrimaryName, list, version);
-            if (!ResourceActiveType.NORMAL_RESOURCE_TYPE.equalsIgnoreCase(resourceType) || list.size() == getCachedServerSize(providerAppName, servicePrimaryName)){
-                // 普通服务在provider发生变化时，依然需要refresh，因为ConsumerRouter.refresh 可能没有该meta 导致没刷新
-                return;
+        if (version !=null && SERVICE_REMOTE_ADDRESS_MAP.containsKey(servicePrimaryName)){
+            AddressActive<T> addressActive = SERVICE_REMOTE_ADDRESS_MAP.get(servicePrimaryName);
+            if (list.equals(addressActive.getOriginalList())){
+                // both servers and uris equals with current ones, no need to refresh
+                return false;
             }
         }
         String resourceType = getResourceType(servicePrimaryName, list, version);
@@ -86,10 +83,8 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         AddressActive<T> addressActive = new AddressActive<T>(resourceType,unitServersMap,list);
 
         SERVICE_REMOTE_ADDRESS_MAP.put(servicePrimaryName,addressActive);
-        if (version !=null){
-            SERVICE_REMOTE_ADDRESS_MAP_VERSION.put(servicePrimaryName, version);
-        }
-        logger.info("caches of providerAppName:{}, servicePrimaryName:{} just got refreshed, new version:{} ,cachedVersion:{}",providerAppName,servicePrimaryName,version,cachedVersion);
+        logger.info("caches of providerAppName:{}, servicePrimaryName:{} just got refreshed, new version:{}",providerAppName,servicePrimaryName,version);
+        return true;
     }
 
     @Override
@@ -127,24 +122,10 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         return result;
     }
 
-    @Override
-    public String getCachedServerVersion(String providerAppName, String servicePrimaryName) {
-        return  SERVICE_REMOTE_ADDRESS_MAP_VERSION.get(servicePrimaryName);
-    }
-
-    @Override
-    public Integer getCachedServerSize(String providerAppName, String servicePrimaryName) {
-        AddressActive<T> addressActive = SERVICE_REMOTE_ADDRESS_MAP.get(servicePrimaryName);
-        if (addressActive == null){
-            return 0;
-        }
-        return CollectionUtils.isEmpty(addressActive.getOriginalList()) ? 0 : addressActive.getOriginalList().size();
-    }
 
     @Override
     public Boolean emptyCache(String providerAppName, String servicePrimaryName) {
         SERVICE_REMOTE_ADDRESS_MAP.remove(servicePrimaryName);
-        SERVICE_REMOTE_ADDRESS_MAP_VERSION.remove(servicePrimaryName);
         return true;
     }
 
@@ -260,6 +241,11 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
             return null;
         }
         return rpcUnitCellCallBack.getMetaMapValue(server,key);
+    }
+
+    @Override
+    public Set<String> getCachedServicePrimaryNames() {
+        return SERVICE_REMOTE_ADDRESS_MAP.keySet();
     }
 
 
