@@ -123,7 +123,7 @@ public class JvmPropertyUtil {
 
     private static String getValueFromJVM(String key) {
         if (StringUtils.isEmpty(key)) {
-            LogUtil.info("getValueFromJVM by key[null] successful,return:null");
+            LogUtil.debug("getValueFromJVM by key[null] successful,return:null");
             return null;
         }
         String value = JVM_MEM_MAP.get(key);
@@ -131,21 +131,21 @@ public class JvmPropertyUtil {
             // 内存无值， 设置值 放入内存
             value = System.getProperty(key, AppactiveConstant.EMPTY_STRING);
             JVM_MEM_MAP.put(key, value);
-            LogUtil.info("key[{}] not in mem,put it, value:{}", key, value);
+            LogUtil.debug("key[{}] not in mem,put it, value:{}", key, value);
         }
 
         if (value.equals(AppactiveConstant.EMPTY_STRING)) {
             // 无值
-            LogUtil.info("getValueFromJVM by key[{}],it is empty, return:null", key);
+            LogUtil.debug("getValueFromJVM by key[{}],it is empty, return:null", key);
             return null;
         }
-        LogUtil.info("getValueFromJVM by key[{}],return:{}", key, value);
+        LogUtil.debug("getValueFromJVM by key[{}],return:{}", key, value);
         return value;
     }
 
     private static String getValueFromEnv(String key) {
         if (StringUtils.isEmpty(key)) {
-            LogUtil.info("getValueFromEnv by key[null] successful,return:null");
+            LogUtil.debug("getValueFromEnv by key[null] successful,return:null");
             return null;
         }
         String value = ENV_MEM_MAP.get(key);
@@ -156,15 +156,15 @@ public class JvmPropertyUtil {
                 value = AppactiveConstant.EMPTY_STRING;
             }
             ENV_MEM_MAP.put(key, value);
-            LogUtil.info("getValueFromEnv key[{}] not in mem,put it, value:{}", key, value);
+            LogUtil.debug("getValueFromEnv key[{}] not in mem,put it, value:{}", key, value);
         }
 
         if (value.equals(AppactiveConstant.EMPTY_STRING)) {
             // 无值
-            LogUtil.info("getValueFromEnv by key[{}],it is empty, return:null", key);
+            LogUtil.debug("getValueFromEnv by key[{}],it is empty, return:null", key);
             return null;
         }
-        LogUtil.info("getValueFromEnv by key[{}],return:{}", key, value);
+        LogUtil.debug("getValueFromEnv by key[{}],return:{}", key, value);
         return value;
     }
 

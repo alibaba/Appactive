@@ -29,7 +29,7 @@ public class ServerListFilterInterceptor {
             + "|| execution(* com.netflix.loadbalancer.BaseLoadBalancer.getReachableServers(..))"
     )
     public List<Server> around(ProceedingJoinPoint pjp){
-        logger.trace("ServerListFilterInterceptor at around {}", pjp.getSignature());
+        logger.debug("ServerListFilterInterceptor at around {}", pjp.getSignature());
         List<Server> finalServers = null;
         try {
             Object result = pjp.proceed();
@@ -37,9 +37,9 @@ public class ServerListFilterInterceptor {
                 List list = (List)result;
                 if (CollectionUtils.isNotEmpty(list) && list.get(0) instanceof Server){
                     List<Server> servers = (List<Server>)list;
-                    logger.trace("origin servers {}", servers);
+                    logger.debug("origin servers {}", servers);
                     finalServers = ConsumerRouter.filter(servers);
-                    logger.trace("filtered servers {}", finalServers);
+                    logger.debug("filtered servers {}", finalServers);
                 }
             }
         } catch (Throwable th) {
@@ -59,12 +59,16 @@ public class ServerListFilterInterceptor {
             // avoid subclass triggering
             return;
         }
-        logger.info("ServerListFilterInterceptor at after {}", jp.getSignature());
+        logger.debug("ServerListFilterInterceptor at after {}", jp.getSignature());
         Object[] args = jp.getArgs();
         if (args.length > 0){
             List<Server> servers = (List<Server>)args[0];
             Integer num = ConsumerRouter.refresh(servers);
-            logger.info("new servers {}, updated {} services[app+uri]",servers, num);
+            if (num >0 ){
+                logger.info("new servers {}, updated {} services[app+uri]",servers, num);
+            }else {
+                logger.debug("new servers {}, no services[app+uri] updated {} ",servers, num);
+            }
         }
     }
 }

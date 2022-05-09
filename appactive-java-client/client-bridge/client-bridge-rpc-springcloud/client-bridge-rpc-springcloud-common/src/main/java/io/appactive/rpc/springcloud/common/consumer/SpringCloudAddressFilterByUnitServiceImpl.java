@@ -15,12 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static io.appactive.rpc.springcloud.common.utils.Util.getUriFromPrimaryName;
+import static io.appactive.rpc.springcloud.common.utils.Util.unExistedVersion;
+
 /**
  */
 public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilterByUnitServiceImpl<T> {
 
     private final AntPathMatcher antPathMatcher;
-    private final String unExistedVersion = "-1.111";
 
     private final Map<String, String> URI_TO_RA = new ConcurrentHashMap<>();
     private final Map<String, String> URI_TO_RA_VERSION = new ConcurrentHashMap<>();
@@ -33,9 +35,10 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
     @Override
     public String getResourceType(String servicePrimaryName, List<T> list, String version) {
         if (CollectionUtils.isEmpty(list)){
+            emptyCache(null, servicePrimaryName);
             return null;
         }
-        String uri = UriContext.getUriPath();
+        String uri = getUriFromPrimaryName(servicePrimaryName);
         if (URI_TO_RA_VERSION.getOrDefault(servicePrimaryName, unExistedVersion).equalsIgnoreCase(version)){
             if (URI_TO_RA.containsKey(servicePrimaryName)){
                 return URI_TO_RA.get(servicePrimaryName);
@@ -61,6 +64,14 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         String ra = ResourceActiveType.NORMAL_RESOURCE_TYPE;
         updateMeta(servicePrimaryName, version, ra);
         return ra;
+    }
+
+    @Override
+    public Boolean emptyCache(String providerAppName, String servicePrimaryName) {
+        super.emptyCache(providerAppName, servicePrimaryName);
+        URI_TO_RA.remove(servicePrimaryName);
+        URI_TO_RA_VERSION.remove(servicePrimaryName);
+        return true;
     }
 
     private void updateMeta(String servicePrimaryName, String version, String ra) {

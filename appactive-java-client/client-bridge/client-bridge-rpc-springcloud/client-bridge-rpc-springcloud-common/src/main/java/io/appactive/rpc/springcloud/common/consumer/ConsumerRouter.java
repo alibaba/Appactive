@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import java.text.MessageFormat;
 import java.util.List;
 
+import static io.appactive.rpc.springcloud.common.utils.Util.buildServicePrimaryName;
+
 /**
  * @author mageekchiu
  */
@@ -70,8 +72,10 @@ public class ConsumerRouter {
         Server oneServer = servers.get(0);
         String appName = oneServer.getMetaInfo().getAppName();
         String version = serverMeta.getMetaMap(oneServer).get(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION);
-        String servicePrimaryKey = appName + UriContext.getUriPath();
+        String servicePrimaryKey = buildServicePrimaryName(appName,UriContext.getUriPath());
 
+        // We still need to refresh here because:
+        //  1. normal service might not be refreshed in [ConsumerRouter.refresh].Cause they are not in metadata
         addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version);
         List<Server> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey, AppContextClient.getRouteId());
         return list;
@@ -79,8 +83,7 @@ public class ConsumerRouter {
 
 
     /**
-     * we only care about server size changes here.
-     * service(app+uri) changes will be taken care of in (io.appactive.rpc.springcloud.common.consumer.ConsumerRouter#filter(java.util.List))
+     * server size changes or server meta changes.
      * @param servers new servers
      * @return updated number
      */
@@ -94,17 +97,24 @@ public class ConsumerRouter {
         String version = serverMeta.getMetaMap(oneServer).get(RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION);
 
         String metaMapValue = addressFilterByUnitService.getMetaMapFromServer(oneServer, RPCConstant.SPRING_CLOUD_SERVICE_META);
-        if (StringUtils.isNotBlank(metaMapValue)){
-            List<ServiceMeta> serviceMetaList = JSON.parseArray(metaMapValue,ServiceMeta.class);
-            if (CollectionUtils.isNotEmpty(serviceMetaList)){
-                for (ServiceMeta serviceMeta : serviceMetaList) {
-                    String servicePrimaryKey = appName + serviceMeta.getUriPrefix();
-                    if (servers.size() != addressFilterByUnitService.getCachedServerSize(null, servicePrimaryKey)){
-                        addressFilterByUnitService.emptyCache(null, servicePrimaryKey);
-                        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version);
-                        changed++;
-                    }
-                }
+        if (StringUtils.isBlank(metaMapValue)){
+            return changed;
+        }
+        List<ServiceMeta> serviceMetaList = JSON.parseArray(metaMapValue,ServiceMeta.class);
+        if (CollectionUtils.isEmpty(serviceMetaList)){
+            return changed;
+        }
+        String providerAppName = null;
+        for (ServiceMeta serviceMeta : serviceMetaList) {
+            String servicePrimaryKey = buildServicePrimaryName(appName, serviceMeta.getUriPrefix());
+            if (servers.size() != addressFilterByUnitService.getCachedServerSize(providerAppName, servicePrimaryKey)){
+                addressFilterByUnitService.emptyCache(providerAppName, servicePrimaryKey);
+                addressFilterByUnitService.refreshAddressList(providerAppName, servicePrimaryKey, servers, version);
+                changed++;
+            }
+            if (!version.equalsIgnoreCase(addressFilterByUnitService.getCachedServerVersion(null,servicePrimaryKey))){
+                addressFilterByUnitService.refreshAddressList(providerAppName, servicePrimaryKey, servers, version);
+                changed++;
             }
         }
         return changed;

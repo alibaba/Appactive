@@ -70,12 +70,15 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     @Override
     public void refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version) {
         if (CollectionUtils.isEmpty(list)){
-            SERVICE_REMOTE_ADDRESS_MAP.remove(servicePrimaryName);
-            SERVICE_REMOTE_ADDRESS_MAP_VERSION.remove(servicePrimaryName);
+            emptyCache(providerAppName, servicePrimaryName);
         }
         String cachedVersion = getCachedServerVersion(providerAppName, servicePrimaryName);
-        if (cachedVersion != null && cachedVersion.equalsIgnoreCase(version)){
-            return;
+        if (cachedVersion != null && cachedVersion.equalsIgnoreCase(version) && SERVICE_REMOTE_ADDRESS_MAP.containsKey(servicePrimaryName)){
+            String resourceType = getResourceType(servicePrimaryName, list, version);
+            if (!ResourceActiveType.NORMAL_RESOURCE_TYPE.equalsIgnoreCase(resourceType) || list.size() == getCachedServerSize(providerAppName, servicePrimaryName)){
+                // 普通服务在provider发生变化时，依然需要refresh，因为ConsumerRouter.refresh 可能没有该meta 导致没刷新
+                return;
+            }
         }
         String resourceType = getResourceType(servicePrimaryName, list, version);
         Map<String, List<T>> unitServersMap = transToUnitFlagServerListMap(list);
@@ -86,6 +89,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         if (version !=null){
             SERVICE_REMOTE_ADDRESS_MAP_VERSION.put(servicePrimaryName, version);
         }
+        logger.info("caches of providerAppName:{}, servicePrimaryName:{} just got refreshed, new version:{} ,cachedVersion:{}",providerAppName,servicePrimaryName,version,cachedVersion);
     }
 
     @Override
