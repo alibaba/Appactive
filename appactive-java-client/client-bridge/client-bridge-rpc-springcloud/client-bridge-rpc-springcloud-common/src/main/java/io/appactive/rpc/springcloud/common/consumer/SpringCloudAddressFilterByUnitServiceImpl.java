@@ -43,7 +43,7 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         }
 
         for (T invoker : list) {
-            String metaMapValue = rpcUnitCellCallBack.getMetaMapValue(invoker, RPCConstant.SPRING_CLOUD_SERVICE_META);
+            String metaMapValue = getMetaMapFromServer(invoker, RPCConstant.SPRING_CLOUD_SERVICE_META);
             if (StringUtils.isNotBlank(metaMapValue)){
                 List<ServiceMeta> serviceMetaList = JSON.parseArray(metaMapValue,ServiceMeta.class);
                 if (CollectionUtils.isNotEmpty(serviceMetaList)){

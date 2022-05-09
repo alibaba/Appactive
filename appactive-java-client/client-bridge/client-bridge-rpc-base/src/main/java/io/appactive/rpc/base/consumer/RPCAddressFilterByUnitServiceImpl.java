@@ -47,7 +47,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
     private final MiddleWareTypeEnum middleWareTypeEnum;
 
-    protected RPCAddressCallBack<T> rpcUnitCellCallBack;
+    private RPCAddressCallBack<T> rpcUnitCellCallBack;
 
     private static final String NO_UNIT_LABEL_PROVIDER_TAG_NAME = "NO_UNIT_FLAG_LABEL";
 
@@ -73,7 +73,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
             SERVICE_REMOTE_ADDRESS_MAP.remove(servicePrimaryName);
             SERVICE_REMOTE_ADDRESS_MAP_VERSION.remove(servicePrimaryName);
         }
-        String cachedVersion = SERVICE_REMOTE_ADDRESS_MAP_VERSION.get(servicePrimaryName);
+        String cachedVersion = getCachedServerVersion(providerAppName, servicePrimaryName);
         if (cachedVersion != null && cachedVersion.equalsIgnoreCase(version)){
             return;
         }
@@ -121,6 +121,27 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
         logServer("route result afterZeroFilterServerList:", result);
         return result;
+    }
+
+    @Override
+    public String getCachedServerVersion(String providerAppName, String servicePrimaryName) {
+        return  SERVICE_REMOTE_ADDRESS_MAP_VERSION.get(servicePrimaryName);
+    }
+
+    @Override
+    public Integer getCachedServerSize(String providerAppName, String servicePrimaryName) {
+        AddressActive<T> addressActive = SERVICE_REMOTE_ADDRESS_MAP.get(servicePrimaryName);
+        if (addressActive == null){
+            return 0;
+        }
+        return CollectionUtils.isEmpty(addressActive.getOriginalList()) ? 0 : addressActive.getOriginalList().size();
+    }
+
+    @Override
+    public Boolean emptyCache(String providerAppName, String servicePrimaryName) {
+        SERVICE_REMOTE_ADDRESS_MAP.remove(servicePrimaryName);
+        SERVICE_REMOTE_ADDRESS_MAP_VERSION.remove(servicePrimaryName);
+        return true;
     }
 
 
@@ -200,7 +221,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         List<T> currentUnitServers = unitServersMap.get(currentUnit);
         if (CollectionUtils.isEmpty(currentUnitServers)) {
             // 2-1. 本单元没机器，则随机全局调用
-            logger.info("no provider for current unit, executing random calling");
+            logger.info("no provider for current unit[{}] of consumer, executing random calling",currentUnit);
             return originalServers;
         }
         logger.info("executing current-unit-preferable calling");
@@ -229,7 +250,8 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     }
 
 
-    private String getMetaMapFromServer(T server,String key) {
+    @Override
+    public String getMetaMapFromServer(T server, String key) {
         if (StringUtils.isBlank(key)){
             return null;
         }

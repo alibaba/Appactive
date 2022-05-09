@@ -46,7 +46,7 @@ public interface RPCConstant {
 
     String CONSUMER_REMOTE_ROUTE_ID_KEY = "_unit_rpc_route_id";
 
-    String SPRING_CLOUD_SERVICE_META = "sc_svc_meta";
-    String SPRING_CLOUD_SERVICE_META_VERSION = "sc_svc_meta_version";
+    String SPRING_CLOUD_SERVICE_META = "svc_meta";
+    String SPRING_CLOUD_SERVICE_META_VERSION = "svc_meta_v";
 
 }

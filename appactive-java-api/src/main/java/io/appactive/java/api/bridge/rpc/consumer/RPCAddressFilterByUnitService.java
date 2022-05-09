@@ -53,4 +53,12 @@ public interface RPCAddressFilterByUnitService<T> {
      */
     List<T> addressFilter(String providerAppName, String servicePrimaryName, List<T> list,String routeId);
 
+    String getCachedServerVersion(String providerAppName, String servicePrimaryName);
+
+    Integer getCachedServerSize(String providerAppName, String servicePrimaryName);
+
+    Boolean emptyCache(String providerAppName, String servicePrimaryName);
+
+    String getMetaMapFromServer(T server,String key);
+
 }
