@@ -2,15 +2,15 @@ package io.appactive.rpc.springcloud.common.consumer;
 
 import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
 import io.appactive.rpc.base.consumer.RPCAddressFilterByUnitServiceImpl;
+import io.appactive.rpc.springcloud.common.utils.Util;
 import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
 import org.springframework.util.AntPathMatcher;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static io.appactive.rpc.springcloud.common.utils.Util.*;
 
@@ -19,6 +19,7 @@ import static io.appactive.rpc.springcloud.common.utils.Util.*;
 public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilterByUnitServiceImpl<T> {
 
     private static final Logger logger = LogUtil.getLogger();
+    private static final String EMPTY_MATCHER = "";
 
     private final AntPathMatcher antPathMatcher;
 
@@ -29,8 +30,8 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         this.antPathMatcher = new AntPathMatcher();
     }
 
-    private String bestMatcher(Set<String> candidates, String nameOfTarget){
-        String bestMatcher = "";
+    private String getBestMatcher(Set<String> candidates, String nameOfTarget){
+        String bestMatcher = EMPTY_MATCHER;
         if (CollectionUtils.isEmpty(candidates)){
             emptyCache(null, nameOfTarget);
             return bestMatcher;
@@ -38,15 +39,36 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         if (URI_TO_BM.containsKey(nameOfTarget)){
             return URI_TO_BM.get(nameOfTarget);
         }
-        for (String candidate : candidates) {
-            // todo: accommodate matching procedure to the one in spring its`self
-            if (antPathMatcher.match(getUriFromPrimaryName(candidate), getUriFromPrimaryName(nameOfTarget))){
-                if (candidate.length() > bestMatcher.length()){
-                    bestMatcher = candidate;
-                }
+        bestMatcher = calcBestMatcher(antPathMatcher,candidates,nameOfTarget);
+        if (!EMPTY_MATCHER.equals(bestMatcher)){
+            // only store it when it`s not empty
+            URI_TO_BM.put(nameOfTarget, bestMatcher);
+        }
+        return bestMatcher;
+
+    }
+
+
+    public static String calcBestMatcher(AntPathMatcher antPathMatcher, Set<String> candidates, String nameOfTarget){
+        //  org.springframework.web.servlet.handler.AbstractUrlHandlerMapping#lookupHandler(java.lang.String, javax.servlet.http.HttpServletRequest)
+        String bestMatcher = EMPTY_MATCHER;
+        List<String> matchingPatterns = new ArrayList<>();
+        String targetUri = getUriFromPrimaryName(nameOfTarget);
+        Set<String> candidateUris = candidates.stream().map(Util::getUriFromPrimaryName).collect(Collectors.toSet());
+        for (String candidateUri : candidateUris) {
+            if (antPathMatcher.match(candidateUri, targetUri)) {
+                matchingPatterns.add(candidateUri);
             }
         }
-        updateMeta(nameOfTarget, bestMatcher);
+        Comparator<String> patternComparator = antPathMatcher.getPatternComparator(targetUri);
+        if (!matchingPatterns.isEmpty()) {
+            matchingPatterns.sort(patternComparator);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Matching patterns for request [" + targetUri + "] are " + matchingPatterns);
+            }
+            bestMatcher = matchingPatterns.get(0);
+        }
+        bestMatcher = buildServicePrimaryName(getAppNameFromPrimaryName(nameOfTarget),bestMatcher);
         return bestMatcher;
     }
 
@@ -58,7 +80,7 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         // if (!candidates.contains(servicePrimaryName)){
         //     bestMatcher = bestMatcher(candidates, servicePrimaryName);
         // }
-        String bestMatcher  = bestMatcher(candidates, servicePrimaryName);
+        String bestMatcher  = getBestMatcher(candidates, servicePrimaryName);
         logger.info("candidates {}, servicePrimaryName {}, bestMatcher {}",candidates, servicePrimaryName, bestMatcher);
         return super.addressFilter(providerAppName, bestMatcher, routeId);
     }
@@ -68,9 +90,5 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         super.emptyCache(providerAppName, servicePrimaryName);
         URI_TO_BM.remove(servicePrimaryName);
         return true;
-    }
-
-    private void updateMeta(String servicePrimaryName, String matcher) {
-        URI_TO_BM.put(servicePrimaryName, matcher);
     }
 }

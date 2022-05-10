@@ -14,4 +14,8 @@ public class Util {
         return servicePrimaryName.split(split)[1];
     }
 
+    public static String getAppNameFromPrimaryName(String servicePrimaryName){
+        return servicePrimaryName.split(split)[0];
+    }
+
 }
