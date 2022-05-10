@@ -91,7 +91,7 @@ public class ConsumerRouter implements Router {
             RpcContext.getContext().setAttachment(RPCConstant.CONSUMER_REMOTE_ROUTE_ID_KEY, AppContextClient.getRouteId());
         }
 
-        List<Invoker<T>> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey,indexValue, null);
+        List<Invoker<T>> list = addressFilterByUnitService.addressFilter(null, servicePrimaryKey,indexValue);
         return list;
     }
 
@@ -122,7 +122,7 @@ public class ConsumerRouter implements Router {
             addressFilterByUnitService = new RPCAddressFilterByUnitServiceImpl<T>(MiddleWareTypeEnum.DUBBO);
             addressFilterByUnitService.initAddressCallBack(callBack);
         }
-        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, invokers, null);
+        addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, invokers, null, null);
     }
 
     private <T> void initRouteIdIndex(List<Invoker<T>> invokers) {

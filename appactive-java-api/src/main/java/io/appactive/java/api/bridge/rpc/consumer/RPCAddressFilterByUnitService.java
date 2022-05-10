@@ -30,10 +30,12 @@ public interface RPCAddressFilterByUnitService<T> {
      * @param servicePrimaryName primaryKey, dubbo: service+group+verison
      * @param list service remote ip list
      * @param version version of config itself, which can be used to reduce calculation.
-     *                null means you need to calculate list every time
+     *                null means we need to calculate list every time
+     * @param resourceActive resourceActive of servicePrimaryName.
+     *                null means we need to calculate it ourselves
      * @return did this method actually do the calculating
      */
-    Boolean refreshAddressList(String providerAppName, String servicePrimaryName, List<T> list, String version);
+    Boolean refreshAddressList(String providerAppName, String servicePrimaryName, List<T> list, String version, String resourceActive);
 
     /**
      * used with refreshAddressList， filter address

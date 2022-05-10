@@ -106,7 +106,7 @@ public class ConsumerRouter {
         }
         for (ServiceMeta serviceMeta : serviceMetaList) {
             String servicePrimaryKey = buildServicePrimaryName(appName, serviceMeta.getUriPrefix());
-            if(addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version)){
+            if(addressFilterByUnitService.refreshAddressList(null, servicePrimaryKey, servers, version, serviceMeta.getRa())){
                 changed++;
             }
         }

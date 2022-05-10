@@ -66,18 +66,20 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
     }
 
     @Override
-    public Boolean refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version) {
+    public Boolean refreshAddressList(String providerAppName,String servicePrimaryName, List<T> list, String version, String resourceActive) {
         if (CollectionUtils.isEmpty(list)){
             emptyCache(providerAppName, servicePrimaryName);
         }
         if (version !=null && SERVICE_REMOTE_ADDRESS_MAP.containsKey(servicePrimaryName)){
             AddressActive<T> addressActive = SERVICE_REMOTE_ADDRESS_MAP.get(servicePrimaryName);
-            if (list.equals(addressActive.getOriginalList())){
+            if (list.equals(addressActive.getOriginalList())
+                    && version.equalsIgnoreCase(getMetaMapFromServer(addressActive.getOriginalList().get(0),RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION))
+            ){
                 // both servers and uris equals with current ones, no need to refresh
                 return false;
             }
         }
-        String resourceType = getResourceType(servicePrimaryName, list, version);
+        String resourceType = resourceActive == null ? getResourceType(servicePrimaryName, list, version) : resourceActive;
         Map<String, List<T>> unitServersMap = transToUnitFlagServerListMap(list);
 
         AddressActive<T> addressActive = new AddressActive<T>(resourceType,unitServersMap,list);
