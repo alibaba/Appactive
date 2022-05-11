@@ -1,6 +1,5 @@
 package io.appactive.rpc.springcloud.common.consumer;
 
-import feign.Feign;
 import feign.codec.Decoder;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
@@ -31,10 +30,13 @@ public class FeignDecoderPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        /// logger.info("postProcessAfterInitialization {}, {}",beanName, bean.getClass());
-        // todo : there does`t have to be a Decoder, so this might fail
+        // there does`t have to be a Decoder(when using default), so we added a default
         if (bean instanceof Decoder){
-            logger.info("replacing bean Decoder......");
+            if ("appActiveFeignDecoder".equals(beanName)){
+                logger.info("FeignDecoderPostProcessor replacing defaultDecoder {} ......",beanName);
+            }else {
+                logger.info("FeignDecoderPostProcessor replacing customizedDecoder {} ......",beanName);
+            }
             Decoder decoder = (Decoder) bean;
             // wrap original decoder
             return new ResponseInterceptor(decoder);
@@ -48,10 +50,6 @@ public class FeignDecoderPostProcessor implements BeanPostProcessor {
             //         });
             // return proxy;
         }
-
-        // Object o = context.getBean("default.io.appactive.demo.frontend.FrontendApplication.FeignClientSpecification");
-        // logger.info("{}",o);
-
         return bean;
     }
 }

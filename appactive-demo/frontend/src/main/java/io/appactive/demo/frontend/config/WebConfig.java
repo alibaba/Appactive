@@ -16,8 +16,16 @@
 
 package io.appactive.demo.frontend.config;
 
+import feign.codec.Decoder;
+import feign.optionals.OptionalDecoder;
 import io.appactive.servlet.RequestFilter;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
+import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,5 +39,12 @@ public class WebConfig {
         filterRegistrationBean.setFilter(reqResFilter);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
+    }
+
+    @Autowired
+    private ObjectFactory<HttpMessageConverters> messageConverters;
+    @Bean
+    public Decoder demoFeignDecoder() {
+        return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters));
     }
 }

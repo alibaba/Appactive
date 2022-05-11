@@ -31,7 +31,7 @@ public class ResponseInterceptor implements Decoder {
     @Override
     public Object decode(Response response, Type type) throws IOException, DecodeException, FeignException {
         Object r = delegate.decode(response,type);
-        logger.info("ResponseInterceptor {} got cleared", UriContext.getUriPath());
+        logger.info("ResponseInterceptor uri {} for request {} got cleared by {}", UriContext.getUriPath(), response.request().url(),delegate.getClass());
         UriContext.clearContext();
         return r;
     }
