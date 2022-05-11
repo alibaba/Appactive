@@ -1,7 +1,12 @@
 package io.appactive.rpc.springcloud.common.consumer;
 
+import com.alibaba.fastjson.JSON;
+import io.appactive.java.api.base.constants.ResourceActiveType;
 import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
+import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
+import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rpc.base.consumer.RPCAddressFilterByUnitServiceImpl;
+import io.appactive.rpc.springcloud.common.ServiceMeta;
 import io.appactive.rpc.springcloud.common.utils.Util;
 import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
@@ -83,6 +88,33 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
         String bestMatcher  = getBestMatcher(candidates, servicePrimaryName);
         logger.info("candidates {}, servicePrimaryName {}, bestMatcher {}",candidates, servicePrimaryName, bestMatcher);
         return super.addressFilter(providerAppName, bestMatcher, routeId);
+    }
+
+
+    private final Map<String, String> URI_TO_RA = new ConcurrentHashMap<>();
+    private final Map<String, String> URI_TO_RA_VERSION = new ConcurrentHashMap<>();
+    @Override
+    public String getResourceType(String servicePrimaryName, List<T> list, String version) {
+        if (CollectionUtils.isEmpty(list)){
+            emptyCache(null, servicePrimaryName);
+            return null;
+        }
+        if (URI_TO_RA_VERSION.getOrDefault(servicePrimaryName, "-1").equalsIgnoreCase(version)){
+            if (URI_TO_RA.containsKey(servicePrimaryName)){
+                return URI_TO_RA.get(servicePrimaryName);
+            }
+        }
+        String ra = "";
+        // String bestMatcher = getBestMatcher(getCachedServicePrimaryNames(),servicePrimaryName);
+        // if (StringUtils.isNotBlank(bestMatcher)){
+        //     // updateMeta(servicePrimaryName, version, ra);
+        //     return ra;
+        // }
+        // logger.error("no  meta for uri {}, fallback to default normal", servicePrimaryName);
+        // // 没有标记，默认为是普通服务. 事实上 不可能走到这里。
+        // ra = ResourceActiveType.NORMAL_RESOURCE_TYPE;
+        // // updateMeta(servicePrimaryName, version, ra);
+        return ra;
     }
 
     @Override

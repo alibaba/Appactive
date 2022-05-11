@@ -50,13 +50,21 @@
             <version>1.8.13</version>
             <scope>compile</scope>
         </dependency>
+        <!-- springCloud loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-loadbalancer</artifactId>
+            <version>2.2.6.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- ribbon loadbalancer -->
         <dependency>
             <groupId>com.netflix.ribbon</groupId>
             <artifactId>ribbon-loadbalancer</artifactId>
             <version>2.2.5</version>
             <scope>compile</scope>
         </dependency>
-        <!-- customize decoder-->
+        <!-- feign customize decoder-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
