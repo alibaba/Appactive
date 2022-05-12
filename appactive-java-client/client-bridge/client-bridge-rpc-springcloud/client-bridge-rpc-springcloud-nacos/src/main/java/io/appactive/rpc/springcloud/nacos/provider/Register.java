@@ -16,32 +16,14 @@ import java.util.Map;
 /**
  * @author mageekchiu
  */
-@Component
 public class Register {
 
-    private final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
+    private static final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
 
-    private URIRegister uriRegister;
-
-    @Autowired(required = false)
-    public void setUriRegister(URIRegister uriRegister) {
-        this.uriRegister = uriRegister;
-    }
-
-    @PostConstruct
-    public void doRegister(){
-        doRegisterNacos();
-    }
-
-    @Autowired(required = false)
-    private NacosRegistration nacosRegistration;
-    public void doRegisterNacos(){
+    public static void doRegisterNacos(NacosRegistration nacosRegistration){
         Map<String, String> map = nacosRegistration.getMetadata();
         map.put(RPCConstant.URL_UNIT_LABEL_KEY, machineUnitRuleService.getCurrentUnit());
-        if (uriRegister==null){
-            return;
-        }
-        ServiceMetaObject serviceMetaObject = uriRegister.getServiceMetaObject();
+        ServiceMetaObject serviceMetaObject = URIRegister.getServiceMetaObject();
         if(serviceMetaObject == null){
             return;
         }

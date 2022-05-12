@@ -6,11 +6,8 @@ import io.appactive.rpc.springcloud.common.ServiceMeta;
 import io.appactive.rpc.springcloud.common.ServiceMetaObject;
 import io.appactive.support.lang.CollectionUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -19,26 +16,17 @@ import java.util.*;
 /**
  * @author mageekchiu
  */
-@Component
 public class URIRegister {
 
-    @Autowired
-    private List<FilterRegistrationBean> beanList;
+    private static ServiceMetaObject serviceMetaObject;
 
-    private ServiceMetaObject serviceMetaObject;
-
-    private final String matchAll = "/**";
-
-    @PostConstruct
-    public void doRegister(){
-        doRegisterUris();
-    }
+    private static final String MATCH_ALL = "/**";
 
     /**
      * publish to registry meta like dubbo
      * rather than building a new appactive rule type
      */
-    public void doRegisterUris(){
+    public static void collectUris(List<FilterRegistrationBean> beanList){
         if (CollectionUtils.isNotEmpty(beanList)){
             List<ServiceMeta> serviceMetaList = new LinkedList<>();
             boolean hasWildChar = false;
@@ -50,7 +38,7 @@ public class URIRegister {
                 if (filter instanceof UnitServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
-                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                        if (MATCH_ALL.equalsIgnoreCase(urlPattern)){
                             hasWildChar = true;
                         }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.UNIT_RESOURCE_TYPE);
@@ -59,7 +47,7 @@ public class URIRegister {
                 }else if(filter instanceof CenterServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
-                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                        if (MATCH_ALL.equalsIgnoreCase(urlPattern)){
                             hasWildChar = true;
                         }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.CENTER_RESOURCE_TYPE);
@@ -68,7 +56,7 @@ public class URIRegister {
                 }else if (filter instanceof  NormalServiceFilter){
                     Collection<String> urlPatterns = filterRegistrationBean.getUrlPatterns();
                     for (String urlPattern : urlPatterns) {
-                        if (matchAll.equalsIgnoreCase(urlPattern)){
+                        if (MATCH_ALL.equalsIgnoreCase(urlPattern)){
                             hasWildChar = true;
                         }
                         ServiceMeta serviceMeta = new ServiceMeta(urlPattern, ResourceActiveType.NORMAL_RESOURCE_TYPE);
@@ -76,12 +64,12 @@ public class URIRegister {
                     }
                 }
             }
-            if (!hasWildChar){
-                // 保证所有 service(app+uri) 都纳入管理，不然不好做缓存管理
-                ServiceMeta serviceMeta = new ServiceMeta(matchAll, ResourceActiveType.NORMAL_RESOURCE_TYPE);
-                serviceMetaList.add(serviceMeta);
-            }
             if (CollectionUtils.isNotEmpty(serviceMetaList)){
+                if (!hasWildChar){
+                    // 保证所有 service(app+uri) 都纳入管理，不然不好做缓存管理
+                    ServiceMeta serviceMeta = new ServiceMeta(MATCH_ALL, ResourceActiveType.NORMAL_RESOURCE_TYPE);
+                    serviceMetaList.add(serviceMeta);
+                }
                 serviceMetaObject = new ServiceMetaObject();
                 Collections.sort(serviceMetaList);
                 serviceMetaObject.setServiceMetaList(serviceMetaList);
@@ -93,7 +81,7 @@ public class URIRegister {
         }
     }
 
-    public ServiceMetaObject getServiceMetaObject() {
+    public static ServiceMetaObject getServiceMetaObject() {
         return serviceMetaObject;
     }
 }

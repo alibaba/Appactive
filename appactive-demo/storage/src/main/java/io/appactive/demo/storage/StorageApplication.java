@@ -38,8 +38,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @EntityScan("io.appactive.demo.*")
 @ComponentScan(basePackages = {
         "io.appactive.demo",
-        "io.appactive.rpc.springcloud.common.provider",
-        "io.appactive.rpc.springcloud.nacos.provider"
 })
 @Controller("/")
 @EnableDiscoveryClient

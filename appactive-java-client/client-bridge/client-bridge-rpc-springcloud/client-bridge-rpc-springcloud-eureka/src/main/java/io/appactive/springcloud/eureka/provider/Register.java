@@ -12,17 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Map;
 
-@Component
 public class Register {
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
-    @Value("${spring.application.name}")
-    private String appName;
 
     @PostConstruct
     public void doRegister(){

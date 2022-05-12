@@ -4,10 +4,8 @@ import feign.codec.Decoder;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -15,13 +13,14 @@ import java.lang.reflect.Proxy;
 
 /**
  */
-@Component
 public class FeignDecoderPostProcessor implements BeanPostProcessor {
 
     private static final Logger logger = LogUtil.getLogger();
 
-    @Autowired
-    ApplicationContext context;
+    final ApplicationContext context;
+    public FeignDecoderPostProcessor(ApplicationContext context) {
+        this.context = context;
+    }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
