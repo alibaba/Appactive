@@ -127,10 +127,11 @@ public class FrontController {
 
     @GetMapping("/listProduct")
     public String listProduct(@CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
+                              @RequestParam(required = false, defaultValue = "feign") String call,
                               Model model) {
         // normal
         ResultHolder<List<Product>> resultHolder = rpcType == RPCType.Dubbo ?
-                frontEndService.list() : productDAO.list();
+                frontEndService.list() : (call.equals("feign")?productDAO.list():productDAO.listTemplate());
 
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
@@ -142,13 +143,15 @@ public class FrontController {
     public String detailProduct(@CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
                                 @RequestParam(required = false, defaultValue = "12") String id,
                                 @RequestParam(required = false, defaultValue = "false") Boolean hidden,
+                                @RequestParam(required = false, defaultValue = "feign") String call,
                                 Model model) {
         // unit
         ResultHolder<Product> resultHolder ;
         if (rpcType == RPCType.Dubbo){
             resultHolder = hidden ? frontEndService.detailHidden(id) : frontEndService.detail(AppContextClient.getRouteId(), id);
         }else {
-            resultHolder = hidden ? productDAO.detailHidden(id) : productDAO.detail(AppContextClient.getRouteId(), id);
+            resultHolder = hidden ? productDAO.detailHidden(id) :
+                    (call.equals("feign")?productDAO.detail(AppContextClient.getRouteId(), id):productDAO.detailTemplate(AppContextClient.getRouteId(), id));
         }
 
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));

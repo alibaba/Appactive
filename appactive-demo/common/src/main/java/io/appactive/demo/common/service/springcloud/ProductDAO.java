@@ -8,8 +8,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -32,6 +35,24 @@ public class ProductDAO {
 
     public ResultHolder<String> buy(String rId, String pId, Integer number){
         return productService.buy(RPCType.SpringCloud.name(), rId, pId, number);
+    }
+
+    @Autowired(required = false)
+    RestTemplate restTemplate;
+    public ResultHolder<List<Product>> listTemplate(){
+        if (restTemplate !=null ){
+            return restTemplate.getForObject("http://product/list", ResultHolder.class);
+        }
+        return productService.list();
+    }
+    public ResultHolder<Product> detailTemplate(String rId, String pId){
+        if (restTemplate !=null ){
+            Map<String, String> params = new HashMap<>(2);
+            params.put("rId", rId);
+            params.put("pId", pId);
+            return restTemplate.getForObject("http://product/detail", ResultHolder.class, params);
+        }
+        return productService.detail(rId, pId);
     }
 
     @FeignClient(name = "product")
