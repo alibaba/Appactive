@@ -76,33 +76,33 @@ parent: 中文文档
 2. 构建相关 jar 包
 3. 运行
 
-```
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
--Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
--Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
--Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
--Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
--Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
--Dappactive.unit=unit \
--Dappactive.app=frontend \
--Dio.appactive.demo.unitlist=center,unit \
--Dio.appactive.demo.applist=frontend,product,storage \
--Dserver.port=8886 \
--jar frontend-0.3.jar
-```
+    ```
+    java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+    -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
+    -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
+    -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
+    -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
+    -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
+    -Dappactive.unit=unit \
+    -Dappactive.app=frontend \
+    -Dio.appactive.demo.unitlist=center,unit \
+    -Dio.appactive.demo.applist=frontend,product,storage \
+    -Dserver.port=8886 \
+    -jar frontend-0.3.jar
+    ```
 
 4. 测试
 
-```
-curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
-routerId: 1
-curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
-routerId: 2
-curl 127.0.0.1:8886/show  -b "r_id=3"
-routerId: 3
-curl 127.0.0.1:8886/show  
-routerId: null
-```
+    ```
+    curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
+    routerId: 1
+    curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
+    routerId: 2
+    curl 127.0.0.1:8886/show  -b "r_id=3"
+    routerId: 3
+    curl 127.0.0.1:8886/show  
+    routerId: null
+    ```
 
 ### MySQL
 
@@ -111,52 +111,47 @@ routerId: null
 1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 2. 在 `appactive-demo`中 运行 nacos
 
-```
-cd dependency/nacos && sh run.sh
-```
+    ```
+    cd dependency/nacos && sh run.sh
+    ```
 
 3. 在 `appactive-demo`中 运行 mysql
 
-```
-cd dependency/mysql && sh run.sh
-```
-
-然后 运行
-
-```
-# 进入容器
-docker exec -ti appactive-mysql bash
-# 导入数据
-mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
-# 退出
-exit 
-```
+    ```
+    cd dependency/mysql && sh run.sh
+    # 然后进入容器
+    docker exec -ti appactive-mysql bash
+    # 导入数据
+    mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
+    # 退出
+    exit 
+    ```
 
 4. 构建所有 jar 包并运行
 
-```
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
-     -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
-     -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
-     -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
-     -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
-     -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
-     -Dappactive.unit=unit \
-     -Dappactive.app=storage \
-     -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
-     -Dserver.port=8882 \
--jar storage-0.3.jar
-```
+    ```
+    java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
+         -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
+         -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
+         -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
+         -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
+         -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
+         -Dappactive.unit=unit \
+         -Dappactive.app=storage \
+         -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
+         -Dserver.port=8882 \
+    -jar storage-0.3.jar
+    ```
 
 5. 测试
 
-```
-curl 127.0.0.1:8882/buy?r_id=1 
-routerId 1 bought 1 of item 12, result: success
-curl 127.0.0.1:8882/buy?r_id=4567 
-routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
-
-```
+    ```
+    curl 127.0.0.1:8882/buy?r_id=1 
+    routerId 1 bought 1 of item 12, result: success
+    curl 127.0.0.1:8882/buy?r_id=4567 
+    routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
+    
+    ```
 
 ### Gateway
 
@@ -167,48 +162,48 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
 1. 首先修改 frontend 的规则，以便于 frontend 访问到错误的单元
 
-```
-cd data/frontend-center
-vim idUnitMapping.json
-```
-
-如下
-
-```
-{
-  "itemType": "UnitRuleItem",
-  "items": [
+    ```
+    cd data/frontend-center
+    vim idUnitMapping.json
+    ```
+    
+    如下
+    
+    ```
     {
-      "name": "unit",
-      "conditions": [
+      "itemType": "UnitRuleItem",
+      "items": [
         {
-          "@userIdBetween": [
-            "0~2999"
+          "name": "unit",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "0~2999"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    {
-      "name": "center",
-      "conditions": [
+        },
         {
-          "@userIdBetween": [
-            "3000~9999"
+          "name": "center",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "3000~9999"
+              ]
+            }
           ]
         }
       ]
     }
-  ]
-}
-```
+    ```
 
 2. 发起测试
 
-```
-curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
-# 注意到报错会有这样一段
-[appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
-```
+    ```
+    curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
+    # 注意到报错会有这样一段
+    [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
+    ```
 
 因为我们修改了规则，让 frontend-center 将 路由id为 2499 的 请求路由到了单元，但实际上，这个请求应该路由到中心，所以被单元的provider拒绝请求了。
 

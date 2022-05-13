@@ -111,12 +111,7 @@ note: this demo contains many applications，please adjust your memory settings 
 
     ```
     cd dependency/mysql && sh run.sh
-    ```
-
-then 
-
-    ```
-    # enter container
+    # then enter container
     docker exec -ti appactive-mysql bash
     # import data
     mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
@@ -126,29 +121,29 @@ then
 
 4. build all the jars and run
 
-```
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
-     -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
-     -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
-     -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
-     -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
-     -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
-     -Dappactive.unit=unit \
-     -Dappactive.app=storage \
-     -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
-     -Dserver.port=8882 \
--jar storage-0.3.jar
-```
+    ```
+    java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
+         -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
+         -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
+         -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idUnitMapping.json \
+         -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idTransformer.json \
+         -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/idSource.json \
+         -Dappactive.unit=unit \
+         -Dappactive.app=storage \
+         -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
+         -Dserver.port=8882 \
+    -jar storage-0.3.jar
+    ```
 
 5. test
 
-```
-curl 127.0.0.1:8882/buy?r_id=1 
-routerId 1 bought 1 of item 12, result: success
-curl 127.0.0.1:8882/buy?r_id=4567 
-routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
-
-```
+    ```
+    curl 127.0.0.1:8882/buy?r_id=1 
+    routerId 1 bought 1 of item 12, result: success
+    curl 127.0.0.1:8882/buy?r_id=4567 
+    routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
+    
+    ```
 
 ### Gateway
 
@@ -159,48 +154,48 @@ Visit [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
 the building process of demo of Dubbo is far too complicated，we suggest using demo in  "quick start": 
 1. first of  all, modify rules in frontend-center, so that frontend-center would route request to the wrong unit
 
-```
-cd data/frontend-center
-vim idUnitMapping.json
-```
+    ```
+    cd data/frontend-center
+    vim idUnitMapping.json
+    ```
 
-the rules are as follows
+    the rules are as follows
 
-```
-{
-  "itemType": "UnitRuleItem",
-  "items": [
+    ```
     {
-      "name": "unit",
-      "conditions": [
+      "itemType": "UnitRuleItem",
+      "items": [
         {
-          "@userIdBetween": [
-            "0~2999"
+          "name": "unit",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "0~2999"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    {
-      "name": "center",
-      "conditions": [
+        },
         {
-          "@userIdBetween": [
-            "3000~9999"
+          "name": "center",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "3000~9999"
+              ]
+            }
           ]
         }
       ]
     }
-  ]
-}
-```
+    ```
 
 2. run test
 
-```
-curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
-# you can see error logs as follows  
-[appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
-```
+    ```
+    curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
+    # you can see error logs as follows  
+    [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
+    ```
 
 because we modified rules, so that frontend-center would route request of routerId 2499 to unit. 
 however，request like this should be routed to center, so provider in unit would deny such request.
