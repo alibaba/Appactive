@@ -1,6 +1,5 @@
 theme: jekyll-theme-cayman
 defaults:
-  # _docs
   - scope:
       path: "/docs/en"
       type: docs
@@ -12,4 +11,4 @@ defaults:
       type: docs
     values:
       sidebar:
-        nav: "docs"
+        nav: "docs1"
