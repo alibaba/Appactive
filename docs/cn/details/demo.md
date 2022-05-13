@@ -1,4 +1,8 @@
-# AppActive Demo
+---
+layout: default
+parent: CNReadme
+---
+# AppActive 样例(文件)
 
 ## 整体架构
 

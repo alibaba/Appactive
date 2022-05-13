@@ -1,11 +1,20 @@
+---
+layout: default
+title: CNReadme
+has_children: true
+---
+# 中文文档
+
+> AppActive 是阿里巴巴开源的一款标准、通用且功能强大的，致力于构建应用多活架构的开源中间件
+
+> 稳定压倒一切，基于AppActive驱动企业新高可用时代
+
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/Maven%20Central-v0.2-blue.svg)](https://mvnrepository.com/search?q=appactive)
 
 <div style="text-align: center">
    <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
 </div>
-
-
-# 稳定压倒一切，基于AppActive驱动企业新高可用时代
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 
 ---

@@ -1,8 +1,10 @@
-> 本文简要介绍 AppActive 具备的特性
-
-# 特性
-
 ---
+layout: default
+parent: CNReadme
+---
+# AppActive 特性
+
+> 本文简要介绍 AppActive 具备的特性
 
 ## 一、单元分流
 ### 流量统一接入

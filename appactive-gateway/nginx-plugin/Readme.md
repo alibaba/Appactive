@@ -1,4 +1,8 @@
-# 实现
+---
+layout: default
+parent: CNReadme
+---
+# AppActive Gateway 实现
 本文给出的实现案例可以基于 Tengine。也可以基于官方 Nginx，但是需要自行编译相关模块，主要是 Lua。也可以直接基于 OpenResty。
 
 ## 主要功能

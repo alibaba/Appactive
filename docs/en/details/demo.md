@@ -1,4 +1,4 @@
-# AppActive Demo
+# AppActive Demo(File)
 
 ## Overall structure
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)

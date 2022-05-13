@@ -1,15 +1,15 @@
+# A middleware dedicate to building multi-site active/active application architectures
 
-<div style="text-align: center">
-   <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
-</div>
-
-# A middleware to build an application with multiple active architectures（阿里巴巴开源的一款标准通用且功能强大的构建应用多活架构的开源中间件）
+> A middleware designed by alibaba: standard, universal and powerful
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/Maven%20Central-v0.2-blue.svg)](https://mvnrepository.com/search?q=appactive)
 
 English | [中文](docs/cn/README_CN.md)
 
+<div style="text-align: center">
+   <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
+</div>
 
 ---
 

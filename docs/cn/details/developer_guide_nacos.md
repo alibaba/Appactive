@@ -1,4 +1,8 @@
-# AppActive 开发指南
+---
+layout: default
+parent: CNReadme
+---
+# AppActive 开发指南(Nacos)
 
 ---
 

@@ -1,3 +1,7 @@
+---
+layout: default
+parent: CNReadme
+---
 # AppActive 更新日志
 
 ---

@@ -1,3 +1,7 @@
+---
+layout: default
+parent: CNReadme
+---
 # AppActive 架构
 
 ---

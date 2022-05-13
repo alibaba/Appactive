@@ -1,7 +1,6 @@
-> This article briefly introduces the concepts and terms in AppActive
-# concept
+# AppActive Concept
 
------
+> This article briefly introduces the concepts and terms in AppActive
 
 ## Basic concepts
 AppActive is mainly composed of data plane code, control code (portal), and application Demo. The data plane code involves Gateway (gateway plug-in), Java-api (client API), java-client (API implementation),

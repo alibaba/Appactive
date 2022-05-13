@@ -1,8 +1,6 @@
+# AppActive Features
+
 > This article briefly introduces the features of AppActive
-
-# Features
-
----
 
 ## One, unit diversion
 ### Unified traffic access

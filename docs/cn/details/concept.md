@@ -1,7 +1,10 @@
-> 本文简要介绍 AppActive 中的概念和名词
-# 概念
+---
+layout: default
+parent: CNReadme
+---
+# AppActive 概念
 
------
+> 本文简要介绍 AppActive 中的概念和名词
 
 ## 基本概念
 AppActive 主要由 数据面代码、管控代码（portal）、应用Demo组成，数据面代码涉及 Gateway（网关插件）、Java-api（client API）、java-client（API 实现）、
