@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-
+export appactiveNamespaceId="appactiveDemoNamespaceId"
 docker-compose -f docker-compose-nacos.yml up -d nacos mysql
 sleep 20s
 
@@ -24,7 +24,6 @@ cd ../appactive-portal
 sh baseline.sh 2 NACOS appactiveDemoNamespaceId
 
 cd ../appactive-demo
-export appactiveNamespaceId="appactiveDemoNamespaceId"
 docker-compose -f docker-compose-quick.yml up -d storage storage-unit
 sleep 15s
 docker-compose -f docker-compose-quick.yml up -d product product-unit
