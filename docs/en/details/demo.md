@@ -1,6 +1,6 @@
 # AppActive Demo(File)
 
-## Overall structure
+## Overall architecture
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)
 
 The overall structure of this demo is shown in the figure.
@@ -100,7 +100,7 @@ note: this demo contains many applications，please adjust your memory settings 
 
 ### MySQL
 
-#### 步骤
+#### steps
 
 1. in `appactive-portal` module, run `sh baseline.sh 2`
 2. in `appactive-demo`module, run nacos
@@ -151,7 +151,7 @@ Visit [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
 
 ### Dubbo
 
-the building process of demo of Dubbo is far too complicated，we suggest using demo in  "quick start": 
+The building process of Dubbo demo is too complicated，we suggest using demo in  "quick start": 
 1. first of  all, modify rules in frontend-center, so that frontend-center would route request to the wrong unit
 
     ```

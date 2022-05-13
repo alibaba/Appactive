@@ -1,4 +1,4 @@
-# AppActive Develop Guide(Nacos)
+# AppActive Develop Guide(File)
 
 ---
 
@@ -67,29 +67,29 @@ The entry application is responsible for extracting the routing beacon from the 
 
 1. Introduce maven dependency
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-servlet</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-servlet</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
 
 2. import filter，for example
 
-```java
-@Configuration
-public class WebConfig {
-    @Bean
-    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
-        FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        RequestFilter reqResFilter = new RequestFilter();
-        filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/*");
-        return filterRegistrationBean;
+    ```java
+    @Configuration
+    public class WebConfig {
+        @Bean
+        public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+            FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            RequestFilter reqResFilter = new RequestFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/*");
+            return filterRegistrationBean;
+        }
     }
-}
-```
+    ```
 
 3. When the request comes, you can call `AppContextClient.getRouteId();` in the application to get the route ID
 
@@ -98,60 +98,60 @@ public class WebConfig {
 
 1. Introduce maven dependency in both provider and consumer
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-spi-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-rule</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-spi-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-rule</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
 
 2. Add attributes to the provider, if it is an annotation form as follows
 
-```
-package io.appactive.demo.product.service;
-
-import io.appactive.demo.common.entity.Product;
-import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
-import io.appactive.demo.product.repository.ProductRepository;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-@DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit","routeIndex","0"})
-public class ProductServiceUnitImpl implements ProductServiceUnit {
-
-    @Value("${appactive.unit}")
-    private String unit;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Override
-    public ResultHolder<Product> detail(String rId, String pId) {
-        // unit
-        System.out.println("detail: "+ rId +": "+ pId);
-        return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
+    ```
+    package io.appactive.demo.product.service;
+    
+    import io.appactive.demo.common.entity.Product;
+    import io.appactive.demo.common.entity.ResultHolder;
+    import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
+    import io.appactive.demo.product.repository.ProductRepository;
+    import org.apache.dubbo.config.annotation.DubboService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.beans.factory.annotation.Value;
+    
+    @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit","routeIndex","0"})
+    public class ProductServiceUnitImpl implements ProductServiceUnit {
+    
+        @Value("${appactive.unit}")
+        private String unit;
+    
+        @Autowired
+        ProductRepository productRepository;
+    
+        @Override
+        public ResultHolder<Product> detail(String rId, String pId) {
+            // unit
+            System.out.println("detail: "+ rId +": "+ pId);
+            return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
+        }
     }
-}
-
-```
+    
+    ```
 
 The core is to add annotations
 `parameters = {"rsActive","unit","routeIndex","0"}`
@@ -179,18 +179,19 @@ Last but no least, we import unit protection filter. Take springboot as an examp
 
 1. Introduce maven dependency
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-spi-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
- <dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-db-mysql</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-spi-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+     <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-db-mysql</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+   
 2. Add parameters to the database connection, such as
    `jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product`. in:
    - activeInstanceId: database instance ID
@@ -214,7 +215,7 @@ The content of path-address is:
 }
 
 ```
-in
+in which
 
 - appactive.forbiddenRulePath: Describe which route flags are forbidden to write
 - appactive.transformerRulePath: Describe how to parse the routing mark

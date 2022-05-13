@@ -2,7 +2,7 @@
 layout: default
 parent: 中文文档
 ---
-# AppActive 开发指南(Nacos)
+# AppActive 开发指南(文件)
 
 ---
 
@@ -71,29 +71,30 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 
 1. 引入 maven 依赖
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-servlet</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-servlet</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
 
 2. 引入 filter，以 Spring 为例
 
-```java
-@Configuration
-public class WebConfig {
-    @Bean
-    public FilterRegistrationBean<RequestFilter> appActiveFilter() {
-        FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        RequestFilter reqResFilter = new RequestFilter();
-        filterRegistrationBean.setFilter(reqResFilter);
-        filterRegistrationBean.addUrlPatterns("/*");
-        return filterRegistrationBean;
+    ```java
+    @Configuration
+    public class WebConfig {
+        @Bean
+        public FilterRegistrationBean<RequestFilter> appActiveFilter() {
+            FilterRegistrationBean<RequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            RequestFilter reqResFilter = new RequestFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/*");
+            return filterRegistrationBean;
+        }
     }
-}
-```
+    ```
+   
 3. 当请求到来时，可以在应用中调用 `AppContextClient.getRouteId();` 来获取路由ID
 
 #### 所有应用
@@ -101,63 +102,62 @@ public class WebConfig {
 
 1. 在 provider 和 consumer 都引入 maven 依赖
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-spi-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-rule</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-spi-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-rule</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
 
 2. 在 provider 中加入属性，如果是注解形式如下
 
-```
-package io.appactive.demo.product.service;
-
-import io.appactive.demo.common.entity.Product;
-import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
-import io.appactive.demo.product.repository.ProductRepository;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-@DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit","routeIndex","0"})
-public class ProductServiceUnitImpl implements ProductServiceUnit {
-
-    @Value("${appactive.unit}")
-    private String unit;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Override
-    public ResultHolder<Product> detail(String rId, String pId) {
-        // unit
-        System.out.println("detail: " + rId + " : " + pId);
-        return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
+    ```
+    package io.appactive.demo.product.service;
+    
+    import io.appactive.demo.common.entity.Product;
+    import io.appactive.demo.common.entity.ResultHolder;
+    import io.appactive.demo.common.service.dubbo.ProductServiceUnit;
+    import io.appactive.demo.product.repository.ProductRepository;
+    import org.apache.dubbo.config.annotation.DubboService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.beans.factory.annotation.Value;
+    
+    @DubboService(version = "1.0.0", group = "appactive", parameters = {"rsActive","unit","routeIndex","0"})
+    public class ProductServiceUnitImpl implements ProductServiceUnit {
+    
+        @Value("${appactive.unit}")
+        private String unit;
+    
+        @Autowired
+        ProductRepository productRepository;
+    
+        @Override
+        public ResultHolder<Product> detail(String rId, String pId) {
+            // unit
+            System.out.println("detail: " + rId + " : " + pId);
+            return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
+        }
     }
-}
+    
+    ```
 
-```
-
-核心是加上注解
-` parameters = {"rsActive","unit","routeIndex","0"} `
+核心是加上注解` parameters = {"rsActive","unit","routeIndex","0"} `
 rsActive 为 unit 表明这是一个单元服务，routeIndex 为 0 表明路由ID是第 0 个参数。
 rsActive 的 候选 value 有:
 
@@ -182,18 +182,19 @@ rsActive 的 候选 value 有:
 
 1. 引入 maven 依赖
 
-```
-<dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-spi-metainfo</artifactId>
-    <version>0.3</version>
-</dependency>
- <dependency>
-    <groupId>com.alibaba.msha</groupId>
-    <artifactId>client-bridge-db-mysql</artifactId>
-    <version>0.3</version>
-</dependency>
-```
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-spi-metainfo</artifactId>
+        <version>0.3</version>
+    </dependency>
+     <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-db-mysql</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+   
 2. 数据库连接加上参数，如
 `jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product`。其中：
 	- activeInstanceId: 数据库实例ID
@@ -206,26 +207,26 @@ rsActive 的 候选 value 有:
 凡是依赖 `appactive-java-api` 模块的应用，启动时候都要配置参数 `-Dappactive.path=/path/to/path-address`。
 path-address的内容为：
 
-```
-{
-    "appactive.machineRulePath":"/app/data/machine.json",
-    "appactive.machineRulePath":"/app/data/machine.json",
-    "appactive.dataScopeRuleDirectoryPath":"/app/data",
-    "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
-    "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
-    "appactive.transformerRulePath":"/app/data/idTransformer.json",
-    "appactive.idSourceRulePath":"/app/data/idSource.json",
-}
-
-```
-其中
-
-- appactive.forbiddenRulePath: 描述禁写哪些路由标
-- appactive.transformerRulePath: 描述如何解析路由标
-- appactive.trafficRulePath: 描述路由标和单元的映射关系
-- appactive.machineRulePath: 描述当前机器的归属单元
-- appactive.dataScopeRuleDirectoryPath: 存放数据库的属性文件，一个数据库一个文件，文件命名为：activeInstanceId-activeDbName 或者 activeInstanceId-activeDbName-activePort
-- appactive.idSourceRulePath: 描述如何从http流量中获取路由ID  
+    ```
+    {
+        "appactive.machineRulePath":"/app/data/machine.json",
+        "appactive.machineRulePath":"/app/data/machine.json",
+        "appactive.dataScopeRuleDirectoryPath":"/app/data",
+        "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
+        "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
+        "appactive.transformerRulePath":"/app/data/idTransformer.json",
+        "appactive.idSourceRulePath":"/app/data/idSource.json",
+    }
+    
+    ```
+    其中
+    
+    - appactive.forbiddenRulePath: 描述禁写哪些路由标
+    - appactive.transformerRulePath: 描述如何解析路由标
+    - appactive.trafficRulePath: 描述路由标和单元的映射关系
+    - appactive.machineRulePath: 描述当前机器的归属单元
+    - appactive.dataScopeRuleDirectoryPath: 存放数据库的属性文件，一个数据库一个文件，文件命名为：activeInstanceId-activeDbName 或者 activeInstanceId-activeDbName-activePort
+    - appactive.idSourceRulePath: 描述如何从http流量中获取路由ID  
 
 ## 二、管控面
 
@@ -233,108 +234,109 @@ path-address的内容为：
 
 - appactive.transformerRulePath，举例：
 
-```
-{
-  "id": "userIdBetween",
-  "mod": "10000"
-}
-```
-说明，提取到路由标后按照10000取模，作为最终路由标。
+    ```
+    {
+      "id": "userIdBetween",
+      "mod": "10000"
+    }
+    ```
+
+    说明，提取到路由标后按照10000取模，作为最终路由标。
 
 
 - appactive.trafficRulePath，举例：
 
-```
-{
-  "itemType": "UnitRuleItem",
-  "items": [
+    ```
     {
-      "name": "unit",
-      "conditions": [
+      "itemType": "UnitRuleItem",
+      "items": [
         {
-          "@userIdBetween": [
-            "0~1999"
+          "name": "unit",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "0~1999"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    {
-      "name": "center",
-      "conditions": [
+        },
         {
-          "@userIdBetween": [
-            "2000~9999"
+          "name": "center",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "2000~9999"
+              ]
+            }
           ]
         }
       ]
     }
-  ]
-}
-
-```
-说明 按 10000 取模后在 0～1999 范围内的路由标应该被路由到 unit；
-
-按 10000 取模后在 2000～9999 范围内的路由标应该被路由到 center；
+    
+    ```
+    说明 按 10000 取模后在 0～1999 范围内的路由标应该被路由到 unit；
+    
+    按 10000 取模后在 2000～9999 范围内的路由标应该被路由到 center；
 
 - appactive.machineRulePath，举例：
 
-```
-{"unitFlag":"unit"}
-
-```
-说明当前应用部署在 unit
+    ```
+    {"unitFlag":"unit"}
+    
+    ```
+    说明当前应用部署在 unit
 
 - appactive.forbiddenRulePath，举例：
 
-假设我们希望将 2000~2999 从 unit 划分到 center，则新的appactive.trafficRulePath如下
-
-```
-{
-  "itemType": "UnitRuleItem",
-  "items": [
+    假设我们希望将 2000~2999 从 unit 划分到 center，则新的appactive.trafficRulePath如下
+    
+    ```
     {
-      "name": "unit",
-      "conditions": [
+      "itemType": "UnitRuleItem",
+      "items": [
         {
-          "@userIdBetween": [
-            "0~2999"
+          "name": "unit",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "0~2999"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    {
-      "name": "center",
-      "conditions": [
+        },
         {
-          "@userIdBetween": [
-            "3000~9999"
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-```
-
-对应的appactive.forbiddenRulePath 为
-
-```
-{
-  "itemType": "ForbiddenRuleItem",
-  "items": [
-    {
-      "name": "between",
-      "conditions": [
-        {
-          "@userIdBetween": [
-            "2000~2999"
+          "name": "center",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "3000~9999"
+              ]
+            }
           ]
         }
       ]
     }
-  ]
-}
-
-
-```
+    
+    ```
+    
+    对应的appactive.forbiddenRulePath 为
+    
+    ```
+    {
+      "itemType": "ForbiddenRuleItem",
+      "items": [
+        {
+          "name": "between",
+          "conditions": [
+            {
+              "@userIdBetween": [
+                "2000~2999"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    
+    
+    ```
