@@ -2,6 +2,12 @@
 layout: default
 title: AppActive Readme
 ---
+
+
+<div style="text-align: center">
+   <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
+</div>
+
 # A middleware dedicate to building multi-site active/active application architectures
 
 > A middleware designed by alibaba: standard, universal and powerful
@@ -10,11 +16,6 @@ title: AppActive Readme
 [![](https://img.shields.io/badge/Maven%20Central-v0.2-blue.svg)](https://mvnrepository.com/search?q=appactive)
 
 English | [中文](docs/cn/README_CN.md)
-
-<div style="text-align: center">
-   <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
-</div>
-
 ---
 
 ## Introduction
