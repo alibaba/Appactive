@@ -1,9 +1,3 @@
----
-toc: true
-toc_icon: "cog"
-sidebar:
-  nav: "docs"
----
 # AppActive 架构
 
 ---

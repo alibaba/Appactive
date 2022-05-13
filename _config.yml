@@ -1,14 +1,1 @@
-theme: jekyll-theme-cayman
-defaults:
-  - scope:
-      path: ""
-      type: docs
-    values:
-      sidebar:
-        nav: "docs"
-  - scope:
-      path: "docs/cn"
-      type: docs
-    values:
-      sidebar:
-        nav: "docs1"
+remote_theme: just-the-docs/just-the-docs
