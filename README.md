@@ -1,6 +1,6 @@
 ---
 layout: default
-title: AppActive Readme
+nav_exclude: true
 ---
 
 
