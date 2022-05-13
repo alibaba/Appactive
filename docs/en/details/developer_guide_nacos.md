@@ -1,4 +1,4 @@
-# AppActive Develop Guide(File)
+# AppActive Develop Guide(Nacos)
 
 ---
 
@@ -7,7 +7,7 @@
 
 **precondition**
 
--You need your gateway to be implemented based on nginx and have the ability to run lua
+- You need your gateway to be implemented based on nginx and have the ability to run lua
 
 **Transformation steps**
 

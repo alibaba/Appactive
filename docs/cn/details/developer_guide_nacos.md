@@ -2,7 +2,7 @@
 layout: default
 parent: 中文文档
 ---
-# AppActive 开发指南(文件)
+# AppActive 开发指南(Naocs)
 
 ---
 
