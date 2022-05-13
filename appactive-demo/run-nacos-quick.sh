@@ -15,12 +15,16 @@
 #
 
 
+docker-compose -f docker-compose-nacos.yml up -d nacos mysql
+sleep 20s
+
+curl -X POST 'http://127.0.0.1:8848/nacos/v1/console/namespaces' -d 'customNamespaceId=appactiveDemoNamespaceId&namespaceName=appactiveDemoNamespaceName&namespaceDesc=appactiveDemoNamespaceDesc'
+
 cd ../appactive-portal
-sh baseline.sh 2
+sh baseline.sh 2 NACOS appactiveDemoNamespaceId
 
 cd ../appactive-demo
-docker-compose -f docker-compose-quick.yml up -d nacos mysql
-sleep 20s
+export appactiveNamespaceId="${temp}"
 docker-compose -f docker-compose-quick.yml up -d storage storage-unit
 sleep 15s
 docker-compose -f docker-compose-quick.yml up -d product product-unit
