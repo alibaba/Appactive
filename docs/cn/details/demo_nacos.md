@@ -75,13 +75,14 @@ parent: 中文文档
 ### 前提
 
 1. 在 `appactive-demo`中 运行 nacos
+
 ```
 cd dependency/nacos && sh run.sh
-
 # 然后在 nacos 中创建命令通道专属空间，如`appactiveDemoNamespaceId`
 ```
 
 2. 在 `appactive-demo`中 运行 mysql
+
 ```
 cd dependency/mysql && sh run.sh
 ```
@@ -154,7 +155,6 @@ curl 127.0.0.1:8882/buy?r_id=1
 routerId 1 bought 1 of item 12, result: success
 curl 127.0.0.1:8882/buy?r_id=4567 
 routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
-
 ```
 
 ### Gateway
@@ -171,7 +171,6 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
 # 注意到报错会有这样一段
 [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
-
 ```
 
 因为我们直接将 路由id为 2499 的 请求路由到了单元，但实际上，这个请求应该路由到中心，所以被单元的provider拒绝请求了。
