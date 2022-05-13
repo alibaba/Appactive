@@ -24,13 +24,13 @@ cd ../appactive-portal
 sh baseline.sh 2 NACOS appactiveDemoNamespaceId
 
 cd ../appactive-demo
-docker-compose -f docker-compose-quick.yml up -d storage storage-unit
+docker-compose -f docker-compose-nacos-quick.yml up -d storage storage-unit
 sleep 15s
-docker-compose -f docker-compose-quick.yml up -d product product-unit
+docker-compose -f docker-compose-nacos-quick.yml up -d product product-unit
 sleep 15s
-docker-compose -f docker-compose-quick.yml up -d frontend frontend-unit
+docker-compose -f docker-compose-nacos-quick.yml up -d frontend frontend-unit
 sleep 3s
-docker-compose -f docker-compose-quick.yml up -d gateway
+docker-compose -f docker-compose-nacos-quick.yml up -d gateway
 
 sleep 3s
 cd ../appactive-portal
