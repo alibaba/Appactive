@@ -76,7 +76,7 @@ parent: 中文文档
 2. 构建相关 jar 包
 3. 运行
 
-```shell script
+```
 java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
 -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
 -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
@@ -93,7 +93,7 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend
 
 4. 测试
 
-```shell script
+```
 curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
 routerId: 1
 curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
@@ -111,19 +111,19 @@ routerId: null
 1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 2. 在 `appactive-demo`中 运行 nacos
 
-```shell script
+```
 cd dependency/nacos && sh run.sh
 ```
 
 3. 在 `appactive-demo`中 运行 mysql
 
-```shell script
+```
 cd dependency/mysql && sh run.sh
 ```
 
 然后 运行
 
-```shell script
+```
 # 进入容器
 docker exec -ti appactive-mysql bash
 # 导入数据
@@ -134,7 +134,7 @@ exit
 
 4. 构建所有 jar 包并运行
 
-```shell script
+```
 java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/machine.json \
      -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/storage-unit \
      -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/storage-unit/forbiddenRule.json \
@@ -150,7 +150,7 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-
 
 5. 测试
 
-```shell script
+```
 curl 127.0.0.1:8882/buy?r_id=1 
 routerId 1 bought 1 of item 12, result: success
 curl 127.0.0.1:8882/buy?r_id=4567 
@@ -167,14 +167,14 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
 1. 首先修改 frontend 的规则，以便于 frontend 访问到错误的单元
 
-```shell script
+```
 cd data/frontend-center
 vim idUnitMapping.json
 ```
 
 如下
 
-```shell script
+```
 {
   "itemType": "UnitRuleItem",
   "items": [
@@ -204,7 +204,7 @@ vim idUnitMapping.json
 
 2. 发起测试
 
-```shell script
+```
 
 curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
 # 注意到报错会有这样一段

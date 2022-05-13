@@ -70,14 +70,16 @@ note: this demo contains many applications，please adjust your memory settings 
 ### Premise
 
 1. Run nacos in `appactive-demo`
-```shell script
+
+```
 cd dependency/nacos && sh run.sh
 
 # and then create a namespace for command channel，like `appactiveDemoNamespaceId`
 ```
 
 2. Run maysql in `appactive-demo`
-```shell script
+
+```
 cd dependency/mysql && sh run.sh
 ```
 
@@ -89,7 +91,7 @@ cd dependency/mysql && sh run.sh
 2. build all jar needed
 3. run java application
 
-```shell script
+```
 java -Dappactive.unit=unit \
 -Dappactive.app=frontend \
 -Dio.appactive.demo.unitlist=center,unit \
@@ -99,8 +101,10 @@ java -Dappactive.unit=unit \
 -Dappactive.namespaceId=appactiveDemoNamespaceId \
 -jar frontend-0.3.jar
 ```
+
 4. test
-```shell script
+
+```
 curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
 routerId: 1
 curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
@@ -118,7 +122,8 @@ routerId: null
 1. In `appactive-portal` module, run `sh baseline.sh 2 NACOS appactiveDemoNamespaceId`
 
 2. Data initiation
-```shell script
+
+```
 # enter container
 docker exec -ti appactive-mysql bash
 # import data
@@ -126,9 +131,10 @@ mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
 # exit
 exit 
 ```
+
 4. build all the jars and run
 
-```shell script
+```
 java -Dappactive.channelTypeEnum=NACOS \
      -Dappactive.namespaceId=appactiveDemoNamespaceId \
      -Dappactive.unit=unit \
@@ -137,8 +143,10 @@ java -Dappactive.channelTypeEnum=NACOS \
      -Dserver.port=8882 \
 -jar storage-0.3.jar
 ```
+
 5. test
-```shell script
+
+```
 curl 127.0.0.1:8882/buy?r_id=1 
 routerId 1 bought 1 of item 12, result: success
 curl 127.0.0.1:8882/buy?r_id=4567 
@@ -154,7 +162,8 @@ Visit [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
 
 the building process of demo of Dubbo is far too complicated，we suggest using demo in  "quick start": 
 1. run test
-```shell script
+
+```
 curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
  # you can see error logs as follows  
 [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by unit protection, targetUnit [CENTER], currentUnit [unit].)
