@@ -1,7 +1,7 @@
 theme: jekyll-theme-cayman
 defaults:
   - scope:
-      path: "/docs/en"
+      path: ""
       type: docs
     values:
       sidebar:
