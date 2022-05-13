@@ -90,7 +90,9 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend
 -Dserver.port=8886 \
 -jar frontend-0.3.jar
 ```
+
 4. 测试
+
 ```shell script
 curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
 routerId: 1
@@ -108,14 +110,19 @@ routerId: null
 
 1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 2. 在 `appactive-demo`中 运行 nacos
+
 ```shell script
 cd dependency/nacos && sh run.sh
 ```
+
 3. 在 `appactive-demo`中 运行 mysql
+
 ```shell script
 cd dependency/mysql && sh run.sh
 ```
+
 然后 运行
+
 ```shell script
 # 进入容器
 docker exec -ti appactive-mysql bash
@@ -124,6 +131,7 @@ mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
 # 退出
 exit 
 ```
+
 4. 构建所有 jar 包并运行
 
 ```shell script
@@ -139,7 +147,9 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-
      -Dserver.port=8882 \
 -jar storage-0.3.jar
 ```
+
 5. 测试
+
 ```shell script
 curl 127.0.0.1:8882/buy?r_id=1 
 routerId 1 bought 1 of item 12, result: success
@@ -156,11 +166,14 @@ routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equal
 
 构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
 1. 首先修改 frontend 的规则，以便于 frontend 访问到错误的单元
+
 ```shell script
 cd data/frontend-center
 vim idUnitMapping.json
 ```
+
 如下
+
 ```shell script
 {
   "itemType": "UnitRuleItem",
@@ -188,13 +201,16 @@ vim idUnitMapping.json
   ]
 }
 ```
+
 2. 发起测试
+
 ```shell script
 
 curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
 # 注意到报错会有这样一段
 [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
 ```
+
 因为我们修改了规则，让 frontend-center 将 路由id为 2499 的 请求路由到了单元，但实际上，这个请求应该路由到中心，所以被单元的provider拒绝请求了。
 
 ## 规则说明
