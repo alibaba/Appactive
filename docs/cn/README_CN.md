@@ -25,7 +25,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 
 ## 快速体验
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/demo.png?x-oss-process=style/h200)
 
 ### 前提
 本 demo 要求安装如下软件
@@ -42,7 +42,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 > 如果你打算停止体验，可进行：`cd appactive-demo` -> `docker-compose down`
 
-更多信息，请见 [demo](details/demo.md)
+更多信息，请见 [demo](details/demo_nacos.md)
 
 ## 开发指南
 - [开发指南(Develop Guide)](details/developer_guide.md) ：介绍 AppActive 的使用方法，包括基本样例、支持插件、版本管理、使用效果等。

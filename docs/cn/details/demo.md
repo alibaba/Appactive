@@ -54,7 +54,7 @@
 
 ### 步骤
 
-1. 进入 `appactive-gateway/nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2 .`
+1. 进入 `appactive-gateway/nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:0.3 .`
 2. 进入 `appactive-demo` 模块，maven build 获得 jar 包
 3. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2`，推送应用基线
 4. 在 `appactive-demo` 模块中运行 `sh run.sh` ，启动所有应用和网关
@@ -84,7 +84,7 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend
 -Dio.appactive.demo.unitlist=center,unit \
 -Dio.appactive.demo.applist=frontend,product,storage \
 -Dserver.port=8886 \
--jar frontend-0.2.jar
+-jar frontend-0.3.jar
 ```
 4. 测试
 ```shell script
@@ -133,7 +133,7 @@ java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/storage-
      -Dappactive.app=storage \
      -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
      -Dserver.port=8882 \
--jar storage-0.2.jar
+-jar storage-0.3.jar
 ```
 5. 测试
 ```shell script

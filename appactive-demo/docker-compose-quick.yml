@@ -28,15 +28,16 @@ services:
   gateway:
     container_name: gateway
     hostname: gateway
-    image: appactiveio/gateway:0.2
+    image: appactiveio/gateway:0.3
     ports:
       - "80:80"
       - "8090:8090"
 
   storage:
     restart: on-failure:3
-    image: appactiveio/storage:0.2
+    image: appactiveio/storage:0.3
     container_name: storage
+    hostname: storage
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -56,8 +57,9 @@ services:
 
   storage-unit:
     restart: on-failure:3
-    image: appactiveio/storage:0.2
+    image: appactiveio/storage:0.3
     container_name: storage-unit
+    hostname: storage-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -77,8 +79,9 @@ services:
 
   product:
     restart: on-failure:3
-    image: appactiveio/product:0.2
+    image: appactiveio/product:0.3
     container_name: product
+    hostname: product
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -98,8 +101,9 @@ services:
 
   product-unit:
     restart: on-failure:3
-    image: appactiveio/product:0.2
+    image: appactiveio/product:0.3
     container_name: product-unit
+    hostname: product-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - spring.datasource.url=jdbc:mysql://mysql:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
@@ -119,8 +123,9 @@ services:
 
   frontend:
     restart: on-failure:3
-    image: appactiveio/frontend:0.2
+    image: appactiveio/frontend:0.3
     container_name: frontend
+    hostname: frontend
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - appactive.unit=center
@@ -139,8 +144,9 @@ services:
 
   frontend-unit:
     restart: on-failure:3
-    image: appactiveio/frontend:0.2
+    image: appactiveio/frontend:0.3
     container_name: frontend-unit
+    hostname: frontend-unit
     environment:
       - dubbo.registry.address=nacos://nacos:8848
       - appactive.unit=unit

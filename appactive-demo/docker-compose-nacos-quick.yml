@@ -28,15 +28,14 @@ services:
   gateway:
     container_name: gateway
     hostname: gateway
-    image: app-active/gateway:0.3
+    image: appactiveio/gateway:0.3
     ports:
       - "80:80"
       - "8090:8090"
 
   storage:
-    build: ./storage
     restart: on-failure:3
-    image: app-active/storage:0.3
+    image: appactiveio/storage:0.3
     container_name: storage
     hostname: storage
     environment:
@@ -62,7 +61,7 @@ services:
 
   storage-unit:
     restart: on-failure:3
-    image: app-active/storage:0.3
+    image: appactiveio/storage:0.3
     container_name: storage-unit
     hostname: storage-unit
     environment:
@@ -87,9 +86,8 @@ services:
       - "mysql"
 
   product:
-    build: ./product
     restart: on-failure:3
-    image: app-active/product:0.3
+    image: appactiveio/product:0.3
     container_name: product
     hostname: product
     environment:
@@ -115,7 +113,7 @@ services:
 
   product-unit:
     restart: on-failure:3
-    image: app-active/product:0.3
+    image: appactiveio/product:0.3
     container_name: product-unit
     hostname: product-unit
     environment:
@@ -140,9 +138,8 @@ services:
       - "storage-unit"
 
   frontend:
-    build: ./frontend
     restart: on-failure:3
-    image: app-active/frontend:0.3
+    image: appactiveio/frontend:0.3
     container_name: frontend
     hostname: frontend
     environment:
@@ -167,7 +164,7 @@ services:
 
   frontend-unit:
     restart: on-failure:3
-    image: app-active/frontend:0.3
+    image: appactiveio/frontend:0.3
     container_name: frontend-unit
     hostname: frontend-unit
     environment:

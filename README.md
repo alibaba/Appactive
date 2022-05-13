@@ -47,7 +47,7 @@ The following software are assumed installed:
 note：this demo contains many applications, please adjust your memory settings to avoid failures.
 
 ### Experience
-![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png?x-oss-process=style/h200)
+![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/demo.png?x-oss-process=style/h200)
 
 #### Docker Run
 
@@ -58,7 +58,7 @@ note：this demo contains many applications, please adjust your memory settings 
 > If you plan to stop the experience, you can proceed: `cd appactive-demo` -> `docker-compose down`
 
 #### More
-For more, please visit [demo](docs/en/details/demo.md)
+For more, please visit [demo](docs/en/details/demo_nacos.md)
 
 ## Developer Guide
 

@@ -28,7 +28,7 @@ services:
   gateway:
     container_name: gateway
     hostname: gateway
-    image: app-active/gateway:0.2
+    image: app-active/gateway:0.3
     ports:
       - "80:80"
       - "8090:8090"
