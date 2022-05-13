@@ -1,3 +1,7 @@
+---
+layout: default
+title: AppActive Readme
+---
 # A middleware dedicate to building multi-site active/active application architectures
 
 > A middleware designed by alibaba: standard, universal and powerful

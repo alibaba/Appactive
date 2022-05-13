@@ -1,6 +1,6 @@
 ---
 layout: default
-parent: CNReadme
+parent: 中文文档
 ---
 # AppActive 架构
 

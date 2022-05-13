@@ -1,6 +1,6 @@
 ---
 layout: default
-title: CNReadme
+title: 中文文档
 has_children: true
 ---
 # 中文文档
