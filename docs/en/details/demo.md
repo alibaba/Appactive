@@ -70,33 +70,33 @@ note: this demo contains many applications，please adjust your memory settings 
 2. build all jar needed
 3. run java application
 
-```
-java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
--Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
--Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
--Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
--Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
--Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
--Dappactive.unit=unit \
--Dappactive.app=frontend \
--Dio.appactive.demo.unitlist=center,unit \
--Dio.appactive.demo.applist=frontend,product,storage \
--Dserver.port=8886 \
--jar frontend-0.3.jar
-```
+    ```
+    java -Dappactive.machineRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/machine.json \
+    -Dappactive.dataScopeRuleDirectoryPath=/Path-to-Appactive/appactive-demo/data/frontend-unit \
+    -Dappactive.forbiddenRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/forbiddenRule.json \
+    -Dappactive.trafficRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idUnitMapping.json \
+    -Dappactive.transformerRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idTransformer.json \
+    -Dappactive.idSourceRulePath=/Path-to-Appactive/appactive-demo/data/frontend-unit/idSource.json \
+    -Dappactive.unit=unit \
+    -Dappactive.app=frontend \
+    -Dio.appactive.demo.unitlist=center,unit \
+    -Dio.appactive.demo.applist=frontend,product,storage \
+    -Dserver.port=8886 \
+    -jar frontend-0.3.jar
+    ```
 
 4. test
 
-```
-curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
-routerId: 1
-curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
-routerId: 2
-curl 127.0.0.1:8886/show  -b "r_id=3"
-routerId: 3
-curl 127.0.0.1:8886/show  
-routerId: null
-```
+    ```
+    curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
+    routerId: 1
+    curl 127.0.0.1:8886/show -H "r_id:2" -b "r_id=3"
+    routerId: 2
+    curl 127.0.0.1:8886/show  -b "r_id=3"
+    routerId: 3
+    curl 127.0.0.1:8886/show  
+    routerId: null
+    ```
 
 ### MySQL
 
@@ -104,25 +104,25 @@ routerId: null
 
 1. in `appactive-portal` module, run `sh baseline.sh 2`
 2. in `appactive-demo`module, run nacos
-```
-cd dependency/nacos && sh run.sh
-```
+    ```
+    cd dependency/nacos && sh run.sh
+    ```
 3. in `appactive-demo` module, run mysql
 
-```
-cd dependency/mysql && sh run.sh
-```
+    ```
+    cd dependency/mysql && sh run.sh
+    ```
 
 then 
 
-```
-# enter container
-docker exec -ti appactive-mysql bash
-# import data
-mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
-# exit
-exit 
-```
+    ```
+    # enter container
+    docker exec -ti appactive-mysql bash
+    # import data
+    mysql -uroot -pdemo_appactiive_pw product < /root/init.sql
+    # exit
+    exit 
+    ```
 
 4. build all the jars and run
 

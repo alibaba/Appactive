@@ -205,7 +205,6 @@ vim idUnitMapping.json
 2. 发起测试
 
 ```
-
 curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
 # 注意到报错会有这样一段
 [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
