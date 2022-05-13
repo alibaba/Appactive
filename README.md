@@ -1,8 +1,3 @@
----
-layout: default
-nav_exclude: true
----
-
 
 <div style="text-align: center">
    <img src="https://appactive.oss-cn-beijing.aliyuncs.com/images/appactive-logo.jpg?x-oss-process=style/h400" />
