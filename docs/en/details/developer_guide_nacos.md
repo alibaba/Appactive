@@ -2,7 +2,8 @@
 
 ---
 
-## 1. Data Plane
+## A. Data Plane
+
 ### 1.1 Gateway: Nginx
 
 **precondition**
@@ -54,14 +55,15 @@ in:
 - UNIT_FLAG_N: unit flag of each unit
 - VAR_BACKEND_IP_LIST: the back-end application IP of the corresponding unit
 
-### 1.2 Microservices (RPC): Dubbo
+### 2.1 Microservices (RPC): Dubbo
+
 **precondition**
 
--You need to implement your application services based on Java and implement service calls with Dubbo
+- You need to implement your application services based on Java and implement service calls with Dubbo
 
-#### Entry application
+#### Frontend application
 
-The entry application is responsible for extracting the routing beacon from the traffic and setting it in the context
+The frontend application is responsible for extracting the routing beacon from the traffic and setting it in the context
 
 **Transformation steps**
 
@@ -94,6 +96,7 @@ The entry application is responsible for extracting the routing beacon from the 
 3. When the request comes, you can call `AppContextClient.getRouteId();` in the application to get the route ID
 
 #### All applications
+
 **Transformation steps**
 
 1. Introduce maven dependency in both provider and consumer
@@ -169,7 +172,116 @@ The implicit call does not need to modify the method signature, just manually se
 Last but no least, we import unit protection filter. Take springboot as an example, adding one line in application.properties will do the trick:
 `dubbo.provider.filter=unitProtectionFilter`
 
-### 1.3 Database (DB): Mysql
+### 2.2 Microservices（RPC）：SpringCloud
+
+**precondition**
+
+- same with Dubbo
+
+#### Frontend application
+
+The frontend application is responsible for extracting the routing beacon from the traffic and setting it in the context
+
+**Transformation steps**
+
+1. Introduce maven dependency for both consumer and producer
+
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+   
+    if you use Nacos as service registry，you should import
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+    
+    if you use Eureka as service registry，you should import
+    ```
+    <dependency>
+       <groupId>com.alibaba.msha</groupId>
+       <artifactId>client-bridge-rpc-springcloud-eureka</artifactId>
+       <version>0.3</version>
+    </dependency>
+    ```
+    
+    It should be noted that you can not use 2 registry at the same time.
+    Then import auto config
+    
+    `@Import({ConsumerAutoConfig.class, NacosAutoConfig.class})`
+
+2. import aspect config for consumer
+    ```
+    <build>
+        <plugins>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>com.alibaba.msha</groupId>
+                            <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <complianceLevel>1.8</complianceLevel>
+                    <forceAjcCompile>true</forceAjcCompile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compileId</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    ```
+    In which we defien a multi-active routing policy
+
+3. Define service type for uirs in provider, such as
+
+    ```
+        @Bean
+        public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
+            FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            UnitServiceFilter reqResFilter = new UnitServiceFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/detailHidden/*","/detail/*");
+            return filterRegistrationBean;
+        }
+    
+        @Bean
+        public FilterRegistrationBean<CenterServiceFilter> appActiveCenterServiceFilter() {
+            FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            CenterServiceFilter reqResFilter = new CenterServiceFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/buy/*");
+            return filterRegistrationBean;
+        }
+    ```
+   
+    Service types are defined the same way as in Dubbo
+ 
+    - center: center service, which will only route within center idc, and is filtered by `CenterServiceFilter`
+    - unit: unit service, which will only route within right unit according to multi-active rules, and is filtered by `UnitServiceFilter`
+    - normal: normal service, which requires no multi-active modification, and will route as it was, and is filtered by `NormalServiceFilter`. Fyi, you can skip this service cause any service other than the above 2 types is considered as normal services. 
+    
+### 3.1 Database (DB): Mysql
 
 **precondition**
 
@@ -200,7 +312,8 @@ Last but no least, we import unit protection filter. Take springboot as an examp
 
 3. Replace the driver, such as: `spring.datasource.driver-class-name=io.appactive.db.mysql.driver.Driver`
 
-### 1.4 Basic configuration
+### 4.1 Basic configuration
+
 All applications that rely on the `appactive-java-api` module must configure the parameter `-Dappactive.path=/path/to/path-address` when starting.
 The content of path-address is:
 
@@ -224,7 +337,7 @@ in which
 - appactive.dataScopeRuleDirectoryPath: Store the property file of the database, one file per database, the file name is: activeInstanceId-activeDbName or activeInstanceId-activeDbName-activePort
 - appactive.idSourceRulePath: describe how we extract routerId from http traffic 
 
-## 2. Control Plane
+## B. Control Plane
 
 After the application is deployed, the baseline is pushed, and the flow is cut when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
 

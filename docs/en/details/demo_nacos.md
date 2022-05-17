@@ -193,4 +193,4 @@ Mainly do the following things when cutting flow:
 - Push banning rules to other apps
 - Wait for the data to tie and push the new mapping relationship rules to other applications
 
-Note that the new mapping relationship is the target state you want to achieve, and the prohibition rule is the difference calculated based on the target state and the status quo. Currently, both of these need to be manually set and updated to the corresponding json file under `appactive-portal/rule`, and then run `./cut.sh `
+Note that the new mapping relationship is the target state you want to achieve, and the prohibition rule is the difference calculated based on the target state and the status quo. Currently, both of these need to be manually set and updated to the corresponding json file under `appactive-portal/rule`, and then run `sh cut.sh NACOS appactiveDemoNamespaceId`

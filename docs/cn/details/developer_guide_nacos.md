@@ -7,6 +7,7 @@ parent: 中文文档
 ---
 
 ## 一、数据面
+
 ### 1.1 网关（Gateway）：Nginx
 
 **前置条件**
@@ -58,7 +59,8 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 - UNIT_FLAG_N: 每个单元的单元标
 - VAR_BACKEND_IP_LIST: 对应单元的后端应用IP
 
-### 1.2 微服务（RPC）：Dubbo
+### 2.1 微服务（RPC）：Dubbo
+
 **前置条件**
 
 - 需要你的应用服务基于 Java 实现，并且以 Dubbo 实现服务调用
@@ -172,7 +174,118 @@ rsActive 的 候选 value 有:
 最后，引入单元保护过滤器, 以springboot为例，在 application.properties 中加入一行:
 `dubbo.provider.filter=unitProtectionFilter`
 
-### 1.3 数据库（DB）：Mysql
+### 2.2 微服务（RPC）：SpringCloud
+
+**前置条件**
+
+- 需要你的应用服务基于 Java 实现，并且以 SpringCloud 实现服务调用
+
+#### 入口应用
+
+同 Dubbo
+
+#### 所有应用
+
+**改造步骤**
+
+1. 在 provider 和 consumer 都引入 maven 依赖
+
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+   
+    对于 使用 Nacos 作为注册中心的应用，还应引入
+    ```
+    <dependency>
+        <groupId>com.alibaba.msha</groupId>
+        <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
+        <version>0.3</version>
+    </dependency>
+    ```
+    
+    对于 使用 Eureka 作为注册中心的应用，还应引入
+    ```
+    <dependency>
+       <groupId>com.alibaba.msha</groupId>
+       <artifactId>client-bridge-rpc-springcloud-eureka</artifactId>
+       <version>0.3</version>
+    </dependency>
+    ```
+    
+    注意，不同的注册中心不能同时使用。
+    
+    然后引入自动配置
+    
+    `@Import({ConsumerAutoConfig.class, NacosAutoConfig.class})`
+
+2. 在 consumer 的 maven 中引入切面
+    ```
+    <build>
+        <plugins>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>com.alibaba.msha</groupId>
+                            <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <complianceLevel>1.8</complianceLevel>
+                    <forceAjcCompile>true</forceAjcCompile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compileId</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    ```
+    植入多活寻址逻辑
+
+3. 在 provider 中定义不同uri的属性，支持 ant 模式的 uri，举例
+
+    ```
+        @Bean
+        public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
+            FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            UnitServiceFilter reqResFilter = new UnitServiceFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/detailHidden/*","/detail/*");
+            return filterRegistrationBean;
+        }
+    
+        @Bean
+        public FilterRegistrationBean<CenterServiceFilter> appActiveCenterServiceFilter() {
+            FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+            CenterServiceFilter reqResFilter = new CenterServiceFilter();
+            filterRegistrationBean.setFilter(reqResFilter);
+            filterRegistrationBean.addUrlPatterns("/buy/*");
+            return filterRegistrationBean;
+        }
+    ```
+    不同服务类型同 Dubbo，具体如下
+ 
+    - center: 中心服务，强一致的业务（例如库存、金额等）的服务，强制路由到中心机房，使用 `CenterServiceFilter` 过滤
+    - unit: 单元服务，基于规则，仅在本单元路由的服务，使用 `UnitServiceFilter` 过滤
+    - normal: 普通服务，不做多活改造，使用 `NormalServiceFilter` 过滤，本类服务亦可不单独配置，除上述两种服务以外都认为是普通服务
+    
+### 3.1 数据库（DB）：Mysql
 
 **前置条件**
 
@@ -203,7 +316,8 @@ rsActive 的 候选 value 有:
 
 3. 更换 driver，如: `spring.datasource.driver-class-name=io.appactive.db.mysql.driver.Driver`
 
-### 1.4 基本配置
+### 4.1 基本配置
+
 凡是依赖 `appactive-java-api` 模块的应用，启动时候都要配置参数 `-Dappactive.path=/path/to/path-address`。
 path-address的内容为：
 
