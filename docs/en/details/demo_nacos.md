@@ -1,4 +1,8 @@
-# AppActive Demo(Nacos)
+---
+layout: default
+nav_order: 3
+---
+# Demo(Nacos)
 
 ## Overall architecture
 
@@ -63,7 +67,7 @@ note: this demo contains many applications，please adjust your memory settings 
 5. Run `sh run-nacos.sh 2 appactiveDemoNamespaceId` in the `appactive-demo` module to start all applications and gateway
 6. Run `sh baseline.sh 3` in the `appactive-portal` module to push the gateway baseline
 7. Bind the local host: `127.0.0.1 demo.appactive.io`, visit the browser `http://demo.appactive.io/buyProduct?r_id=2000` to see the effect
-8. Run `sh cut.sh NACOS appactiveDemoNamespaceId` in the `appactive-portal` module to cut the flow. It should be noted that the write-prohibition rules of this demo are hard-coded. If the user wants to change the cut flow range, he needs to calculate the write-prohibition rules and the next-routing-rule by himself, and then execute the cutting command.
+8. Run `sh cut.sh NACOS appactiveDemoNamespaceId` in the `appactive-portal` module to switch flow. It should be noted that the write-prohibition rules of this demo are hard-coded. If the user wants to change the flow-switch range, he needs to calculate the write-prohibition rules and the next-routing-rule by himself, and then execute the switching command.
 
 ## Modules Experience 
 
@@ -185,8 +189,8 @@ The rules include
 - appactive.dataId.trafficRouteRulePath: Describe the mapping relationship between the routing mark and the unit
 - appactive.dataId.dataScopeRuleDirectoryPath: describes the attribution unit of the current machine
 
-### Cut flow
-Mainly do the following things when cutting flow:
+### Switch flow
+Mainly do the following things when switching flow:
 
 - Build new mapping rules and banning rules (manually)
 - Push new mapping rules to gateway

@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 5
 ---
-# AppActive 特性
+# 特性
 
 > 本文简要介绍 AppActive 具备的特性
 

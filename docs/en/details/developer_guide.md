@@ -1,4 +1,8 @@
-# AppActive Develop Guide(File)
+---
+layout: default
+nav_order: 8
+---
+# Develop Guide(File)
 
 ---
 
@@ -226,7 +230,7 @@ in which
 
 ## 2. Control Plane
 
-After the application is deployed, the baseline is pushed, and the flow is cut when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
+After the application is deployed, the baseline is pushed, and the flow is switched when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
 
 - appactive.transformerRulePath, for example:
 

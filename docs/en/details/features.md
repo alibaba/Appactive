@@ -1,4 +1,8 @@
-# AppActive Features
+---
+layout: default
+nav_order: 5
+---
+# Features
 
 > This article briefly introduces the features of AppActive
 

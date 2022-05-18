@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 2
 ---
-# AppActive 概念
+# 概念
 
 > 本文简要介绍 AppActive 中的概念和名词
 

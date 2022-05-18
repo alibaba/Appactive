@@ -1,4 +1,8 @@
-# AppActive Change Log
+---
+layout: default
+nav_order: 9
+---
+# Change Log
 
 ---
 

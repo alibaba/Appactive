@@ -1,4 +1,8 @@
-# AppActive Develop Guide(Nacos)
+---
+layout: default
+nav_order: 4
+---
+# Develop Guide(Nacos)
 
 ---
 
@@ -46,7 +50,7 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
 
 ```
 
-in:
+in which:
 
 - VAR_DOMAIN: The domain name used directly by the end user, mandatory. The other two unit subdomains are optional
 - VAR_URI: specific URI
@@ -65,7 +69,6 @@ in:
 
 The frontend application is responsible for extracting the routing beacon from the traffic and setting it in the context
 
-**Transformation steps**
 
 1. Introduce maven dependency
 
@@ -97,7 +100,6 @@ The frontend application is responsible for extracting the routing beacon from t
 
 #### All applications
 
-**Transformation steps**
 
 1. Introduce maven dependency in both provider and consumer
 
@@ -156,8 +158,7 @@ The frontend application is responsible for extracting the routing beacon from t
     
     ```
 
-The core is to add annotations
-`parameters = {"rsActive","unit","routeIndex","0"}`
+The core is to add annotations `parameters = {"rsActive","unit","routeIndex","0"}`.
 If rsActive is unit, it indicates that this is a unit service, and a routeIndex of 0 indicates that the route ID is the 0th parameter.
 The candidate values ​​of rsActive are:
 
@@ -182,7 +183,6 @@ Last but no least, we import unit protection filter. Take springboot as an examp
 
 The frontend application is responsible for extracting the routing beacon from the traffic and setting it in the context
 
-**Transformation steps**
 
 1. Introduce maven dependency for both consumer and producer
 
@@ -256,23 +256,23 @@ The frontend application is responsible for extracting the routing beacon from t
 3. Define service type for uirs in provider, such as
 
     ```
-        @Bean
-        public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
-            FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-            UnitServiceFilter reqResFilter = new UnitServiceFilter();
-            filterRegistrationBean.setFilter(reqResFilter);
-            filterRegistrationBean.addUrlPatterns("/detailHidden/*","/detail/*");
-            return filterRegistrationBean;
-        }
-    
-        @Bean
-        public FilterRegistrationBean<CenterServiceFilter> appActiveCenterServiceFilter() {
-            FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-            CenterServiceFilter reqResFilter = new CenterServiceFilter();
-            filterRegistrationBean.setFilter(reqResFilter);
-            filterRegistrationBean.addUrlPatterns("/buy/*");
-            return filterRegistrationBean;
-        }
+    @Bean
+    public FilterRegistrationBean<UnitServiceFilter> appActiveUnitServiceFilter() {
+        FilterRegistrationBean<UnitServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        UnitServiceFilter reqResFilter = new UnitServiceFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/detailHidden/*","/detail/*");
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CenterServiceFilter> appActiveCenterServiceFilter() {
+        FilterRegistrationBean<CenterServiceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        CenterServiceFilter reqResFilter = new CenterServiceFilter();
+        filterRegistrationBean.setFilter(reqResFilter);
+        filterRegistrationBean.addUrlPatterns("/buy/*");
+        return filterRegistrationBean;
+    }
     ```
    
     Service types are defined the same way as in Dubbo
@@ -314,32 +314,28 @@ The frontend application is responsible for extracting the routing beacon from t
 
 ### 4.1 Basic configuration
 
-All applications that rely on the `appactive-java-api` module must configure the parameter `-Dappactive.path=/path/to/path-address` when starting.
-The content of path-address is:
+All applications that rely on the `appactive-java-api` module must configure the parameters bellow
 
 ```
-{
-    "appactive.machineRulePath":"/app/data/machine.json",
-    "appactive.dataScopeRuleDirectoryPath":"/app/data",
-    "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
-    "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
-    "appactive.transformerRulePath":"/app/data/idTransformer.json",
-    "appactive.idSourceRulePath":"/app/data/idSource.json",
-}
+-Dappactive.channelTypeEnum=NACOS
+-Dappactive.namespaceId=appactiveDemoNamespaceId
+```
+
+which indicate we use naocs as command channel and use namespace with the id "appactiveDemoNamespaceId".
+The namespace must contains several dataIds(which will be described in controll plane section), which share one groupId( "appactive.groupId" by default).
+Of course, all these parameters can be redefined,such as:
+
 
 ```
-in which
-
-- appactive.forbiddenRulePath: Describe which route flags are forbidden to write
-- appactive.transformerRulePath: Describe how to parse the routing mark
-- appactive.trafficRulePath: Describes the mapping relationship between route markers and units
-- appactive.machineRulePath: Describe the attribution unit of the current machine
-- appactive.dataScopeRuleDirectoryPath: Store the property file of the database, one file per database, the file name is: activeInstanceId-activeDbName or activeInstanceId-activeDbName-activePort
-- appactive.idSourceRulePath: describe how we extract routerId from http traffic 
+-Dappactive.dataId.idSourceRulePath=someDataId
+-Dappactive.dataId.transformerRulePath=otherDataId
+......
+-Dappactive.groupId=myGroupId
+```
 
 ## B. Control Plane
 
-After the application is deployed, the baseline is pushed, and the flow is cut when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
+After the application is deployed, the baseline is pushed, and the flow is switched when you want to adjust the traffic. The core is the construction and push of rules, here are a few rules to explain.
 
 - appactive.transformerRulePath, for example:
 

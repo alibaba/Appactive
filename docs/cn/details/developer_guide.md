@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 8
 ---
-# AppActive 开发指南(文件)
+# 开发指南(文件)
 
 ---
 

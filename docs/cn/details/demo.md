@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 7
 ---
-# AppActive 样例(文件)
+# 样例(文件)
 
 ## 整体架构
 

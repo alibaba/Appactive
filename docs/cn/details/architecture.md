@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 1
 ---
-# AppActive 架构
+# 架构
 
 ---
 

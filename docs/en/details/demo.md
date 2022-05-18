@@ -1,4 +1,8 @@
-# AppActive Demo(File)
+---
+layout: default
+nav_order: 7
+---
+# Demo(File)
 
 ## Overall architecture
 ![appactive_landscape](https://appactive.oss-cn-beijing.aliyuncs.com/images/AppActive-demo.png)
@@ -217,8 +221,8 @@ The rules include
 - machine.json: describes the attribution unit of the current machine
 - mysql-product: describe the attributes of the database
 
-### Cut flow
-Mainly do the following things when cutting flow:
+### Switch flow
+Mainly do the following things when switching flow:
 
 - Build new mapping rules and banning rules (manually)
 - Push new mapping rules to gateway

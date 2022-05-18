@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 3
 ---
-# AppActive 样例(Nacos)
+# 样例(Nacos)
 
 ## 整体架构
 

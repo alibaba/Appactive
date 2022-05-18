@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 4
 ---
-# AppActive 开发指南(Naocs)
+# 开发指南(Naocs)
 
 ---
 
@@ -318,35 +319,40 @@ rsActive 的 候选 value 有:
 
 ### 4.1 基本配置
 
-凡是依赖 `appactive-java-api` 模块的应用，启动时候都要配置参数 `-Dappactive.path=/path/to/path-address`。
-path-address的内容为：
+凡是依赖 `appactive-java-api` 模块的应用，启动时候都要配置参数：
 
-    ```
-    {
-        "appactive.machineRulePath":"/app/data/machine.json",
-        "appactive.machineRulePath":"/app/data/machine.json",
-        "appactive.dataScopeRuleDirectoryPath":"/app/data",
-        "appactive.forbiddenRulePath":"/app/data/forbiddenRule.json",
-        "appactive.trafficRulePath":"/app/data/idUnitMapping.json",
-        "appactive.transformerRulePath":"/app/data/idTransformer.json",
-        "appactive.idSourceRulePath":"/app/data/idSource.json",
-    }
-    
-    ```
-    其中
-    
-    - appactive.forbiddenRulePath: 描述禁写哪些路由标
-    - appactive.transformerRulePath: 描述如何解析路由标
-    - appactive.trafficRulePath: 描述路由标和单元的映射关系
-    - appactive.machineRulePath: 描述当前机器的归属单元
-    - appactive.dataScopeRuleDirectoryPath: 存放数据库的属性文件，一个数据库一个文件，文件命名为：activeInstanceId-activeDbName 或者 activeInstanceId-activeDbName-activePort
-    - appactive.idSourceRulePath: 描述如何从http流量中获取路由ID  
+```
+-Dappactive.channelTypeEnum=NACOS
+-Dappactive.namespaceId=appactiveDemoNamespaceId
+```
+
+表征当前应用使用 Nacos 作为命令通道，并且使用 appactiveDemoNamespaceId空间。
+该空间需要有一些几个 dataId（下面管控面进行说明），这些 dataId 的 groudId 必须一致，比如默认为 `appactive.groupId`
+当然这些都可以在启动参数进行配置，如
+
+```
+-Dappactive.dataId.idSourceRulePath=someDataId
+-Dappactive.dataId.transformerRulePath=otherDataId
+......
+-Dappactive.groupId=myGroupId
+```
 
 ## 二、管控面
 
 在应用部署完成后要进行基线推送，在希望调整流量时进行切流。核心是规则的构造和推送，这里重点将几个规则进行说明。
 
-- appactive.transformerRulePath，举例：
+- appactive.dataId.idSourceRulePath，举例：
+
+    ```
+    {
+        "source": "arg,header,cookie",
+        "tokenKey": "r_id"
+    }
+    ```
+
+    说明，从http parameter、header、cookie 中按顺序寻找以r_id为key的value，找到一个即终止寻找过程。
+    
+- appactive.dataId.transformerRulePath，举例：
 
     ```
     {
@@ -358,7 +364,7 @@ path-address的内容为：
     说明，提取到路由标后按照10000取模，作为最终路由标。
 
 
-- appactive.trafficRulePath，举例：
+- appactive.dataId.trafficRouteRulePath，举例：
 
     ```
     {
@@ -392,15 +398,7 @@ path-address的内容为：
     
     按 10000 取模后在 2000～9999 范围内的路由标应该被路由到 center；
 
-- appactive.machineRulePath，举例：
-
-    ```
-    {"unitFlag":"unit"}
-    
-    ```
-    说明当前应用部署在 unit
-
-- appactive.forbiddenRulePath，举例：
+- appactive.dataId.forbiddenRulePath，举例：
 
     假设我们希望将 2000~2999 从 unit 划分到 center，则新的appactive.trafficRulePath如下
     

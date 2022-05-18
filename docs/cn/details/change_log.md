@@ -1,8 +1,9 @@
 ---
 layout: default
 parent: 中文文档
+nav_order: 9
 ---
-# AppActive 更新日志
+# 更新记录
 
 ---
 

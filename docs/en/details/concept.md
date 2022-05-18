@@ -1,4 +1,8 @@
-# AppActive Concept
+---
+layout: default
+nav_order: 2
+---
+# Concept
 
 > This article briefly introduces the concepts and terms in AppActive
 
