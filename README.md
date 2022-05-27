@@ -77,3 +77,5 @@ details see [here](docs/en/contributing/contributing.md)
 ## Connect
 
 - DingTalk Group：34222602
+- we need your ideas for a better AppActive https://www.wjx.cn/vj/P9FB5QR.aspx
+

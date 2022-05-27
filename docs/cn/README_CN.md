@@ -66,6 +66,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 ## 联系
 - 钉钉群（推荐）：34222602
+- 一起建设更好的 AppActive https://www.wjx.cn/vj/P9FB5QR.aspx
 
 
 
