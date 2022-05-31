@@ -1,13 +1,13 @@
 package io.appactive.rpc.springcloud.nacos.provider;
 
 
+import com.alibaba.cloud.nacos.registry.NacosRegistration;
 import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
 import io.appactive.rpc.springcloud.common.ServiceMetaObject;
 import io.appactive.rpc.springcloud.common.provider.URIRegister;
 import io.appactive.rule.ClientRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.alibaba.nacos.registry.NacosRegistration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

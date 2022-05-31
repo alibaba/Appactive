@@ -41,7 +41,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <fastjson_version>1.2.70</fastjson_version>
+        <fastjson_version>1.2.83</fastjson_version>
 
     </properties>
 

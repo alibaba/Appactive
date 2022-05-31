@@ -52,60 +52,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>0.2.2.RELEASE</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba.nacos</groupId>
-                    <artifactId>nacos-client</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.1.0.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-            <version>0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-            <version>0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>client-spi-metainfo</artifactId>
-            <version>0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.msha</groupId>
-            <artifactId>client-rule</artifactId>
-            <version>0.3</version>
         </dependency>
 
         <dependency>
@@ -134,13 +86,6 @@
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.11</version>
                 <configuration>
-<!--                    &lt;!&ndash; Weave third party dependency &ndash;&gt;-->
-<!--                    <weaveDependencies>-->
-<!--                        <weaveDependency>-->
-<!--                            <groupId>com.netflix.ribbon</groupId>-->
-<!--                            <artifactId>ribbon-loadbalancer</artifactId>-->
-<!--                        </weaveDependency>-->
-<!--                    </weaveDependencies>-->
                     <aspectLibraries>
                         <aspectLibrary>
                             <groupId>com.alibaba.msha</groupId>
@@ -152,7 +97,6 @@
                     <complianceLevel>1.8</complianceLevel>
                     <forceAjcCompile>true</forceAjcCompile>
                 </configuration>
-                <!-- Weave on compile -->
                 <executions>
                     <execution>
                         <id>compileId</id>

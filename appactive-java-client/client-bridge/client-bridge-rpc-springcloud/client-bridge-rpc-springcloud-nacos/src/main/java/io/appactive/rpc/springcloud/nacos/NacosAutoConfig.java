@@ -1,10 +1,10 @@
 package io.appactive.rpc.springcloud.nacos;
 
+import com.alibaba.cloud.nacos.registry.NacosRegistration;
 import io.appactive.rpc.springcloud.common.provider.URIRegister;
 import io.appactive.rpc.springcloud.nacos.provider.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cloud.alibaba.nacos.registry.NacosRegistration;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
