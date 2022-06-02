@@ -32,6 +32,9 @@ public class Product implements Serializable {
     @Column(nullable = false, columnDefinition = "char(100)")
     private String name;
 
+    @Column(nullable = false, columnDefinition = "char(100)")
+    private String img;
+
     @Column(nullable = false, columnDefinition = "varchar(2000)")
     private String description;
 
@@ -56,6 +59,14 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getDescription() {
@@ -87,6 +98,7 @@ public class Product implements Serializable {
         return "Product{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", img='" + img + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", number=" + number +
