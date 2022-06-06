@@ -53,6 +53,10 @@ public class FrontController {
 
     private Map<String, String[]> metaData ;
 
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:/listProduct";
+    }
 
     @GetMapping("/list")
     @ResponseBody

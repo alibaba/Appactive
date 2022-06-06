@@ -58,7 +58,7 @@ public class InitData implements ApplicationRunner {
         Product p2 = new Product();
         p2.setId("14");
         p2.setName("球拍");
-        p1.setImg("/img/badminton.png");
+        p2.setImg("/img/badminton.png");
         p2.setDescription("好看的羽毛球拍");
         p2.setPrice(200);
         p2.setNumber(20);
@@ -67,7 +67,7 @@ public class InitData implements ApplicationRunner {
         Product p3 = new Product();
         p3.setId("16");
         p3.setName("键盘");
-        p1.setImg("/img/keyboard.png");
+        p3.setImg("/img/keyboard.png");
         p3.setDescription("好看的键盘");
         p3.setPrice(800);
         p3.setNumber(50);
@@ -76,7 +76,7 @@ public class InitData implements ApplicationRunner {
         Product p4 = new Product();
         p4.setId("18");
         p4.setName("茶杯");
-        p1.setImg("/img/cup.png");
+        p4.setImg("/img/cup.png");
         p4.setDescription("好看的茶杯");
         p4.setPrice(100);
         p4.setNumber(60);

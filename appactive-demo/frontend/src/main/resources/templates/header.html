@@ -183,6 +183,12 @@
                 </ul>
             </div>
         </nav>
+        <input hidden th:value="${result}" id="result"/>
+        <input hidden th:value="${chain}" id="chain"/>
+        <input hidden th:value="${current}" id="current"/>
+    </header>
+
+    <header th:fragment="pageTraffic">
         <span class="badge badge-success">绿色格子-流量路径</span>
         <div class="container">
             <div class="row">
@@ -214,10 +220,6 @@
                 </div>
             </div>
         </div>
-
-        <input hidden th:value="${result}" id="result"/>
-        <input hidden th:value="${chain}" id="chain"/>
-        <input hidden th:value="${current}" id="current"/>
     </header>
 </body>
 </html>
