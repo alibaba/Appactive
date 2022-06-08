@@ -180,6 +180,8 @@ rsActive 的 候选 value 有:
 **前置条件**
 
 - 需要你的应用服务基于 Java 实现，并且以 SpringCloud 实现服务调用
+- 负载均衡支持 Ribbon，暂不支持 SpringCloudBalancer
+- 支持声明式http客户端：Feign 和 RestTemplate，暂不支持 原始Http客户端如 OkHttp 和 HttpClient
 
 #### 入口应用
 

@@ -177,7 +177,9 @@ Last but no least, we import unit protection filter. Take springboot as an examp
 
 **precondition**
 
-- same with Dubbo
+- You need SpringCloud for your microservices
+- We support Ribbon for load balancing, SpringCloudBalancer not supported yet
+- We support declarative http clients：Feign and RestTemplate. Raw Http clients such as OkHttp and HttpClient are not supported yet
 
 #### Frontend application
 
@@ -251,9 +253,9 @@ The frontend application is responsible for extracting the routing beacon from t
         </plugins>
     </build>
     ```
-    In which we defien a multi-active routing policy
+    In which we defined a multi-active routing policy
 
-3. Define service type for uirs in provider, such as
+3. Define service type for uris in providers, such as
 
     ```
     @Bean
