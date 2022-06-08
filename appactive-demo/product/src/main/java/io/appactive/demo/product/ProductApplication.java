@@ -95,7 +95,7 @@ public class ProductApplication {
     @ResponseBody
     public ResultHolder<Product> detailHidden(@RequestParam(required = false, defaultValue = "12") String pId) {
         // unit
-        logger.info("detailHidden, routerId: {}", AppContextClient.getRouteId());
+        logger.info("detailHidden, routerId: {}, pId: {}", AppContextClient.getRouteId(),pId);
         return productServiceUnitHidden.detail(pId);
     }
 
@@ -104,7 +104,7 @@ public class ProductApplication {
     public ResultHolder<Product> detail(@RequestParam(required = false, defaultValue = "12") String rId,
                                         @RequestParam(required = false, defaultValue = "12") String pId) {
         // unit
-        logger.info("detailHidden, routerId: {}", AppContextClient.getRouteId());
+        logger.info("detail, routerId: {}, pId: {}", AppContextClient.getRouteId(),pId);
         return productServiceUnit.detail(rId, pId);
     }
 

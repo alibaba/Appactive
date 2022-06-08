@@ -18,6 +18,7 @@ package io.appactive.demo.common.filter;
 
 import io.appactive.demo.common.entity.ResultHolder;
 import io.appactive.support.log.LogUtil;
+import io.appactive.support.sys.JvmPropertyUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -39,7 +40,7 @@ public class ChainAspect {
     public void afterRunning(JoinPoint joinPoint, Object result){
         if (result instanceof ResultHolder){
             ResultHolder resultHolder = (ResultHolder)result;
-            resultHolder.addChain(System.getenv("appactive.app"),System.getenv("appactive.unit"));
+            resultHolder.addChain(JvmPropertyUtil.getJvmAndEnvValue("appactive.app"),JvmPropertyUtil.getJvmAndEnvValue("appactive.unit"));
             logger.info("ChainAspect: "+resultHolder);
         }
     }

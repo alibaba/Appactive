@@ -43,7 +43,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultHolder<String> buy(String rId, String pId, Integer number) {
-        logger.info("storage buy: {}, {}, {}" ,rId, pId, number);
         String result = null;
         try {
             Optional<Product> op = repository.findById(pId);
@@ -52,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
                 Product p = op.get();
                 int oldNum = p.getNumber();
                 int left = oldNum - number;
-                if (left > 0){
+                if (left >= 0){
                     p.setNumber(left);
                     p = repository.save(p);
                     if (p.getNumber() + number != oldNum){
@@ -61,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
                         result = "success";
                     }
                 }else {
-                    result = "out of product";
+                    result = "sold out";
                 }
             }else {
                 result = "no such product";

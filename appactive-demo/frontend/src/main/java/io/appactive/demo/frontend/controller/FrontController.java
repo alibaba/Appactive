@@ -138,6 +138,7 @@ public class FrontController {
                 frontEndService.list() : (call.equals("feign")?productDAO.list():productDAO.listTemplate());
 
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
+        model.addAttribute("products", resultHolder.getResult());
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
         model.addAttribute("current", "listProduct");
         return "index.html";
@@ -150,6 +151,16 @@ public class FrontController {
                                 @RequestParam(required = false, defaultValue = "feign") String call,
                                 Model model) {
         // unit
+        ResultHolder<Product> resultHolder = getProductResultHolder(rpcType, id, hidden, call);
+
+        model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
+        model.addAttribute("product", resultHolder.getResult());
+        model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
+        model.addAttribute("current", "detailProduct");
+        return "detail.html";
+    }
+
+    private ResultHolder<Product> getProductResultHolder(RPCType rpcType, String id, Boolean hidden, String call) {
         ResultHolder<Product> resultHolder ;
         if (rpcType == RPCType.Dubbo){
             resultHolder = hidden ? frontEndService.detailHidden(id) : frontEndService.detail(AppContextClient.getRouteId(), id);
@@ -157,28 +168,31 @@ public class FrontController {
             resultHolder = hidden ? productDAO.detailHidden(id) :
                     (call.equals("feign")?productDAO.detail(AppContextClient.getRouteId(), id):productDAO.detailTemplate(AppContextClient.getRouteId(), id));
         }
-
-        model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
-        model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
-        model.addAttribute("current", "detailProduct");
-        return "detail.html";
+        return resultHolder;
     }
 
     @RequestMapping("/buyProduct")
     public String buyProduct(
             @CookieValue(value = "rpc_type", required = false, defaultValue = "Dubbo") RPCType rpcType,
-            @RequestParam(required = false, defaultValue = "jack") String rId,
             @RequestParam(required = false, defaultValue = "12") String pId,
-            @RequestParam(required = false, defaultValue = "5") Integer number,
+            @RequestParam(required = false, defaultValue = "1") Integer number,
+            @RequestParam(required = false, defaultValue = "feign") String call,
             Model model
     ) {
         // unit
         ResultHolder<String> resultHolder = rpcType == RPCType.Dubbo ?
                 frontEndService.buy(pId, number) : productDAO.buy(AppContextClient.getRouteId(), pId, number);
 
+        ResultHolder<Product> productHolder = getProductResultHolder(rpcType, pId, false, call);
+
+
         model.addAttribute("result", JSON.toJSONString(resultHolder.getResult()));
+        model.addAttribute("msg", resultHolder.getResult());
+        model.addAttribute("product", productHolder.getResult());
         model.addAttribute("chain", JSON.toJSONString(resultHolder.getChain()));
         model.addAttribute("current", "buyProduct");
         return "buy.html";
     }
+
+
 }

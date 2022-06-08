@@ -42,7 +42,6 @@ public class ProductServiceUnitImpl implements ProductServiceUnit {
     @Override
     public ResultHolder<Product> detail(String rId, String pId) {
         // unit
-        logger.info("detail: " + pId + ",rId " + rId);
         return new ResultHolder<>(productRepository.findById(pId).orElse(new Product()));
     }
 

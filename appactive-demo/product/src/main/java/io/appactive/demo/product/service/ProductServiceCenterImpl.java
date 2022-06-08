@@ -46,7 +46,6 @@ public class ProductServiceCenterImpl implements ProductServiceCenter {
     @Override
     public ResultHolder<String> buy(String rId, String pId, int number) {
         // center
-        logger.info("product buy: " + rId + " : " + pId);
         return orderService.buy(rId, pId, number);
     }
 }

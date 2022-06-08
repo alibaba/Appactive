@@ -64,7 +64,7 @@ public class StorageApplication {
             @RequestParam(required = false, defaultValue = "1") Integer number
     ) {
         String routerId = AppContextClient.getRouteId();
-        logger.info("buy, routerId: {}", routerId);
+        logger.info("buy, routerId: {}, pid: {}, number: {}", routerId, id, number);
         ResultHolder<String> resultHolder = orderService.buy(rId, id, number);
         resultHolder.setResult(String.format("routerId %s bought %d of item %s, result: %s", routerId, number, id ,resultHolder.getResult()));
         return resultHolder;

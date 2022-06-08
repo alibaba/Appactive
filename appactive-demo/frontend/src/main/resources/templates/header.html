@@ -186,11 +186,17 @@
         <input hidden th:value="${result}" id="result"/>
         <input hidden th:value="${chain}" id="chain"/>
         <input hidden th:value="${current}" id="current"/>
+        <br>
     </header>
 
     <header th:fragment="pageTraffic">
-        <span class="badge badge-success">绿色格子-流量路径</span>
-        <div class="container">
+        <br>
+        <div class="row">
+            <div class="col"><hr></div>
+            <div class="col-auto">绿色格子-流量路径</div>
+            <div class="col"><hr></div>
+        </div>
+        <div class="container m-auto">
             <div class="row">
                 <div class="col-md-3">
                     <div class="row">
