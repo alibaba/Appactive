@@ -30,10 +30,10 @@
                         <p class="card-text">
                             <span>价格: </span><span th:text="${product.price}" class="badge text-bg-success"></span>
                             <span>库存: </span><span th:text="${product.number}" class="badge text-bg-info"></span>
+                            <a th:href="@{'/buyProduct?pId=' + ${product.id}}" class="btn btn-primary" style="text-align: center">
+                                购买
+                            </a>
                         </p>
-                        <a th:href="@{'/buyProduct?pId=' + ${product.id}}" class="btn btn-primary" style="text-align: center">
-                            购买
-                        </a>
                     </div>
                 </div>
             </div>
