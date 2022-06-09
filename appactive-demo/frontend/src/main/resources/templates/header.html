@@ -32,6 +32,21 @@
         ul li.active>a {
             color: #00CED1 !important;
         }
+
+        .card-body {
+            position:relative;
+        }
+
+        .card-body .card-body-badge {
+            position:absolute;
+            display: none;
+            top:-10px;
+            left:-30px;
+            padding:5px;
+            background: #00CC66;
+            color:white;
+            transform:rotate(-20deg);
+        }
     </style>
 
     <script>
@@ -67,20 +82,25 @@
             let chain = JSON.parse(chainNode.val());
             let num = chain.length;
 
-            $("#center-gateway").css({backgroundColor: activeColor});
+            lightUp({"unitFlag":"center","app":"gateway"},activeColor,0);
             for(let i = 0; i < num; i++){
                 (function(i){setTimeout(function(){
                     let val = chain[i];
-                    lightUp(val,activeColor)
+                    lightUp(val,activeColor,num-i)
                 },interval*(num-i))})(i)
             }
         }
 
-        function lightUp(val,activeColor) {
-            let id = val.unitFlag + "-" + val.app
+        function lightUp(val,activeColor,i) {
+            let id = val.unitFlag + "-" + val.app;
             console.log(id)
             let elem = $("#" + id);
             elem.css({backgroundColor: activeColor});
+
+            let id1 = val.unitFlag + "T" + val.app
+            let elem1 = $("#" + id1);
+            elem1.text("第 "+(i)+" 跳");
+            elem1.show();
         }
 
         function hideGateway() {
@@ -206,6 +226,7 @@
                                 <div class="card-body" id="center-gateway">
                                     <h5 class="card-title" style="text-align: center">center</h5>
                                     <h5 class="card-title" style="text-align: center">gateway</h5>
+                                    <div class="card-body-badge" id="centerTgateway"></div>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +240,7 @@
                                 <div class="card-body" th:id="@{${unit} + '-' + ${app}}">
                                     <h5 class="card-title" style="text-align: center" th:text="${unit}"></h5>
                                     <h5 class="card-title" style="text-align: center" th:text="${app}"></h5>
+                                    <div class="card-body-badge" th:id="@{${unit} + 'T' + ${app}}"></div>
                                 </div>
                             </div>
                         </div>
