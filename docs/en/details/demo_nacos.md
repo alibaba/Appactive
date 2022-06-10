@@ -52,6 +52,8 @@ note: this demo contains many applications，please adjust your memory settings 
 
 > If you plan to stop the experience, you can proceed: `cd appactive-demo` -> `sh quit.sh`
 
+If you want to experience demo directly， please visit [demo site](http://demo.appactive.io/)
+
 ## Build From Source
 
 ### Premise

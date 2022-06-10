@@ -17,3 +17,15 @@ The first open source version is released:
 4. Message layer component API definition release
 5. Data layer components released to support data protection
 6. Basic Demo and Portal
+
+
+## 0.2
+1. Customized router id extraction rules
+2. Add unit service protection for RPC(Dubbo)
+3. Lightweight demos and "quick start"
+4. Jars published to maven repo
+
+## 0.3
+1. Rule and channel decoupling and a brand  new nacos channel
+2. Support for microservices with SpringCloud
+3. [Documentation site](https://doc.appactive.io/docs/cn/README_CN.html) and [demo site](http://demo.appactive.io/)

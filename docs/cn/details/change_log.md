@@ -17,3 +17,14 @@ nav_order: 9
 4. 消息层组件API定义发布
 5. 数据层组件发布，支持数据保护
 6. 基础 Demo 和 Portal
+
+## 0.2
+1. 支持自定义路由标提取规则
+2. RPC(Dubbo)支持单元保护
+3. 新增轻量化的 demo 和 quick start
+4. jar 包发布到公共maven仓库
+
+## 0.3
+1. rule 和 channel 解耦，新增nacos channel支持
+2. RPC 新增 SpringCloud 支持
+3. 新增 [官方文档](https://doc.appactive.io/docs/cn/README_CN.html) 和 [官方demo站点](http://demo.appactive.io/)

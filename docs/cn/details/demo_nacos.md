@@ -54,6 +54,8 @@ nav_order: 3
 
 > 如果你打算停止体验，可进行：`cd appactive-demo` -> `sh quit.sh`
 
+若想直接体验，请见[官方demo站点](http://demo.appactive.io/)
+
 ## 源码构建
 
 ### 前提
