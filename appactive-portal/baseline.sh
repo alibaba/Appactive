@@ -77,7 +77,7 @@ then
     dataScopeRule=$(cat ./rule/dbProperty.json)
     echo "$(date "+%Y-%m-%d %H:%M:%S") dataScopeRule 推送结果: " \
       && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
-      -d "tenant=${tenant}&dataId=${dataIdPrefix}dataScopeRuleDirectoryPath&group=${groupId}&content=${dataScopeRule}" \
+      -d "tenant=${tenant}&dataId=${dataIdPrefix}dataScopeRuleDirectoryPath_mysql-product&group=${groupId}&content=${dataScopeRule}" \
       && echo ""
   else
     echo "unsupported channel: ${channel}"

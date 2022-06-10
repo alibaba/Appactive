@@ -82,7 +82,12 @@ nav_order: 3
     # 然后在 nacos 中创建命令通道专属空间，如`appactiveDemoNamespaceId`
     ```
 
-2. 在 `appactive-demo`中 运行 mysql
+2. 在 `appactive-portal` 中运行
+   ```
+    sh baseline.sh 2 NACOS appactiveDemoNamespaceId
+   ```
+
+3. 在 `appactive-demo`中 运行 mysql
 
     ```
     cd dependency/mysql && sh run.sh
@@ -92,22 +97,21 @@ nav_order: 3
 
 #### 步骤
 
-1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2 NACOS appactiveDemoNamespaceId`，推送应用基线
-2. 构建相关 jar 包
-3. 运行
+1. 构建相关 jar 包
+2. 运行
 
     ```
-    java -Dappactive.unit=unit \
-    -Dappactive.app=frontend \
-    -Dio.appactive.demo.unitlist=center,unit \
-    -Dio.appactive.demo.applist=frontend,product,storage \
-    -Dserver.port=8886 \
-    -Dappactive.channelTypeEnum=NACOS \
-    -Dappactive.namespaceId=appactiveDemoNamespaceId \
+    java -Dappactive.channelTypeEnum=NACOS \
+           -Dappactive.namespaceId=appactiveDemoNamespaceId \
+           -Dappactive.unit=unit \
+           -Dappactive.app=frontend \
+           -Dio.appactive.demo.unitlist=center,unit \
+           -Dio.appactive.demo.applist=frontend,product,storage \
+           -Dserver.port=8886 \
     -jar frontend-0.3.jar
     ```
 
-4. 测试
+3. 测试
 
     ```
     curl 127.0.0.1:8886/show?r_id=1 -H "r_id:2" -b "r_id=3"
@@ -124,9 +128,7 @@ nav_order: 3
 
 #### 步骤
 
-1. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2 NACOS appactiveDemoNamespaceId`，推送应用基线
-
-2. 初始化数据
+1. 初始化数据
 
     ```
     # 进入容器
@@ -137,7 +139,7 @@ nav_order: 3
     exit 
     ```
 
-3. 构建所有 jar 包并运行
+2. 构建所有 jar 包并运行
 
     ```
     java -Dappactive.channelTypeEnum=NACOS \
@@ -149,13 +151,20 @@ nav_order: 3
     -jar storage-0.3.jar
     ```
 
-4. 测试
+3. 测试
 
     ```
     curl 127.0.0.1:8882/buy?r_id=1 
-    routerId 1 bought 1 of item 12, result: success
-    curl 127.0.0.1:8882/buy?r_id=4567 
-    routerId 4567 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals 
+    # 报错 403 FORBIDDEN "this is not center machine:unit"
+    # 被微服务的单元保护拦截了
+    ```
+    ```
+    # 绕过微服务保护，直接测试数据库保护功能
+    curl 127.0.0.1:8882/buy1?r_id=1 
+    {"result":"routerId 1 bought 1 of item 12, result: success","chain":[{"app":"storage","unitFlag":"center"}]}%
+    
+    curl 127.0.0.1:8882/buy1?r_id=4657 
+    {"result":"routerId 4657 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals","chain":[{"app":"storage","unitFlag":"unit"}]}
     ```
 
 ### Gateway
@@ -164,14 +173,18 @@ nav_order: 3
 
 ### Dubbo
 
-构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
+构建 Dubbo 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验。
+
+### SpringCloud
+
+构建 SpringCloud 的 demo 过于复杂，建议使用 quick start 中启用的demo，直接进行体验，特别地，单元保护功能测试步骤如下：
 
 1. 发起测试
 
     ```
-    curl 127.0.0.1:8885/detail -H "Host:demo.appactive.io" -H "r_id:2499" 
+    curl 127.0.0.1:8884/detail -H "Host:demo.appactive.io" -H "appactive-router-id:2499"
     # 注意到报错会有这样一段
-    [appactive/io.appactive.demo.common.service.dubbo.ProductServiceUnit:1.0.0] [detail] from [172.18.0.9] is rejected by UnitRule Protection, targetUnit [CENTER], currentUnit [unit].)
+    403 FORBIDDEN "routerId 2499 does not belong in unit:unit"
     ```
 
 因为我们直接将 路由id为 2499 的 请求路由到了单元，但实际上，这个请求应该路由到中心，所以被单元的provider拒绝请求了。
@@ -190,7 +203,7 @@ nav_order: 3
 - appactive.dataId.idSourceRulePath: 描述如何从 http 流量中提取路由标
 - appactive.dataId.transformerRulePath: 描述如何解析路由标
 - appactive.dataId.trafficRouteRulePath: 描述路由标和单元的映射关系
-- appactive.dataId.dataScopeRuleDirectoryPath: 描述数据库的属性
+- appactive.dataId.dataScopeRuleDirectoryPath_mysql-product: 描述数据库的属性
 
 ### 切流
 

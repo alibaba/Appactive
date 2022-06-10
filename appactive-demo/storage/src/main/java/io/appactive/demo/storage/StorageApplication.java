@@ -56,7 +56,10 @@ public class StorageApplication {
     @Value("${spring.application.name}")
     private String appName;
 
-    @RequestMapping("/buy")
+    /**
+     * buy1 is just for bypassing center service protection
+     */
+    @RequestMapping(value = {"/buy","/buy1"})
     @ResponseBody
     public ResultHolder<String> buy(
             @RequestParam(required = false, defaultValue = "jack") String rId,

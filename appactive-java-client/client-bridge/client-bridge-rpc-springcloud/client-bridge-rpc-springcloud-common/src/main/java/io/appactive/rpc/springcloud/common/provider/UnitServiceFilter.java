@@ -63,7 +63,7 @@ public class UnitServiceFilter implements Filter{
             throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "no routerId provided for this request");
         }
         if (!trafficMachineService.isInCurrentUnit(routerId)) {
-            throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "routerId "+ routerId + " not belong in unit:"+ machineUnitRuleService.getCurrentUnit());
+            throw  new ResponseStatusException(HttpStatus.FORBIDDEN, "routerId "+ routerId + " does not belong in unit:"+ machineUnitRuleService.getCurrentUnit());
         }
         AppContextClient.setUnitContext(routerId);
         LogUtil.info(AppactiveConstant.PROJECT_NAME + "-routerIdFilter-doFilter-header:" + AppContextClient.getRouteId());
