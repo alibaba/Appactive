@@ -16,7 +16,7 @@
 
 export appactiveNamespaceId="appactiveDemoNamespaceId"
 docker-compose -f docker-compose-nacos-quick.yml up -d nacos mysql
-sleep 20s
+sleep 40s
 
 curl -X POST 'http://127.0.0.1:8848/nacos/v1/console/namespaces' -d 'customNamespaceId=appactiveDemoNamespaceId&namespaceName=appactiveDemoNamespaceName&namespaceDesc=appactiveDemoNamespaceDesc'
 
