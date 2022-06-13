@@ -156,17 +156,23 @@ nav_order: 3
 3. 测试
 
     ```
-    curl 127.0.0.1:8882/buy?r_id=1 
+    curl 127.0.0.1:8882/buy\?r_id=1 
     # 报错 403 FORBIDDEN "this is not center machine:unit"
     # 被微服务的单元保护拦截了
     ```
     ```
     # 绕过微服务保护，直接测试数据库保护功能
-    curl 127.0.0.1:8882/buy1?r_id=1 
+    curl 127.0.0.1:8882/buy1\?r_id=1 
     {"result":"routerId 1 bought 1 of item 12, result: success","chain":[{"app":"storage","unitFlag":"center"}]}%
     
-    curl 127.0.0.1:8882/buy1?r_id=4657 
+    curl 127.0.0.1:8882/buy1\?r_id=4657 
     {"result":"routerId 4657 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals","chain":[{"app":"storage","unitFlag":"unit"}]}
+    
+    # 进入 portal 执行切流
+    sh cut.sh NACOS appactiveDemoNamespaceId 200    
+    # 然后请求切流范围内流量
+    curl 127.0.0.1:8882/buy1\?r_id=2130
+    {"result":"routerId 2130 bought 1 of item 12, result: machine:unit forbids routerId 2130","chain":[{"app":"storage","unitFlag":"unit"}]}
     ```
 
 ### Gateway

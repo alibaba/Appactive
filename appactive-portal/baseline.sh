@@ -68,7 +68,7 @@ then
       -d "tenant=${tenant}&dataId=${dataIdPrefix}trafficRouteRulePath&group=${groupId}&content=${idUnitMappingRule}" \
       && echo ""
 
-    forbiddenRule=$(cat ./rule/forbiddenRule.json)
+    forbiddenRule=$(cat ./rule/forbiddenRuleEmpty.json)
     echo "$(date "+%Y-%m-%d %H:%M:%S") forbiddenRule 推送结果: " \
       && curl -X POST "127.0.0.1:8848/nacos/v1/cs/configs" \
       -d "tenant=${tenant}&dataId=${dataIdPrefix}forbiddenRulePath&group=${groupId}&content=${forbiddenRule}" \

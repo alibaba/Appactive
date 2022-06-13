@@ -27,4 +27,5 @@ nav_order: 9
 ## 0.3
 1. rule 和 channel 解耦，新增nacos channel支持
 2. RPC 新增 SpringCloud 支持
+3. 切流过程中，若数据同步未完成则禁止切流范围内流量操作数据库
 3. 新增 [官方文档](https://doc.appactive.io/docs/cn/README_CN.html) 和 [官方demo站点](http://demo.appactive.io/)

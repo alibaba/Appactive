@@ -28,4 +28,5 @@ The first open source version is released:
 ## 0.3
 1. Rule and channel decoupling and a brand  new nacos channel
 2. Support for microservices with SpringCloud
-3. [Documentation site](https://doc.appactive.io/docs/cn/README_CN.html) and [demo site](http://demo.appactive.io/)
+3. Forbid data operations when data replication haven`t been finished during traffic switching
+4. [Documentation site](https://doc.appactive.io/docs/cn/README_CN.html) and [demo site](http://demo.appactive.io/)

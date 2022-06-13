@@ -166,6 +166,12 @@ If you want to experience demo directly， please visit [demo site](http://demo.
     
     curl 127.0.0.1:8882/buy1?r_id=4657 
     {"result":"routerId 4657 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals","chain":[{"app":"storage","unitFlag":"unit"}]}
+    
+    # enter portal and execut flow switching
+    sh cut.sh NACOS appactiveDemoNamespaceId 200    
+    # then make a request within switvhing range
+    curl 127.0.0.1:8882/buy1\?r_id=2130
+    {"result":"routerId 2130 bought 1 of item 12, result: machine:unit forbids routerId 2130","chain":[{"app":"storage","unitFlag":"unit"}]}
     ```
 
 ### Gateway

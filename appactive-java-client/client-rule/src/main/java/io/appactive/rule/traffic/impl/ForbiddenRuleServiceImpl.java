@@ -31,6 +31,7 @@ import io.appactive.rule.traffic.bo.UnitMappingRuleBO;
 import io.appactive.rule.traffic.condition.ConditionUtil;
 import io.appactive.rule.traffic.condition.RuleCondition;
 import io.appactive.rule.traffic.impl.base.BaseRuleService;
+import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
 
 public class ForbiddenRuleServiceImpl extends BaseRuleService implements ForbiddenRuleService {
@@ -39,7 +40,7 @@ public class ForbiddenRuleServiceImpl extends BaseRuleService implements Forbidd
 
     @Override
     public boolean isRouteIdForbidden(String routeId) {
-        if (memoryConditions == null){
+        if (CollectionUtils.isEmpty(memoryConditions)){
             // no rule, no forbidding
             return false;
         }
@@ -90,7 +91,11 @@ public class ForbiddenRuleServiceImpl extends BaseRuleService implements Forbidd
                 return;
             }
             Map<String, List<RuleCondition>> unitConditionMap = ConditionUtil.getUnitConditionMap(unitMappingRule);
-            memoryConditions = unitConditionMap.values().iterator().next();
+            if (unitConditionMap.size()==0){
+                memoryConditions = null;
+            }else {
+                memoryConditions = unitConditionMap.values().iterator().next();
+            }
         }
     };
 

@@ -29,6 +29,7 @@ import io.appactive.java.api.bridge.db.constants.DataScope;
 import io.appactive.java.api.bridge.db.sql.SQLProtectService;
 import io.appactive.java.api.rule.TrafficMachineService;
 import io.appactive.java.api.rule.machine.AbstractMachineUnitRuleService;
+import io.appactive.java.api.rule.traffic.ForbiddenRuleService;
 import io.appactive.java.api.rule.traffic.TrafficRouteRuleService;
 import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rule.ClientRuleService;
@@ -43,6 +44,8 @@ public class MysqlConnectionServiceImpl implements MysqlConnectionService, SQLPr
     private final AbstractMachineUnitRuleService machineUnitRuleService = ClientRuleService.getMachineUnitRuleService();
     private final TrafficMachineService trafficMachineService = new TrafficMachineService(trafficRouteRuleService,
         machineUnitRuleService);
+    private final ForbiddenRuleService forbiddenRuleService = ClientRuleService.getForbiddenRuleService();
+
 
     private static final String INSTANCE_ID = "instance_id";
 
@@ -75,15 +78,16 @@ public class MysqlConnectionServiceImpl implements MysqlConnectionService, SQLPr
         if (!this.isInAppActive(property)) {
             return;
         }
-        dailyUnitWriteProtect();
-    }
-
-
-    private void dailyUnitWriteProtect() throws SQLException {
         String routeId = AppContextClient.getRouteId();
         if (StringUtils.isBlank(routeId)){
             throw new SQLException(MysqlConstant.ERROR_ROUTE_FLOW_ROUTER_NOT_HAVE_ROUTER_ID);
         }
+        forbiddenProtect(routeId);
+        dailyUnitWriteProtect(routeId);
+    }
+
+
+    private void dailyUnitWriteProtect(String routeId) throws SQLException {
         boolean inCurrentUnit = trafficMachineService.isInCurrentUnit(routeId);
         if (inCurrentUnit){
             return;
@@ -91,6 +95,14 @@ public class MysqlConnectionServiceImpl implements MysqlConnectionService, SQLPr
         String currentUnit = machineUnitRuleService.getCurrentUnit();
         String trafficUnit = trafficRouteRuleService.getUnitByRouteId(routeId);
         throw new SQLException("machine:"+currentUnit+",traffic:"+trafficUnit+",not equals");
+    }
+
+    private void forbiddenProtect(String routeId) throws SQLException {
+        boolean forbidden = forbiddenRuleService.isRouteIdForbidden(routeId);
+        if (forbidden){
+            String currentUnit = machineUnitRuleService.getCurrentUnit();
+            throw new SQLException("machine:"+currentUnit+" forbids routerId "+routeId);
+        }
     }
 
     @Override
