@@ -62,7 +62,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
 
 ### Step
 
-1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.3 .`
+1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2.1 .`
 2. In the root directory,  run maven-build command to get all the jars
 3. Run `sh run-nacos.sh 1` in the `appactive-demo `module ，then visit `127.0.0.1:8848/nacos` to create a namespace for command channel，like `appactiveDemoNamespaceId`
 4. Run `sh baseline.sh 2 NACOS appactiveDemoNamespaceId` in the `appactive-portal` module to push the application baseline
@@ -109,7 +109,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
            -Dio.appactive.demo.unitlist=center,unit \
            -Dio.appactive.demo.applist=frontend,product,storage \
            -Dserver.port=8886 \
-    -jar frontend-0.3.jar
+    -jar frontend-0.2.1.jar
     ```
 
 3. test
@@ -149,7 +149,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
          -Dappactive.app=storage \
          -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
          -Dserver.port=8882 \
-    -jar storage-0.3.jar
+    -jar storage-0.2.1.jar
     ```
 
 3. test
@@ -167,11 +167,6 @@ If you want to experience demo directly， please visit [demo site](http://demo.
     curl 127.0.0.1:8882/buy1?r_id=4657 
     {"result":"routerId 4657 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals","chain":[{"app":"storage","unitFlag":"unit"}]}
     
-    # enter portal and execut flow switching
-    sh cut.sh NACOS appactiveDemoNamespaceId 200    
-    # then make a request within switvhing range
-    curl 127.0.0.1:8882/buy1\?r_id=2130
-    {"result":"routerId 2130 bought 1 of item 12, result: machine:unit forbids routerId 2130","chain":[{"app":"storage","unitFlag":"unit"}]}
     ```
 
 ### Gateway

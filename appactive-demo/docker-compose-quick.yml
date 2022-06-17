@@ -28,14 +28,14 @@ services:
   gateway:
     container_name: gateway
     hostname: gateway
-    image: appactiveio/gateway:0.3
+    image: appactiveio/gateway:0.2.1
     ports:
       - "80:80"
       - "8090:8090"
 
   storage:
     restart: on-failure:3
-    image: appactiveio/storage:0.3
+    image: appactiveio/storage:0.2.1
     container_name: storage
     hostname: storage
     environment:
@@ -57,7 +57,7 @@ services:
 
   storage-unit:
     restart: on-failure:3
-    image: appactiveio/storage:0.3
+    image: appactiveio/storage:0.2.1
     container_name: storage-unit
     hostname: storage-unit
     environment:
@@ -79,7 +79,7 @@ services:
 
   product:
     restart: on-failure:3
-    image: appactiveio/product:0.3
+    image: appactiveio/product:0.2.1
     container_name: product
     hostname: product
     environment:
@@ -101,7 +101,7 @@ services:
 
   product-unit:
     restart: on-failure:3
-    image: appactiveio/product:0.3
+    image: appactiveio/product:0.2.1
     container_name: product-unit
     hostname: product-unit
     environment:
@@ -123,7 +123,7 @@ services:
 
   frontend:
     restart: on-failure:3
-    image: appactiveio/frontend:0.3
+    image: appactiveio/frontend:0.2.1
     container_name: frontend
     hostname: frontend
     environment:
@@ -144,7 +144,7 @@ services:
 
   frontend-unit:
     restart: on-failure:3
-    image: appactiveio/frontend:0.3
+    image: appactiveio/frontend:0.2.1
     container_name: frontend-unit
     hostname: frontend-unit
     environment:

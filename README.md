@@ -62,7 +62,7 @@ For more, please visit [demo](docs/en/details/demo_nacos.md)
 
 ## Developer Guide
 
-- [DEVELOPER Guide](docs/en/details/developer_guide.md) ：Introduce how to use AppActive, including basic samples,
+- [DEVELOPER Guide](docs/en/details/developer_guide_nacos.md) ：Introduce how to use AppActive, including basic samples,
   support plug-ins, version management, use effects.
 
 ## Change Log

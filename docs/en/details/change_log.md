@@ -25,8 +25,7 @@ The first open source version is released:
 3. Lightweight demos and "quick start"
 4. Jars published to maven repo
 
-## 0.3
-1. Rule and channel decoupling and a brand  new nacos channel
-2. Support for microservices with SpringCloud
-3. Forbid data operations when data replication haven`t been finished during traffic switching
-4. [Documentation site](https://doc.appactive.io/docs/cn/README_CN.html) and [demo site](http://demo.appactive.io/)
+## 0.2.1
+1. [Feature] Join SpringCloud ecosystem and add Feign and RestTemplate support for RPC (Ribbon-based LB)
+2. [Feature] Rule and channel decoupling and a brand new nacos channel
+3. [Feature] [Documentation site](https://doc.appactive.io) and [demo site](http://demo.appactive.io/)

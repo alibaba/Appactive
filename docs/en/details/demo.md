@@ -56,7 +56,7 @@ note: this demo contains many applications，please adjust your memory settings 
 
 ### Step
 
-1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.3 .`
+1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2.1 .`
 2. Enter `appactive-demo` module, and then run maven-build command to get all the jars
 3. Run `sh baseline.sh 2` in the `appactive-portal` module to push the application baseline
 4. Run `sh run.sh` in the `appactive-demo` module to start all applications and gateway
@@ -86,7 +86,7 @@ note: this demo contains many applications，please adjust your memory settings 
     -Dio.appactive.demo.unitlist=center,unit \
     -Dio.appactive.demo.applist=frontend,product,storage \
     -Dserver.port=8886 \
-    -jar frontend-0.3.jar
+    -jar frontend-0.2.1.jar
     ```
 
 4. test
@@ -136,7 +136,7 @@ note: this demo contains many applications，please adjust your memory settings 
          -Dappactive.app=storage \
          -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
          -Dserver.port=8882 \
-    -jar storage-0.3.jar
+    -jar storage-0.2.1.jar
     ```
 
 5. test

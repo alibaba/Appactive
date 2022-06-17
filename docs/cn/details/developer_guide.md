@@ -76,7 +76,7 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-servlet</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     ```
 
@@ -107,22 +107,22 @@ upstream %VAR_APP_ID%_%UNIT_FLAG_N%_default {
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-spi-metainfo</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-rule</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     ```
 
@@ -187,12 +187,12 @@ rsActive 的 候选 value 有:
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-spi-metainfo</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
      <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-db-mysql</artifactId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </dependency>
     ```
    

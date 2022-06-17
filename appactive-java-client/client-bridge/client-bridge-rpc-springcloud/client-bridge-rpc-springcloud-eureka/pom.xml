@@ -21,7 +21,7 @@
     <parent>
         <artifactId>client-bridge-rpc-springcloud</artifactId>
         <groupId>com.alibaba.msha</groupId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-springcloud-common</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
 
     </dependencies>

@@ -23,12 +23,12 @@
 
     <artifactId>common</artifactId>
     <groupId>io.appactive.demo</groupId>
-    <version>0.3</version>
+    <version>0.2.1</version>
 
     <parent>
         <artifactId>appactive-demo</artifactId>
         <groupId>com.alibaba.msha</groupId>
-        <version>0.3</version>
+        <version>0.2.1</version>
     </parent>
 
     <dependencies>
@@ -77,33 +77,33 @@
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-spi-metainfo</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-rule</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.msha</groupId>
             <artifactId>client-bridge-rpc-springcloud-common</artifactId>
-            <version>0.3</version>
+            <version>0.2.1</version>
         </dependency>
     </dependencies>
 

@@ -64,7 +64,7 @@ nav_order: 3
 
 ### 步骤
 
-1. 进入 `appactive-gateway/nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:0.3 .`
+1. 进入 `appactive-gateway/nginx-plugin` 目录，将其打成镜像：`docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2.1 .`
 2. 在项目根目录，maven build 获得 jar 包
 3. 在 `appactive-demo` 模块中运行 `sh run-nacos.sh 1`，然后访问`127.0.0.1:8848/nacos` 创建命名通道专用空间，如 `appactiveDemoNamespaceId`
 4. 在 `appactive-portal` 模块中运行 `sh baseline.sh 2 NACOS appactiveDemoNamespaceId`，推送应用基线
@@ -110,7 +110,7 @@ nav_order: 3
            -Dio.appactive.demo.unitlist=center,unit \
            -Dio.appactive.demo.applist=frontend,product,storage \
            -Dserver.port=8886 \
-    -jar frontend-0.3.jar
+    -jar frontend-0.2.1.jar
     ```
 
 3. 测试
@@ -150,7 +150,7 @@ nav_order: 3
          -Dappactive.app=storage \
          -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
          -Dserver.port=8882 \
-    -jar storage-0.3.jar
+    -jar storage-0.2.1.jar
     ```
 
 3. 测试
@@ -168,11 +168,6 @@ nav_order: 3
     curl 127.0.0.1:8882/buy1\?r_id=4657 
     {"result":"routerId 4657 bought 1 of item 12, result: machine:unit,traffic:CENTER,not equals","chain":[{"app":"storage","unitFlag":"unit"}]}
     
-    # 进入 portal 执行切流
-    sh cut.sh NACOS appactiveDemoNamespaceId 200    
-    # 然后请求切流范围内流量
-    curl 127.0.0.1:8882/buy1\?r_id=2130
-    {"result":"routerId 2130 bought 1 of item 12, result: machine:unit forbids routerId 2130","chain":[{"app":"storage","unitFlag":"unit"}]}
     ```
 
 ### Gateway

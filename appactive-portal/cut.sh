@@ -23,7 +23,7 @@ if  [ ! -n "$channel" ] ;then
     channel="FILE"
 fi
 if  [ ! -n "$waitTime" ] ;then
-    waitTime=20
+    waitTime=3
 fi
 echo "channel: ${channel}"
 dataIdPrefix="appactive.dataId."
