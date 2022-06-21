@@ -26,6 +26,9 @@ The first open source version is released:
 4. Jars published to maven repo
 
 ## 0.2.1
-1. [Feature] Join SpringCloud ecosystem and add Feign and RestTemplate support for RPC (Ribbon-based LB)
+1. [Feature] Join SpringCloud ecosystem and build multi-site active/active applications based on SpringCloud
+    1. Base on Ribbon(LB) and Nacos(Registry), add support for RPC like OpenFeign and RestTemplate
 2. [Feature] Rule and channel decoupling and a brand new nacos channel
 3. [Feature] [Documentation site](https://doc.appactive.io) and [demo site](http://demo.appactive.io/)
+
+## 0.2.2

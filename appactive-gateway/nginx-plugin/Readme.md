@@ -69,10 +69,10 @@ parent: CNReadme
 为了简洁起见，本 demo 基于 docker，用户在安装了 docker 的前提下，可以运行以下命令来运行 demo ：
 
 ```
-docker build --build-arg UNITFLAG=hangzhou -t app-active/gateway:0.2.1 .
+docker build --build-arg UNITFLAG=hangzhou -t app-active/gateway:0.2.2 .
 
 # 注意 若要单独启动gateway 则需要 将 example.conf 中的 frontend 换成 ip 
-docker run -d --name gateway --hostname gateway -p 80:80 -p 8090:8090 app-active/gateway:0.2.1
+docker run -d --name gateway --hostname gateway -p 80:80 -p 8090:8090 app-active/gateway:0.2.2
 
 # 进入容器 可选
 docker exec -it gateway bash

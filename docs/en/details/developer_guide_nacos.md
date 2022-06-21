@@ -76,7 +76,7 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-servlet</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     ```
 
@@ -107,22 +107,22 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-spi-metainfo</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-rule</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     ```
 
@@ -192,7 +192,7 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-springcloud-common</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     ```
    
@@ -201,7 +201,7 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     ```
     
@@ -210,7 +210,7 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
        <groupId>com.alibaba.msha</groupId>
        <artifactId>client-bridge-rpc-springcloud-eureka</artifactId>
-       <version>0.2.1</version>
+       <version>0.2.2</version>
     </dependency>
     ```
     
@@ -297,12 +297,12 @@ The frontend application is responsible for extracting the routing beacon from t
     <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-spi-metainfo</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
      <dependency>
         <groupId>com.alibaba.msha</groupId>
         <artifactId>client-bridge-db-mysql</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
     ```
    

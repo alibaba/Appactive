@@ -62,7 +62,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
 
 ### Step
 
-1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2.1 .`
+1. Enter `appactive-gateway/nginx-plugin` dir and build image: `docker build --build-arg UNITFLAG=center -t app-active/gateway:0.2.2 .`
 2. In the root directory,  run maven-build command to get all the jars
 3. Run `sh run-nacos.sh 1` in the `appactive-demo `module ，then visit `127.0.0.1:8848/nacos` to create a namespace for command channel，like `appactiveDemoNamespaceId`
 4. Run `sh baseline.sh 2 NACOS appactiveDemoNamespaceId` in the `appactive-portal` module to push the application baseline
@@ -109,7 +109,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
            -Dio.appactive.demo.unitlist=center,unit \
            -Dio.appactive.demo.applist=frontend,product,storage \
            -Dserver.port=8886 \
-    -jar frontend-0.2.1.jar
+    -jar frontend-0.2.2.jar
     ```
 
 3. test
@@ -149,7 +149,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
          -Dappactive.app=storage \
          -Dspring.datasource.url="jdbc:mysql://127.0.0.1:3306/product?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&activeInstanceId=mysql&activeDbName=product" \
          -Dserver.port=8882 \
-    -jar storage-0.2.1.jar
+    -jar storage-0.2.2.jar
     ```
 
 3. test

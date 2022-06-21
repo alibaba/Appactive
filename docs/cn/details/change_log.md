@@ -25,6 +25,9 @@ nav_order: 9
 4. jar 包发布到公共maven仓库
 
 ## 0.2.1
-1. [Feature] 加入 SpringCloud 生态，RPC 支持 Feign 和 RestTemplate(基于Ribbon的负载均衡)
+1. [Feature] 加入 SpringCloud 生态，支持基于 SpringCloud 体系的应用多活
+    1. 基于 Ribbon (负载均衡) 和 Nacos (注册中心) ，支持 OpenFeign 和 RestTemplate 形态的 RPC
 2. [Feature] Rule 和 channel 解耦，新增 nacos channel 支持
 3. [Feature] 新增 [官方文档](https://doc.appactive.io/docs/cn/README_CN.html) 和 [官方demo站点](http://demo.appactive.io/)
+
+## 0.2.2
