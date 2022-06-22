@@ -56,7 +56,10 @@ public class ConsumerAutoConfig {
     public BeanPostProcessor feignDecoderPostProcessor() {
         return new FeignDecoderPostProcessor(context);
     }
-
+    @Bean
+    public BeanPostProcessor serverListPostProcessor() {
+        return new ServerListPostProcessor();
+    }
     @Bean
     public RequestInterceptor routerIdTransmissionRequestInterceptor() {
         return new RouterIdTransmissionRequestInterceptor();

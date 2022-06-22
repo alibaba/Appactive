@@ -16,19 +16,17 @@
 
 package io.appactive.rpc.springcloud.common.consumer.callback;
 
-import com.netflix.loadbalancer.Server;
-import io.appactive.java.api.base.exception.ExceptionFactory;
 import io.appactive.java.api.bridge.rpc.constants.bo.RPCInvokerBO;
 import io.appactive.java.api.bridge.rpc.consumer.RPCAddressCallBack;
-import io.appactive.rpc.springcloud.common.consumer.ServerMeta;
+import io.appactive.rpc.springcloud.common.consumer.ServerMetaService;
 
 import java.util.List;
 
 public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
 
-    private final ServerMeta serverMeta;
+    private final ServerMetaService<T> serverMeta;
 
-    public SpringCloud2AddressCallBack(ServerMeta serverMeta) {
+    public SpringCloud2AddressCallBack(ServerMetaService<T> serverMeta) {
         this.serverMeta = serverMeta;
     }
 
@@ -37,7 +35,7 @@ public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
         if (server == null){
             return null;
         }
-        return getMetaMap(server,key);
+        return serverMeta.getMetaMap(server).get(key);
     }
 
     @Override
@@ -45,8 +43,7 @@ public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
         if (server == null){
             return null;
         }
-        Server thisServer = getServer(server);
-        return thisServer.getHost();
+        return serverMeta.getAppName(server);
     }
 
     @Override
@@ -57,20 +54,5 @@ public class SpringCloud2AddressCallBack<T> implements RPCAddressCallBack<T> {
     @Override
     public List<T> changedToOriginalInvokerList(List<RPCInvokerBO<T>> RPCInvokerBOS) {
         return null;
-    }
-
-    private String getMetaMap(T server, String key) {
-        Server thisServer = getServer(server);
-        if (server == null){
-            return null;
-        }
-        return serverMeta.getMetaMap(thisServer).get(key);
-    }
-
-    private Server getServer(T server){
-        if (server instanceof  Server){
-            return (Server) server;
-        }
-        throw ExceptionFactory.makeFault("wrong type for SpringCloud callback:"+server.getClass());
     }
 }

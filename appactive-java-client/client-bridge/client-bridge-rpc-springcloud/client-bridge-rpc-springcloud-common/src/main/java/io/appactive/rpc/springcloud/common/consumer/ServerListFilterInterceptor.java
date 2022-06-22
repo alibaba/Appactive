@@ -19,7 +19,7 @@ import java.util.List;
 @Aspect
 public class ServerListFilterInterceptor {
     private static final Logger logger = LogUtil.getLogger();
-
+    private static final ConsumerRouter<Server> CONSUMER_ROUTER = new ConsumerRouter<>();
     /**
      * filtering servers for every ribbon request
      * @param pjp ProceedingJoinPoint
@@ -38,7 +38,7 @@ public class ServerListFilterInterceptor {
                 if (CollectionUtils.isNotEmpty(list) && list.get(0) instanceof Server){
                     List<Server> servers = (List<Server>)list;
                     logger.debug("origin servers {}", servers);
-                    finalServers = ConsumerRouter.filter(servers);
+                    finalServers = CONSUMER_ROUTER.filter(servers);
                     logger.debug("filtered servers {}", finalServers);
                 }
             }
@@ -63,7 +63,7 @@ public class ServerListFilterInterceptor {
         Object[] args = jp.getArgs();
         if (args.length > 0){
             List<Server> servers = (List<Server>)args[0];
-            Integer num = ConsumerRouter.refresh(servers);
+            Integer num = CONSUMER_ROUTER.refresh(servers);
             if (num >0 ){
                 logger.info("new servers {}, updated {} services[app+uri]",servers, num);
             }else {

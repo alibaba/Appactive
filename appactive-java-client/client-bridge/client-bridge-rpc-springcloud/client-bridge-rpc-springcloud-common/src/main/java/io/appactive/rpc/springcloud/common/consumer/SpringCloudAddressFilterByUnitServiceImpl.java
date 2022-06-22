@@ -48,6 +48,14 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
 
     }
 
+    @Override
+    public String getResourceType(String servicePrimaryName, List<T> list, String version) {
+        // todo
+        Set<String> candidates = getCachedServicePrimaryNames();
+        String bestMatcher  = getBestMatcher(candidates, servicePrimaryName);
+        return "";
+    }
+
 
     public static String calcBestMatcher(AntPathMatcher antPathMatcher, Set<String> candidates, String nameOfTarget){
         //  org.springframework.web.servlet.handler.AbstractUrlHandlerMapping#lookupHandler(java.lang.String, javax.servlet.http.HttpServletRequest)

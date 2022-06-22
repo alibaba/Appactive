@@ -101,7 +101,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
         List<T> result = getFilterResult(servicePrimaryName,resourceType,unitServersMap,originalList,routeId);
 
-        logServer("server list after filtering:", result);
+        logServer("server list after cached filtering:", result);
         return result;
     }
 
@@ -120,7 +120,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
         // 2. 优先及单元化处理过滤
         List<T> result = getFilterResult(servicePrimaryName,resourceType,unitServersMap,list,routeId);
 
-        logServer("route result afterZeroFilterServerList:", result);
+        logServer("server list after instant filtering:", result);
         return result;
     }
 
