@@ -46,7 +46,7 @@ public class RPCAddressFilterByUnitServiceImpl<T> implements RPCAddressFilterByU
 
     private final MiddleWareTypeEnum middleWareTypeEnum;
 
-    private RPCAddressCallBack<T> rpcUnitCellCallBack;
+    protected RPCAddressCallBack<T> rpcUnitCellCallBack;
 
     private static final String NO_UNIT_LABEL_PROVIDER_TAG_NAME = "NO_UNIT_FLAG_LABEL";
 

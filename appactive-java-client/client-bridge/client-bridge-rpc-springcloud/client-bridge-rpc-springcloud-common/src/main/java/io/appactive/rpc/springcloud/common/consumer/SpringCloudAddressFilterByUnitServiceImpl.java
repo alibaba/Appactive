@@ -1,7 +1,12 @@
 package io.appactive.rpc.springcloud.common.consumer;
 
+import com.alibaba.fastjson.JSON;
+import io.appactive.java.api.base.constants.ResourceActiveType;
 import io.appactive.java.api.base.enums.MiddleWareTypeEnum;
+import io.appactive.java.api.bridge.rpc.constants.constant.RPCConstant;
+import io.appactive.java.api.utils.lang.StringUtils;
 import io.appactive.rpc.base.consumer.RPCAddressFilterByUnitServiceImpl;
+import io.appactive.rpc.springcloud.common.ServiceMeta;
 import io.appactive.rpc.springcloud.common.utils.Util;
 import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
@@ -50,10 +55,26 @@ public class SpringCloudAddressFilterByUnitServiceImpl<T> extends RPCAddressFilt
 
     @Override
     public String getResourceType(String servicePrimaryName, List<T> list, String version) {
-        // todo
         Set<String> candidates = getCachedServicePrimaryNames();
         String bestMatcher  = getBestMatcher(candidates, servicePrimaryName);
-        return "";
+        // todo need to cache
+        for (T t : list) {
+            // String v = super.rpcUnitCellCallBack.getMetaMapValue(t, RPCConstant.SPRING_CLOUD_SERVICE_META_VERSION);
+            String meta = super.rpcUnitCellCallBack.getMetaMapValue(t, RPCConstant.SPRING_CLOUD_SERVICE_META);
+            if (StringUtils.isBlank(meta)){
+                continue;
+            }
+            List<ServiceMeta> serviceMetaList = JSON.parseArray(meta, ServiceMeta.class);
+            if (CollectionUtils.isEmpty(serviceMetaList)){
+                continue;
+            }
+            for (ServiceMeta serviceMeta : serviceMetaList) {
+                if (serviceMeta.getUriPrefix().equals(bestMatcher)){
+                    return serviceMeta.getRa();
+                }
+            }
+        }
+        return ResourceActiveType.NORMAL_RESOURCE_TYPE;
     }
 
 
