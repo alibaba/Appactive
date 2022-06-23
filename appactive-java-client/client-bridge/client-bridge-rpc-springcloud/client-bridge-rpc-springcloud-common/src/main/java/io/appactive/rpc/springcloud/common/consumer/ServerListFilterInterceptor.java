@@ -19,7 +19,7 @@ import java.util.List;
 @Aspect
 public class ServerListFilterInterceptor {
     private static final Logger logger = LogUtil.getLogger();
-    private static final ConsumerRouter<Server> CONSUMER_ROUTER = new ConsumerRouter<>();
+    private static final ConsumerRouter<Server> CONSUMER_ROUTER = new ConsumerRouter<>(Server.class);
     /**
      * filtering servers for every ribbon request
      * @param pjp ProceedingJoinPoint

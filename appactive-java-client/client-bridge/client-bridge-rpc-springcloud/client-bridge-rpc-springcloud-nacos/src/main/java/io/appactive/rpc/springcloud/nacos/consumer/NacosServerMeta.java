@@ -2,11 +2,13 @@ package io.appactive.rpc.springcloud.nacos.consumer;
 
 import com.alibaba.cloud.nacos.ribbon.NacosServer;
 import com.netflix.loadbalancer.Server;
+import io.appactive.java.api.base.exception.ExceptionFactory;
 import io.appactive.rpc.springcloud.common.consumer.ServerMetaService;
 import org.springframework.cloud.client.ServiceInstance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author mageekchiu
@@ -17,40 +19,54 @@ public class NacosServerMeta<T> implements ServerMetaService<T> {
     private static final String EMPTY_APP_NAME = "EMPTY_APP_NAME";
     private static final String EMPTY_INSTANCE_NAME = "EMPTY_INSTANCE_NAME";
 
-    public NacosServerMeta() {
+    private Function<T,Map<String,String>> getMetaMap ;
+    private Function<T,String> getAppName ;
+    private Function<T,String> getInstanceName ;
+
+    private Class<T> type;
+
+    public NacosServerMeta(Class<T> type) {
+        this.type = type;
+        if (type == Server.class){
+            getMetaMap = (server)->{
+                return ((NacosServer)server).getMetadata();
+            };
+            getAppName = (server)->{
+                return ((NacosServer)server).getMetaInfo().getAppName();
+            };
+            getInstanceName = (server)->{
+                return ((NacosServer)server).getHostPort();
+            };
+            return;
+        }
+        if (type == ServiceInstance.class){
+            getMetaMap = (server)->{
+                return ((ServiceInstance)server).getMetadata();
+            };
+            getAppName = (server)->{
+                return ((ServiceInstance)server).getServiceId();
+            };
+            getInstanceName = (server)->{
+                ServiceInstance s = ((ServiceInstance)server);
+                return s.getHost()+":"+s.getPort();
+            };
+            return;
+        }
+        throw ExceptionFactory.makeFault("unsupported class");
     }
 
     @Override
     public Map<String, String> getMetaMap(T server) {
-        if (server instanceof  Server){
-            return ((NacosServer)server).getMetadata();
-        }
-        if (server instanceof ServiceInstance){
-            return ((ServiceInstance)server).getMetadata();
-        }
-        return EMPTY_MAP;
+        return getMetaMap.apply(server);
     }
 
     @Override
     public String getAppName(T server) {
-        if (server instanceof  Server){
-            return ((NacosServer)server).getMetaInfo().getAppName();
-        }
-        if (server instanceof ServiceInstance){
-            return ((ServiceInstance)server).getScheme();
-        }
-        return EMPTY_APP_NAME;
+        return getAppName.apply(server);
     }
 
     @Override
     public String getInstanceName(T server) {
-        if (server instanceof  Server){
-            return ((NacosServer)server).getHostPort();
-        }
-        if (server instanceof ServiceInstance){
-            ServiceInstance s = ((ServiceInstance)server);
-            return s.getHost()+":"+s.getPort();
-        }
-        return EMPTY_INSTANCE_NAME;
+        return getInstanceName.apply(server);
     }
 }

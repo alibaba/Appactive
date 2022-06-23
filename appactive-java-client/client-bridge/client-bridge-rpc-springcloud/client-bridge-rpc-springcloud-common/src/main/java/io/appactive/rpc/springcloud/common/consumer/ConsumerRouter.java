@@ -14,6 +14,7 @@ import io.appactive.support.lang.CollectionUtils;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class ConsumerRouter<T> {
     private final ServerMetaService<T> serverMeta ;
     private final SpringCloudAddressFilterByUnitServiceImpl<T> addressFilterByUnitService;
 
-    public ConsumerRouter() {
+    public ConsumerRouter(Class<T> type) {
         String baseName = "io.appactive.rpc.springcloud.nacos.consumer.";
         String[] classes = new String[]{
                 "NacosServerMeta",
                 "EurekaServerMeta",
         };
-        serverMeta = loadServerMeta(baseName, classes);
+        serverMeta = loadServerMeta(baseName, classes, type);
         if (serverMeta == null){
             String msg = MessageFormat.format("No available ServerMeta among classes: {0}",classes);
             throw ExceptionFactory.makeFault(msg);
@@ -46,12 +47,15 @@ public class ConsumerRouter<T> {
         }
     }
 
-    private static ServerMetaService loadServerMeta(String baseName, String[] classNames){
+    private ServerMetaService<T> loadServerMeta(String baseName, String[] classNames, Class<T> type){
         for (String className : classNames) {
             try {
                 Class clazz = Class.forName(baseName+className);
-                return (ServerMetaService)clazz.newInstance();
-            }catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                Class[] classArgs = new Class[1];
+                classArgs[0] = Class.class;
+                return (ServerMetaService<T>)clazz.getDeclaredConstructor(classArgs).newInstance(type);
+                // return (ServerMetaService<T>)clazz.newInstance();
+            }catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
 
             }
         }

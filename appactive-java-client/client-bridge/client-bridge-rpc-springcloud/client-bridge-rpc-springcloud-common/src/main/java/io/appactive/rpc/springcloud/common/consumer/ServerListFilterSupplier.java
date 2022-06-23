@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ServerListFilterSupplier extends DelegatingServiceInstanceListSupplier {
 
-    private static final ConsumerRouter<ServiceInstance> CONSUMER_ROUTER = new ConsumerRouter<>();
+    private static final ConsumerRouter<ServiceInstance> CONSUMER_ROUTER = new ConsumerRouter<>(ServiceInstance.class);
 
     public ServerListFilterSupplier(ServiceInstanceListSupplier delegate) {
         super(delegate);

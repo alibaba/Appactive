@@ -1,6 +1,5 @@
 package io.appactive.springcloud.eureka.consumer;
 
-import com.netflix.loadbalancer.Server;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 import io.appactive.rpc.springcloud.common.consumer.ServerMetaService;
 
