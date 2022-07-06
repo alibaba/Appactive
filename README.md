@@ -77,5 +77,8 @@ details see [here](docs/en/contributing/contributing.md)
 ## Connect
 
 - DingTalk Group：34222602
-- we need your ideas for a better AppActive https://www.wjx.cn/vj/P9FB5QR.aspx
+- We need your ideas for a better AppActive https://www.wjx.cn/vj/P9FB5QR.aspx
 
+## User registration
+
+If you have used or intend to use AppActive in your business system, please let us know, your support is very important to us: https://github.com/alibaba/Appactive/issues/10
