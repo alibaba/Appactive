@@ -7,6 +7,7 @@ package io.appactive.rpc.springcloud.common.consumer;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.loadbalancer.core.DelegatingServiceInstanceListSupplier;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.context.ConfigurableApplicationContext;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ServerListFilterSupplier extends DelegatingServiceInstanceListSuppl
 
     private static final ConsumerRouter<ServiceInstance> CONSUMER_ROUTER = new ConsumerRouter<>(ServiceInstance.class);
 
-    public ServerListFilterSupplier(ServiceInstanceListSupplier delegate) {
+    public ServerListFilterSupplier(ServiceInstanceListSupplier delegate, ConfigurableApplicationContext context) {
         super(delegate);
     }
 

@@ -20,10 +20,11 @@ import com.alibaba.fastjson.JSON;
 import io.appactive.demo.common.RPCType;
 import io.appactive.demo.common.entity.Product;
 import io.appactive.demo.common.entity.ResultHolder;
-import io.appactive.demo.common.service.springcloud.ProductDAO;
 import io.appactive.demo.frontend.service.FrontEndService;
+import io.appactive.demo.frontend.service.ProductDAO;
 import io.appactive.java.api.base.AppContextClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +42,8 @@ public class FrontController {
     @Autowired
     private FrontEndService frontEndService;
 
-    @Resource
+    @Autowired
+    @Qualifier("sclb-ProductDAO")
     private ProductDAO productDAO;
 
     @Value("${spring.application.name}")

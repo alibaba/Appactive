@@ -37,17 +37,104 @@
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2021.0.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.6.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                    </exclusion>
+                </exclusions>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+
         <dependency>
             <groupId>io.appactive.demo</groupId>
             <artifactId>common</artifactId>
             <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.3.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-apache-dubbo2</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-apache-dubbo2-metainfo</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-spi-metainfo</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-rule</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-springcloud-nacos</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-data-jpa</artifactId>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
                 </exclusion>
             </exclusions>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.msha</groupId>
+            <artifactId>client-bridge-rpc-springcloud-common</artifactId>
+            <version>0.2.2</version>
         </dependency>
 
         <dependency>
@@ -64,6 +151,39 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>2021.0.1.0</version>
+            <exclusions>
+                <!-- 将ribbon排除 -->
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-netflix-ribbon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

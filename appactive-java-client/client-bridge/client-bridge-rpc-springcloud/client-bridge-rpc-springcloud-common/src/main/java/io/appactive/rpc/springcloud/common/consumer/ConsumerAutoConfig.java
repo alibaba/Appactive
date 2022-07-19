@@ -16,6 +16,7 @@ import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -56,10 +57,10 @@ public class ConsumerAutoConfig {
     public BeanPostProcessor feignDecoderPostProcessor() {
         return new FeignDecoderPostProcessor(context);
     }
-    @Bean
-    public BeanPostProcessor serverListPostProcessor() {
-        return new ServerListPostProcessor();
-    }
+    // @Bean
+    // public BeanPostProcessor serverListPostProcessor(ConfigurableApplicationContext context) {
+    //     return new ServerListPostProcessor(context);
+    // }
     @Bean
     public RequestInterceptor routerIdTransmissionRequestInterceptor() {
         return new RouterIdTransmissionRequestInterceptor();

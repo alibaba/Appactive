@@ -19,6 +19,7 @@ package io.appactive.demo.frontend.config;
 import feign.codec.Decoder;
 import feign.optionals.OptionalDecoder;
 import io.appactive.rpc.springcloud.common.consumer.ConsumerAutoConfig;
+import io.appactive.rpc.springcloud.common.consumer.ServerListFilterSupplier;
 import io.appactive.rpc.springcloud.nacos.NacosAutoConfig;
 import io.appactive.servlet.RequestFilter;
 import org.springframework.beans.factory.ObjectFactory;
@@ -27,12 +28,17 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplierBuilder;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -62,4 +68,13 @@ public class WebConfig {
     public Decoder demoFeignDecoder() {
         return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters));
     }
+
+    // @Bean
+    // public ServiceInstanceListSupplier discoveryClientServiceInstanceListSupplier(ConfigurableApplicationContext context) {
+    //     return ServiceInstanceListSupplier.builder()
+    //             // .withDiscoveryClient()
+    //             .withBlockingDiscoveryClient()
+    //             .with((context1, delegate) -> new ServerListFilterSupplier(delegate, context1))
+    //             .build(context);
+    // }
 }
