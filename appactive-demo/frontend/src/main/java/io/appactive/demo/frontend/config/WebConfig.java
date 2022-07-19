@@ -69,12 +69,4 @@ public class WebConfig {
         return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters));
     }
 
-    // @Bean
-    // public ServiceInstanceListSupplier discoveryClientServiceInstanceListSupplier(ConfigurableApplicationContext context) {
-    //     return ServiceInstanceListSupplier.builder()
-    //             // .withDiscoveryClient()
-    //             .withBlockingDiscoveryClient()
-    //             .with((context1, delegate) -> new ServerListFilterSupplier(delegate, context1))
-    //             .build(context);
-    // }
 }

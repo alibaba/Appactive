@@ -16,12 +16,14 @@
 
 package io.appactive.demo.frontend;
 
+import io.appactive.demo.frontend.config.LBConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
 })
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"io.appactive.demo"})
+@LoadBalancerClients(defaultConfiguration = LBConfig.class)
 public class FrontendApplication {
     public static void main(String[] args) {
         SpringApplication.run(FrontendApplication.class, args);
