@@ -91,6 +91,19 @@
             <version>16.0.1</version>
             <scope>compile</scope>
         </dependency>
+        <!-- weaving cant find type, so add dependency-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.15</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.3.15</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
@@ -106,6 +119,10 @@
                         <weaveDependency>
                             <groupId>com.netflix.ribbon</groupId>
                             <artifactId>ribbon-loadbalancer</artifactId>
+                        </weaveDependency>
+                        <weaveDependency>
+                            <groupId>org.springframework.cloud</groupId>
+                            <artifactId>spring-cloud-loadbalancer</artifactId>
                         </weaveDependency>
                     </weaveDependencies>
                     <source>${maven.compiler.source}</source>

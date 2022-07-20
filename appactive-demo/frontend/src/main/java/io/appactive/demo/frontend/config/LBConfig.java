@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author mageekchiu
- * @date 2022/7/19
  */
 public class LBConfig {
     // https://github.com/spring-cloud/spring-cloud-commons/pull/989

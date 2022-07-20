@@ -22,6 +22,9 @@ public class ServerListFilterSupplier extends DelegatingServiceInstanceListSuppl
     public ServerListFilterSupplier(ServiceInstanceListSupplier delegate, ConfigurableApplicationContext context) {
         super(delegate);
     }
+    public ServerListFilterSupplier(ServiceInstanceListSupplier delegate) {
+        super(delegate);
+    }
 
     @Override
     public Flux<List<ServiceInstance>> get() {

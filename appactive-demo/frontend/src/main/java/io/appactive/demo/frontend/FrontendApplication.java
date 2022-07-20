@@ -34,7 +34,8 @@ import org.springframework.context.annotation.Configuration;
 })
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"io.appactive.demo"})
-@LoadBalancerClients(defaultConfiguration = LBConfig.class)
+// either this or aspectj
+// @LoadBalancerClients(defaultConfiguration = LBConfig.class)
 public class FrontendApplication {
     public static void main(String[] args) {
         SpringApplication.run(FrontendApplication.class, args);

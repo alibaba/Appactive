@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 
 import java.util.List;
 
@@ -70,5 +71,23 @@ public class ServerListFilterInterceptor {
                 logger.info("new servers {}, no services[app+uri] updated {} ",servers, num);
             }
         }
+    }
+
+    @Around("execution(* org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplierBuilder.build(..))")
+    public ServiceInstanceListSupplier aroundBuilder(ProceedingJoinPoint pjp){
+        logger.debug("ServerListFilterInterceptor at around {}", pjp.getSignature());
+        ServiceInstanceListSupplier finalSupplier = null;
+        try {
+            Object result = pjp.proceed();
+            if (result instanceof ServiceInstanceListSupplier){
+                ServiceInstanceListSupplier supplier = (ServiceInstanceListSupplier)result;
+                logger.debug("origin supplier {}", supplier);
+                finalSupplier = new  ServerListFilterSupplier(supplier);
+                logger.debug("filtered supplier {}", finalSupplier);
+            }
+        } catch (Throwable th) {
+            logger.error("error filtering server list ", th);
+        }
+        return finalSupplier;
     }
 }

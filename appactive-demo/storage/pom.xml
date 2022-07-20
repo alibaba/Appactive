@@ -42,7 +42,32 @@
             <groupId>io.appactive.demo</groupId>
             <artifactId>common</artifactId>
             <version>0.2.2</version>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.alibaba.msha</groupId>-->
+<!--                    <artifactId>client-bridge-rpc-springcloud-common</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.msha</groupId>-->
+<!--            <artifactId>client-bridge-rpc-springcloud-common</artifactId>-->
+<!--            <version>0.2.2</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.cloud</groupId>-->
+<!--                    <artifactId>spring-cloud-loadbalancer</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework</groupId>-->
+<!--                    <artifactId>spring-context</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework</groupId>-->
+<!--                    <artifactId>spring-context-support</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
