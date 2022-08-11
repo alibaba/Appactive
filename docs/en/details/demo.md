@@ -155,8 +155,8 @@ Visit [nginx-plugin](/appactive-gateway/nginx-plugin/Readme.md)
 
 ### Dubbo
 
-The building process of Dubbo demo is too complicated，we suggest using demo in  "quick start": 
-1. first of  all, modify rules in frontend-center, so that frontend-center would route request to the wrong unit
+The building process of Dubbo demo is too complicated，we suggest using demo in "quick start": 
+1. first of all, modify rules in frontend-center, so that frontend-center would route request to the wrong unit
 
     ```
     cd data/frontend-center
