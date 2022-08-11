@@ -45,7 +45,7 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 
 ### 步骤
 
-1. 在 `appactive-demo` 模块中运行 `sh run-quick.sh` ，启动所有应用
+1. 在 `appactive-demo` 模块中运行 `sh run-nacos-quick.sh` ，启动所有应用
 2. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
 3. 在`appactive-portal` 模块中运行 `sh cut.sh` 进行切流 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
