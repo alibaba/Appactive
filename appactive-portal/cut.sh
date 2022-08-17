@@ -35,14 +35,15 @@ idUnitMappingNextFile="idUnitMappingNext.json"
 
 if [ $channel = "FILE" ]
 then
-  for file in $(ls ../appactive-demo/data/); do
+  for file in ../appactive-demo/data/*; do
+    [[ -e "$file" ]] || break
     if [[ "$file" == *"path-address"* ]]; then
       echo "continue"
       continue
     fi
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送中)"
-    cp -f ./rule/$forbiddenFile "../appactive-demo/data/$file/forbiddenRule.json"
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 禁写规则推送完成"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 禁写规则推送中)"
+    cp -f ./rule/$forbiddenFile "$file/forbiddenRule.json"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 禁写规则推送完成"
   done
 elif [ $channel = "NACOS" ]
 then
@@ -74,17 +75,18 @@ echo "数据已经追平，下发新规则......"
 
 if [ $channel = "FILE" ]
 then
-  for file in $(ls ../appactive-demo/data/); do
+  for file in ../appactive-demo/data/*; do
+    [[ -e "$file" ]] || break
     if [[ "$file" == *"path-address"* ]]; then
       echo "continue"
       continue
     fi
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送中"
-    cp -f ./rule/$idUnitMappingNextFile "../appactive-demo/data/$file/idUnitMapping.json"
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 新规则推送完成"
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 清除禁写规则推送中)"
-    cp -f ./rule/$forbiddenFileEmpty "../appactive-demo/data/$file/forbiddenRule.json"
-    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 清除禁写规则推送完成"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 新规则推送中"
+    cp -f ./rule/$idUnitMappingNextFile "$file/idUnitMapping.json"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 新规则推送完成"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 清除禁写规则推送中)"
+    cp -f ./rule/$forbiddenFileEmpty "$file/forbiddenRule.json"
+    echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 清除禁写规则推送完成"
   done
 elif [ $channel = "NACOS" ]
 then
