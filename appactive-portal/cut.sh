@@ -70,7 +70,7 @@ echo "$(date "+%Y-%m-%d %H:%M:%S") gateway 新规则推送结果: " && curl --he
 127.0.0.1:8090/set
 
 echo "等待数据追平......"
-sleep "${waitTime}s"
+sleep "${waitTime}"
 echo "数据已经追平，下发新规则......"
 
 if [ $channel = "FILE" ]
