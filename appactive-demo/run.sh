@@ -16,13 +16,13 @@
 
 docker-compose build
 docker-compose up -d nacos mysql
-sleep 20s
+sleep 20
 docker-compose up -d storage storage-unit
-sleep 15s
+sleep 15
 docker-compose up -d product product-unit
-sleep 15s
+sleep 15
 docker-compose up -d frontend frontend-unit
-sleep 3s
+sleep 3
 docker-compose up -d gateway
 
 # docker-compose up --no-recreate

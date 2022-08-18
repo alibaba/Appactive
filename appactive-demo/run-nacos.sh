@@ -29,11 +29,11 @@ then
   export appactiveNamespaceId="${temp}"
   docker-compose -f docker-compose-nacos.yml build
   docker-compose -f docker-compose-nacos.yml up -d storage storage-unit
-  sleep 15s
+  sleep 15
   docker-compose -f docker-compose-nacos.yml up -d product product-unit
-  sleep 15s
+  sleep 15
   docker-compose -f docker-compose-nacos.yml up -d frontend frontend-unit
-  sleep 3s
+  sleep 3
   docker-compose -f docker-compose-nacos.yml up -d gateway
 fi
 

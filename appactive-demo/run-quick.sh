@@ -20,16 +20,16 @@ sh baseline.sh 2
 
 cd ../appactive-demo
 docker-compose -f docker-compose-quick.yml up -d nacos mysql
-sleep 20s
+sleep 20
 docker-compose -f docker-compose-quick.yml up -d storage storage-unit
-sleep 15s
+sleep 15
 docker-compose -f docker-compose-quick.yml up -d product product-unit
-sleep 15s
+sleep 15
 docker-compose -f docker-compose-quick.yml up -d frontend frontend-unit
-sleep 3s
+sleep 3
 docker-compose -f docker-compose-quick.yml up -d gateway
 
-sleep 3s
+sleep 3
 cd ../appactive-portal
 sh baseline.sh 3
 

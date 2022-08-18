@@ -52,7 +52,7 @@ nav_order: 3
 2. 绑定本地 host: `127.0.0.1 demo.appactive.io`，浏览器访问 `http://demo.appactive.io/buyProduct?r_id=2000` 查看效果
 3. 在`appactive-portal` 模块中运行 `sh cut.sh NACOS appactiveDemoNamespaceId` 进行切流 。需要注意的是，本 demo 的禁写规则是写死的，用户若要更换切流范围则需自行计算禁写规则和下次路由规则，然后执行切流。
 
-> 如果你打算停止体验，可进行：`cd appactive-demo` -> `sh quit.sh`
+> 如果你打算停止体验，可进行：`cd appactive-demo` -> `sh quit.sh ./docker-compose-nacos-quick.yml`
 
 若想直接体验，请见[官方demo站点](http://demo.appactive.io/)
 
