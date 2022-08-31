@@ -30,20 +30,21 @@ if [ `expr $type % 2` == 0 ]
 then
   if [ $channel = "FILE" ]
   then
-    for file in $(ls ../appactive-demo/data/); do
+    for file in ../appactive-demo/data/; do
+      [[ -e "$file" ]] || break
       if [[ "$file" == *"path-address"* ]]; then
         echo "continue"
         continue
       fi
-      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送中";
-      cp -f ./rule/idSource.json "../appactive-demo/data/$file/"
-      cp -f ./rule/transformerBetween.json "../appactive-demo/data/$file/idTransformer.json"
-      cp -f ./rule/idUnitMapping.json "../appactive-demo/data/$file/"
-      cp -f ./rule/dbProperty.json "../appactive-demo/data/$file/mysql-product"
-      arr=(${file//-/ })
+      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 基线推送中";
+      cp -f ./rule/idSource.json "$file/"
+      cp -f ./rule/transformerBetween.json "$file/idTransformer.json"
+      cp -f ./rule/idUnitMapping.json "$file/"
+      cp -f ./rule/dbProperty.json "$file/mysql-product"
+      arr=(${${file##*/}//-/ })
       unitFlag=${arr[1]}
-      echo "{\"unitFlag\":\"${unitFlag}\"}" > "../appactive-demo/data/$file/machine.json"
-      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file} 基线推送完成"
+      echo "{\"unitFlag\":\"${unitFlag}\"}" > "$file/machine.json"
+      echo "$(date "+%Y-%m-%d %H:%M:%S") 应用 ${file##*/} 基线推送完成"
     done
   elif [ $channel = "NACOS" ]
   then

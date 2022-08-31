@@ -88,7 +88,7 @@ If you want to experience demo directly， please visit [demo site](http://demo.
     sh baseline.sh 2 NACOS appactiveDemoNamespaceId
    ```
    
-3. Run maysql in `appactive-demo`
+3. Run mysql in `appactive-demo`
 
     ```
     cd dependency/mysql && sh run.sh

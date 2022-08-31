@@ -160,7 +160,7 @@ The entry application is responsible for extracting the routing beacon from the 
 The core is to add annotations
 `parameters = {"rsActive","unit","routeIndex","0"}`
 If rsActive is unit, it indicates that this is a unit service, and a routeIndex of 0 indicates that the route ID is the 0th parameter.
-The candidate values ​​of rsActive are:
+The candidate values of rsActive are:
 
 - normal: normal service, which requires no multi-active modification, and will route as it was
 - unit: unit service, which will only route within right unit according to multi-active rules
