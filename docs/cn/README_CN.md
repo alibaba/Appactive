@@ -64,10 +64,6 @@ AppActive 整体架构覆盖数据面和管控面，全流程管理应用流量�
 我们总是欢迎新的贡献，无论是小的变动、重大的新功能还是其他提交，更多细节见[<如何贡献>](../en/contributing/contributing.md)。
 
 
-## 联系
-- 钉钉群（推荐）：34222602
-- 一起建设更好的 AppActive https://www.wjx.cn/vj/P9FB5QR.aspx
-
 ## 用户登记
 
 如果你已经或者打算在业务系统中使用AppActive，请让我们知道，你的使用对我们很重要：https://github.com/alibaba/Appactive/issues/10
