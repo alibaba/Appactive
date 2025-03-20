@@ -14,4 +14,8 @@
 # limitations under the License.
 #
 
-docker-compose down
+if [[ -z $1 ]]; then
+  docker-compose down
+else
+  docker-compose -f "$1" down
+fi
